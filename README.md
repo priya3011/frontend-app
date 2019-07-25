@@ -12,4 +12,4 @@ In Forgotpassword page, collects user's email address, make use of Frontend API 
 
 ### src/pages/Dashboard
 
-In Dashboard page, pass the referral code to Leftsidebar using props and set session logout time to 6 seconds (just for test). When time is up, redirect to SignIn page.
+In Dashboard page, pass the referral code to Leftsidebar using props and set session logout time to 6 seconds (just for test). When time is up, redirect to root path.
