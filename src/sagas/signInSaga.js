@@ -1,15 +1,15 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest/* , call */ } from 'redux-saga/effects';
 import {
     FETCH_TOKEN,
-    TOKEN,
+    //TOKEN,
     TOKEN_FAILED,
-    SET_USER_ID,
+    //SET_USER_ID,
  } from '../actions/types';
 
- function getToken(data) {
+/*  function getToken(data) {
     //TODO: Add logic to get jwt token using username and password
     return { token: 'fakeToken', userId: 'fakeUserId' };
-}
+} */
 
 function* setToken(action) {
     try {

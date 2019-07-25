@@ -14,7 +14,7 @@ class TransferModal extends Component {
                         </div>
                         <div className="form-group">
                             <select className="form-control">
-                                <option value="investment" selected>Investment</option>
+                                <option value="investment" defaultValue>Investment</option>
                             </select>
                         </div>
                         <div className="form-group">
