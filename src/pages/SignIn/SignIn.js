@@ -32,25 +32,23 @@ class SignIn extends Component {
       const { username, password } = this.state;
       axios.post(FRONTEND_API+'frontend/login', { username, password })
       .then((res1)=>{
-        axios.get(FRONTEND_API+`frontend/user_data/${username}`)
-        .then((res2)=>{
-          if(res1.data.code === "Login successful" && res2.data.code === "success")
+        if(res1.data.code === "Login successful")
+        return axios.get(FRONTEND_API+`frontend/user_data/${username}`);
+      })
+      .then((res2)=>{
+        if(res2.data.code === "success")
           this.setState({
             isAuthenticated: true,
             ref_code: res2.data.ref_code
-          });
-        })
-        .catch((err)=>{  
-          this.setState({ 
-            // Here, I used the message returned from server for user. Or customize a message for user. The same below.
-            err_msg: {err: true, msg:`${err.response.data.msg}: ${err.response.data.err}.`},
-            className: 'needs-validation'
-          })
         });
       })
       .catch((err)=>{
+        let msg = "";
+        if(err.response.data.code)
+          msg = `${err.response.data.code}: ${err.response.data.error}.`;
+        else msg = `${err.response.data.msg}: ${err.response.data.err}.`;
           this.setState({ 
-            err_msg: {err: true, msg:`${err.response.data.code}: ${err.response.data.error}.`},
+            err_msg: {err: true, msg},
             className: 'needs-validation'
           })
       });
