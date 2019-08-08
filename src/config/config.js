@@ -5,7 +5,9 @@
 
 export const FRONTEND_API = "http://178.128.233.31/";
 
-export const SESSION_SIGNOUT_TIME = 1000 * 60 * 0.1;
+export const SESSION_SIGNOUT_TIME = 1000 * 60 * 60;
+
+export const FETCH_DATA_INTERVAL = 1000 * 60;
 
 export const ALERT_SIGNOUT_MSG = "Time is up. Please log in again.";
 

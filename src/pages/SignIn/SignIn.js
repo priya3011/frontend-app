@@ -67,7 +67,7 @@ class SignIn extends Component {
                   {err_msg.msg}
                 </div>
             }
-            <form className={className } noValidate onSubmit={this.handleSubmit}>
+            <form className={className} noValidate onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     <input name="username" type="text" className="form-control signin-form-control" id="userName" placeholder="Username" required autoFocus value={username} onChange={this.handleInputChange}></input>
                     <div className="invalid-feedback text-left ml-1">
