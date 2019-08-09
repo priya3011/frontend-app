@@ -53,6 +53,7 @@ export const lineChart = (data, interval)=>{
                 chartData.push(obj);
             }
         }
+        //console.log("Line-chart-data: ", chartData)
     return chartData;
 }
 

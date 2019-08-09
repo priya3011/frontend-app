@@ -88,7 +88,7 @@ export default class LineChart extends Component {
 
         const mountainOptions={
             chart: { 
-                type: 'line', 
+                type: 'area', 
                 spacingBottom: 15,
                 spacingTop: 10,
                 spacingLeft: 10,
@@ -135,9 +135,11 @@ export default class LineChart extends Component {
                     text: null
                 }
             }],
-            plotOptions: {
+            /* plotOptions: {
+                series: {
 
-            },
+                }
+            }, */
         }
 
         let showOne = <HighchartsReact
