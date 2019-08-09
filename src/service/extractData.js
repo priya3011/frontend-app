@@ -57,14 +57,14 @@ export const lineChart = (data, interval)=>{
     return chartData;
 }
 
-export const transactionTable = (data, entries, search)=>{
+export const transactionTable = (data, search)=>{
     if(JSON.stringify(data) !== '{}'){
         const serverData = data.transaction_history;
         let tableData = [];
         if(search !== ''){
             tableData = serverData.filter((one)=>{
                 return (
-                    (one.time.indexOf(search)) !== -1 ||
+                    (new Date(one.time).toLocaleDateString().indexOf(search)) !== -1 ||
                     (one.description.indexOf(search)) !== -1 ||
                     (one.type.indexOf(search)) !== -1 ||
                     one.amount === +search ||

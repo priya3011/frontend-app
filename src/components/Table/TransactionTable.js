@@ -24,7 +24,7 @@ export default class TransactionTable extends Component {
     render(){
         const { entries, search } = this.state;
         const { data }= this.props;
-        const tableData = transactionTable(data, entries, search)
+        const tableData = transactionTable(data, search)
         const columns = [
             { id: 'date', Header: 'Date', 
                 accessor:(data) => {

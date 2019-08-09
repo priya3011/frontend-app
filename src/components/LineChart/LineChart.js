@@ -113,14 +113,7 @@ export default class LineChart extends Component {
                 min: Date.now()-interval*24*60*60*1000,
                 endOnTick: true,
                 dateTimeLabelFormats: {
-                    /* millisecond: '%H:%M:%S.%L',
-                    second: '%H:%M:%S',
-                    minute: '%H:%M',
-                    hour: '%H:%M', */
-                    day: '%y-%m-%d',
-                    /* week: '%m-%d',
-                    month: '%Y-%m',
-                    year: '%Y' */
+                    day: '%y-%m-%d'
                 }
             },
             yAxis: [{
@@ -134,12 +127,7 @@ export default class LineChart extends Component {
                 title: {
                     text: null
                 }
-            }],
-            /* plotOptions: {
-                series: {
-
-                }
-            }, */
+            }]
         }
 
         let showOne = <HighchartsReact
