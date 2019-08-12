@@ -1,27 +1,41 @@
 .transfer-container{
     display: flex;
+    //border: solid 1px black;
 
     .transfer-form-wrapper{
-        width: 50vw;
+        width: 61.458vw;
         display: flex;
-        margin: auto;
-        margin-top: 40px;
-        margin-bottom: 40px;
-        padding: 40px;
+        margin-top: 4.476vw;
+        margin-left: 10.415vw;
+        padding-top: 2.760vw;
+        padding-right: 22.240vw;
+        padding-bottom: 1.823vw;
+        padding-left: 22.240vw;
         box-shadow: 1px 5px 12px 6px #DBDBDB;
         border-radius: 15px;
+        //border: solid 1px black;
 
         .form{
-            margin: auto;
-            width: 12vw;
-        }
-    }
+            margin-left: auto;
+            margin-right: auto;
+            width: 17.022vw;
 
+            .Trans-form-control {
+                margin-bottom: 2.031vw;
+            }
+
+            .transfer-btn {
+                width: 10.208vw;
+            }
+        }
+
+    }
 
     .form-control {
         box-shadow: 0px 12px 6px #DBDBDB;
         margin-bottom: 35px;
     }
+
     .transfer-btn{
         width: 6vw;
         border-radius: 40px !important;

@@ -1,37 +1,97 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 import './SignUp.scss';
+import { FRONTEND_API, USERNAME_CHECK, PASSWORD_CHECK, EMAIL_CHECK } from "../../config/config";
 
 class SignUp extends Component {
+  state = {
+    code: '',
+    password: '',
+    username: '',
+    email: '',
+    className: 'needs-validation',  // When validation fails, add a boostrap class to display prompts.
+    isSuccess: false,               // Held the successful state returned from server.
+    err_msg: { err: false, msg: ''} // Held the failure state & messag returned from server.
+  }
+
+  handleInputChange = (e) =>{
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleSubmit = (e)=>{
+    if(!e.target.checkValidity()){  // Add a Bootstrap class to show prompts if checkValidity is false.
+      this.setState({ className: 'needs-validation was-validated'});
+    }else{
+      const { code, username, password, email} = this.state;
+      axios.post(FRONTEND_API + "frontend/signup", {code, username, password, email})
+      .then((res)=>{
+          if(res.data.code === 'Signup successful')
+            this.setState({ isSuccess: true });
+      })
+      .catch((err)=>{
+        this.setState({ 
+          // Here, I used the message returned from server for user. Or customize a message for user.
+          err_msg: {err: true, msg:`${err.response.data.msg}: ${err.response.data.err}.`},
+          className: 'needs-validation'
+        });
+      })
+    }
+    e.preventDefault();
+  }
+
   render(){
-    return <div className="signin-container">
+    const { code, username, password, email, className, isSuccess, err_msg} = this.state;
+    if(!isSuccess)
+        return (
+            <div className="signup-container">
                 <div >
-                    <form>
+                    { err_msg.err && 
+                        <div className="alert alert-danger alert-text" role="alert">
+                        {err_msg.msg}
+                        </div>
+                    }
+                    <form className={ className } noValidate onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <input type="text" className="form-control" id="userName" placeholder="Uername"></input>
+                            <input name="username" type="text" className="form-control signup-form-control" id="userName" placeholder="Uername" required autoFocus value={username} onChange={this.handleInputChange} pattern={USERNAME_CHECK}></input>
+                            <div className="invalid-feedback text-left ml-1">
+                              Make sure it's more than 3 and less than 17 characters which can be uppercases, lowercases, numbers, or underscore.
+                            </div>
                         </div>
                         <div className="form-group">
-                            <input type="password" class="form-control" id="password" placeholder="Password"></input>
+                            <input name="password" type="password" className="form-control signup-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange} pattern={PASSWORD_CHECK}></input>
+                            <div className="invalid-feedback text-left ml-1">
+                              Make sure it's at least 6 characters including a number, a lowercase, a uppercase and a special character. 
+                            </div>
                         </div>
                         <div className="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Email"></input>
+                            <input name="email" type="email" className="form-control signup-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={EMAIL_CHECK}></input>
+                            <div className="invalid-feedback text-left ml-1">
+                              Incorrect email format.
+                            </div>
                         </div>
                         <div className="form-group">
-                            <input type="text" class="form-control" id="referralCode" placeholder="Referral code"></input>
-                        </div>
+                            <input name="code" type="text" className="form-control signup-form-control" id="referralCode" placeholder="Referral code" required value={code} onChange={this.handleInputChange}></input>
+                            <div className="invalid-feedback text-left ml-1">
+                              Input the referral code which you get from an affiliate.
+                            </div></div>
                         <div >
-                            <button type="submit" name="signIn" class=" btn btn-info signup-btn">Sign Up</button>
+                            <button type="submit" name="signUp" className=" btn btn-info signup-btn">Sign Up</button>
                         </div>
                     </form>
                 </div>
-                <div class="signup-options-container">
-                    <NavLink to="/signIn" className="signup-link" >Sign In</NavLink>
+                <div className="signup-options-container">
+                    <NavLink to="/signIn" className="signup-link" >Login</NavLink>
                     <NavLink to="/forgotpassword" className="forgot-password-link">Forgot</NavLink>
-
                 </div>
             </div>
+        )
+    else
+        return <Redirect to="signin"/>            
   }
 }
 

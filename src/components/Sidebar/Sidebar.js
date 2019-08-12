@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Sidebar.scss';
-import Sidebar, {SidebarStyles} from 'react-sidebar';
+//import Sidebar, {SidebarStyles} from 'react-sidebar';
 
 class LeftSidebar extends Component {
-
+    static propTypes={
+        ref_code: PropTypes.string.isRequired
+    };
   render(){
     return (
         <div className="sidebar-container">
@@ -60,7 +63,7 @@ class LeftSidebar extends Component {
                     <span>Logout</span>
                 </li>
                 <li className="nav-item">
-                    <span>Referral Code</span>
+                    <span>Referral Code: {this.props.ref_code}</span>
                 </li>
                 </div>
             </ul>

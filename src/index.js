@@ -10,7 +10,7 @@ import messages_en from "./translation/en.json";
 import { BrowserRouter } from 'react-router-dom';
 
 //redux
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware/* , compose */ } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/rootSaga';
 import { Provider } from 'react-redux';
