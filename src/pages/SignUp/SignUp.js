@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
+
 import './SignUp.scss';
 import { FRONTEND_API, USERNAME_CHECK, PASSWORD_CHECK, EMAIL_CHECK } from "../../config/config";
 
@@ -14,8 +15,18 @@ class SignUp extends Component {
     email: '',
     className: 'needs-validation',  // When validation fails, add a boostrap class to display prompts.
     isSuccess: false,               // Held the successful state returned from server.
-    err_msg: { err: false, msg: ''} // Held the failure state & messag returned from server.
+    err_msg: { err: false, msg: ''}, // Held the failure state & messag returned from server.
+    confirmation_msg:{show:false, msg:''} //Confirmation Message
+
   }
+
+  // constructor(){
+  //
+  //   super(props);
+  //
+  //
+  //   this.onDismiss = this.onDismiss.bind(this);
+  // }
 
   handleInputChange = (e) =>{
     this.setState({
@@ -28,15 +39,17 @@ class SignUp extends Component {
       this.setState({ className: 'needs-validation was-validated'});
     }else{
       const { code, username, password, email} = this.state;
-      axios.post(FRONTEND_API + "frontend/signup", {code, username, password, email})
+      axios.post(FRONTEND_API + "signup", {code, username, password, email})
       .then((res)=>{
-          if(res.data.code === 'Signup successful')
-            this.setState({ isSuccess: true });
+          if(res.data.status === 'Signup successful')
+            this.setState({ isSuccess: true , confirmation_msg:{show:true, msg:res.data.status}});
+
+            console.log(this.state);
       })
       .catch((err)=>{
-        this.setState({ 
+        this.setState({
           // Here, I used the message returned from server for user. Or customize a message for user.
-          err_msg: {err: true, msg:`${err.response.data.msg}: ${err.response.data.err}.`},
+          err_msg: {err: true, msg:`${err.response.data.status}: ${err.response.data.message}.`},
           className: 'needs-validation'
         });
       })
@@ -44,28 +57,30 @@ class SignUp extends Component {
     e.preventDefault();
   }
 
+
+
   render(){
-    const { code, username, password, email, className, isSuccess, err_msg} = this.state;
+    const { code, username, password, email, className, isSuccess, err_msg, confirmation_msg} = this.state;
     if(!isSuccess)
         return (
             <div className="signup-container">
                 <div >
-                    { err_msg.err && 
+                    { err_msg.err &&
                         <div className="alert alert-danger alert-text" role="alert">
                         {err_msg.msg}
                         </div>
                     }
                     <form className={ className } noValidate onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <input name="username" type="text" className="form-control signup-form-control" id="userName" placeholder="Uername" required autoFocus value={username} onChange={this.handleInputChange} pattern={USERNAME_CHECK}></input>
+                            <input name="username" type="text" className="form-control signup-form-control" id="userName" placeholder="Username" required autoFocus value={username} onChange={this.handleInputChange} pattern={USERNAME_CHECK}></input>
                             <div className="invalid-feedback text-left ml-1">
                               Make sure it's more than 3 and less than 17 characters which can be uppercases, lowercases, numbers, or underscore.
                             </div>
                         </div>
                         <div className="form-group">
-                            <input name="password" type="password" className="form-control signup-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange} pattern={PASSWORD_CHECK}></input>
+                            <input name="password" type="password" className="form-control signup-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange} ></input>
                             <div className="invalid-feedback text-left ml-1">
-                              Make sure it's at least 6 characters including a number, a lowercase, a uppercase and a special character. 
+                              Make sure it's at least 6 characters including a number, a lowercase, a uppercase and a special character.
                             </div>
                         </div>
                         <div className="form-group">
@@ -88,10 +103,15 @@ class SignUp extends Component {
                     <NavLink to="/signIn" className="signup-link" >Login</NavLink>
                     <NavLink to="/forgotpassword" className="forgot-password-link">Forgot</NavLink>
                 </div>
+
+
             </div>
         )
     else
-        return <Redirect to="signin"/>            
+        return <Redirect to={{
+          pathname:  "signin",
+          state:{ confirmation_msg }
+          }} />
   }
 }
 
