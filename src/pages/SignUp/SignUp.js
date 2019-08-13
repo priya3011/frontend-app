@@ -41,15 +41,15 @@ class SignUp extends Component {
       const { code, username, password, email} = this.state;
       axios.post(FRONTEND_API + "signup", {code, username, password, email})
       .then((res)=>{
-          if(res.data.status === 'Signup successful')
-            this.setState({ isSuccess: true , confirmation_msg:{show:true, msg:res.data.status}});
+          if(res.data.code === 'Signup successful')
+            this.setState({ isSuccess: true , confirmation_msg:{show:true, msg:res.data.code}});
 
-            console.log(this.state);
+
       })
       .catch((err)=>{
         this.setState({
           // Here, I used the message returned from server for user. Or customize a message for user.
-          err_msg: {err: true, msg:`${err.response.data.status}: ${err.response.data.message}.`},
+          err_msg: {err: true, msg:`${err.response.data.code}: ${err.response.data.message}.`},
           className: 'needs-validation'
         });
       })
@@ -108,10 +108,7 @@ class SignUp extends Component {
             </div>
         )
     else
-        return <Redirect to={{
-          pathname:  "/signin",
-          state:{ confirmation_msg }
-          }} />
+        return <Redirect to="signin" />
   }
 }
 

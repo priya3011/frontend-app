@@ -25,11 +25,11 @@ class SignIn extends Component {
       confirmation_msg:{show:false, msg:''} //if any confirmation message is required to be shown when redirected to Sign In
     }
 
-    console.log("SignIn props ",props);
-    if (props.location && props.location.state)
-      this.setState({
-        confirmation_msg: props.location.state.confirmation_msg
-      })
+    // console.log("SignIn props ",props);
+    // if (props.location && props.location.state)
+    //   this.setState({
+    //     confirmation_msg: props.location.state.confirmation_msg
+    //   })
 
   }
 
@@ -44,10 +44,10 @@ class SignIn extends Component {
       this.setState({ className: 'needs-validation was-validated'});
     }else{
       const { username, password } = this.state;
-      axios.post(FRONTEND_API+'frontend/login', { username, password })
+      axios.post(FRONTEND_API+'login', { username, password })
       .then((res1)=>{
         if(res1.data.code === "Login successful")
-        return axios.get(FRONTEND_API+`frontend/user_data/${username}`);
+        return axios.get(FRONTEND_API+`user_data/${username}`);
       })
       .then((res2)=>{
         if(res2.data.code === "success")
@@ -70,20 +70,21 @@ class SignIn extends Component {
     e.preventDefault();
   }
 
+  // {
+  //   confirmation_msg.show &&
+  //       <div className="alert alert-success alert-text" role="alert">
+  //         {confirmation_msg.msg}
+  //       </div>
+  //
+  // }
   render(){
     const { isAuthenticated, ref_code, username, password, className, err_msg, confirmation_msg } = this.state;
-    alert(JSON.stringify( {confirmation_msg}));
+
     if(!isAuthenticated)
       return (
         <div className="signin-container">
           <div >
-            {
-              confirmation_msg.show &&
-                  <div className="alert alert-success alert-text" role="alert">
-                    {confirmation_msg.msg}
-                  </div>
 
-            }
 
             { err_msg.err &&
                 <div className="alert alert-danger alert-text" role="alert">
