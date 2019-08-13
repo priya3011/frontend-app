@@ -109,7 +109,7 @@ class SignUp extends Component {
         )
     else
         return <Redirect to={{
-          pathname:  "signin",
+          pathname:  "/signin",
           state:{ confirmation_msg }
           }} />
   }
