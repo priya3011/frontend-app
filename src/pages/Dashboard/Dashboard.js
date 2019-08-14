@@ -33,8 +33,11 @@ export default class Dashboard extends Component{
         this.setState({interval: e.target.value});
     }
 
+  
+
     render(){
         const { interval } = this.state;
+        console.log("username ", localStorage.getItem("username"))
 
         const ChartTableMin = FetchDataMin(ChartTable, getOverviewTableData, user);
         const DoughnutChartMin = FetchDataMin(DoughnutChart, getOverviewTableData, user);
@@ -44,7 +47,7 @@ export default class Dashboard extends Component{
          return (
             <div className="dashboard-container">
                 <div className="navigation">
-                    <LeftSidebar  ref_code={this.props.location.state.ref_code}/>
+                    <LeftSidebar  ref_code={this.props.location.state.ref_code} />
                 </div>
                 <div className="content-wrapper" id="content-div">
                     <div className="overview-container">

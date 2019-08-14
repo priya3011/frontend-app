@@ -21,8 +21,8 @@ class SignIn extends Component {
       username: '',
       password: '',
       className: 'needs-validation',  // When validation fails, add a boostrap class to display prompts.
-      err_msg: { err: false, msg: ''}, // Held the failure state & messag returned from server.
-      confirmation_msg:{show:false, msg:''} //if any confirmation message is required to be shown when redirected to Sign In
+      message: { show: false, msg: '', type:''}, // Held the failure state & messag returned from server.
+      // confirmation_msg:{show:false, msg:''} //if any confirmation message is required to be shown when redirected to Sign In
     }
 
     // console.log("SignIn props ",props);
@@ -30,6 +30,23 @@ class SignIn extends Component {
     //   this.setState({
     //     confirmation_msg: props.location.state.confirmation_msg
     //   })
+
+  }
+
+  componentDidMount(){
+
+    console.log(this.props)
+    if (this.props.location.state && this.props.location.state.confirmation_msg){
+
+      console.log("got the confirmation message");
+
+      let { confirmation_msg } = this.props.location.state;
+      this.setState({
+        message: { show: true , msg: confirmation_msg.msg , type:'success'}
+      })
+    }
+
+
 
   }
 
@@ -51,10 +68,16 @@ class SignIn extends Component {
       })
       .then((res2)=>{
         if(res2.data.code === "success")
+        {
+
           this.setState({
             isAuthenticated: true,
-            ref_code: res2.data.ref_code
-        });
+            ref_code: res2.data.ref_code});
+           localStorage.setItem('username', username);
+        }
+
+
+      
       })
       .catch((err)=>{
         let msg = "";
@@ -62,7 +85,7 @@ class SignIn extends Component {
           msg = `${err.response.data.code}: ${err.response.data.error}.`;
         else msg = `${err.response.data.msg}: ${err.response.data.err}.`;
           this.setState({
-            err_msg: {err: true, msg},
+            message: {show: true, msg, type:'error'},
             className: 'needs-validation'
           })
       });
@@ -78,17 +101,18 @@ class SignIn extends Component {
   //
   // }
   render(){
-    const { isAuthenticated, ref_code, username, password, className, err_msg, confirmation_msg } = this.state;
+    const { isAuthenticated, ref_code, username, password, className, message } = this.state;
+    const alertClass = (message.type == "error")? "alert alert-danger alert-text" : (message.type == "success") ? "alert alert-success alert text" : "";
+
 
     if(!isAuthenticated)
       return (
         <div className="signin-container">
           <div >
 
-
-            { err_msg.err &&
-                <div className="alert alert-danger alert-text" role="alert">
-                  {err_msg.msg}
+            { message.show &&
+                <div className={alertClass} role="alert">
+                  {message.msg}
                 </div>
             }
             <form className={className} noValidate onSubmit={this.handleSubmit}>
@@ -116,7 +140,7 @@ class SignIn extends Component {
         </div>
       );
     else
-      return <Redirect to={{ pathname: "/dashboard", state: { ref_code }}}/> // The "state" pass data to dashboard.
+      return <Redirect to={{ pathname: "/dashboard", state: { ref_code }}}/> // The "state" passes data to dashboard.
   }
 }
 

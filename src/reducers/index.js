@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import { default as UserStore } from './userReducer';
+import investmentReducer from './investmentReducer';
 
 const appReducer = combineReducers({
-  UserStore
+  UserStore,
+  investment:investmentReducer
 });
 
 const rootReducer = (state, action) => {
