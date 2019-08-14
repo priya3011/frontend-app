@@ -146,10 +146,12 @@ export default class LineChart extends Component {
             <div className="line-chart-container">
                 <div className="line-chart-wrapper">
                     <div className="line-chart-controls">
-                        <div onClick={this.handleClickLineChart} style={{"color": showLineChart? "blue" : "black"}}>Line Chart View</div>
-                        <div onClick={this.handleClickMountainChart} style={{"color": !showLineChart? "blue" : "black"}}>Mountain Chart View</div>
-                        <div>
-                            <select name="interval" value={ this.props.interval } onChange={ this.handleChange }>
+                        <div style={{display: 'inline-flex'}}>
+                          <div onClick={this.handleClickLineChart} className={ showLineChart? "chart-link-active" : "chart-link"}>Line Chart View</div>
+                          <div onClick={this.handleClickMountainChart} className={ !showLineChart? "chart-link-active" : "chart-link"} >Mountain Chart View</div>
+                        </div>
+                      <div>
+                            <select name="interval" className="chart-dropdown" value={ this.props.interval } onChange={ this.handleChange }>
                                 <option value='30'>Last 30 Days</option>
                                 <option value='60'>Last 60 Days</option>
                                 <option value='90'>Last 90 Days</option>
