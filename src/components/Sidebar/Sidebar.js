@@ -65,14 +65,14 @@ class LeftSidebar extends Component {
 
             const { currency, investments } = mapping;
 
-            return <div><li  className="nav-item" id={currency}>
+            return <div><a href="" className="nav-link-top"><li  className="nav-item" id={currency}>
                             <i className="fa fa-chevron-right"></i>
                             <span href="">{mapping.currency}</span>
-                    </li>
+                    </li></a>
                      <UncontrolledCollapse toggler={"#"+currency}>
                         {  investments.map(i => {
-                            return  (<li className="nav-item" id={i.investment_id}>
-                            <Link to="/dashboard" className="nav-link">{i.investment_name}</Link>
+                            return  (<li className="nav-item" >
+                            <Link to={"/investment/"+i.investment_id} className="nav-link">{i.investment_name}</Link>
                             </li>)
 
                             })
@@ -92,54 +92,37 @@ class LeftSidebar extends Component {
 
 
 
-// {/* <li className="nav-item">
-//                     <i className="fa fa-chevron-right"></i>
-//                     <span>CLAM</span>
-//                 </li>
-//                 <li className="nav-item">
-//                     <i className="fa fa-chevron-right"></i>
-//                     <span>BTC</span>
-//                 </li>
-//                 <li className="nav-item">
-//                     <i className="fa fa-chevron-right"></i>
-//                     <span>CAD</span>
-//                 </li>
-//                 <li className="nav-item">
-//                     <i className="fa fa-chevron-right"></i>
-//                     <span>USD</span>
-//                 </li>
-//                 <li className="nav-item">
-//                     <i className="fa fa-chevron-right"></i>
-//                     <span>GOLD</span>
-//                 </li> */}
+
   render(){
 
     // console.log("mapping  ", this.getCurrencyInvestmentMapping());
 
 
     const InvestmentsMenu  = this.renderInvestmentsMenu();
+    const ref_code = this.props.ref_code;
     return (
         <div className="sidebar-container">
         <ul className="sidebar navbar-nav" >
                 <div className="navigation-type">
                 <li className="nav-item">
                     <i className="fa fa-home"></i>
-                    <span>Dashboard</span>
+                    <Link to={{ pathname: "/dashboard", state: { ref_code }}} className="nav-link-top">Dashboard</Link>
+
                 </li>
 
                 <li className="nav-item">
                     <i className="fa fa-empire"></i>
                     {/* <i class="fas fa-steering-wheel"></i> */}
-                    <span>Affiliates</span>
+                    <Link to={{ pathname: "/affiliate", state: { ref_code }}} className="nav-link-top">Affiliate</Link>
                 </li>
                 <li className="nav-item">
                     <i className="fa fa-clock-o"></i>
-                    <span>Stats</span>
+                    <Link to={{ pathname: "/stats", state: { ref_code }}} className="nav-link-top">Stats</Link>
                 </li>
 
                 <li className="nav-item">
                 <i className="fa fa-line-chart"></i>
-                    <span>Exchange</span>
+                    <Link to={{ pathname: "/exchange", state: { ref_code }}} className="nav-link-top">Exchange</Link>
                 </li>
                 </div>
                 <div className="Currency-type">
@@ -148,11 +131,11 @@ class LeftSidebar extends Component {
                 <div className="other-containt">
                 <li className="nav-item">
                     <i className="fa fa-envelope-square"></i>
-                    <span>Contact</span>
+                    <Link to={{ pathname: "/contact", state: { ref_code }}} className="nav-link-top">Contact</Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item" onClick={()=>console.log("hi")}>
                     <i className="fa fa-sign-out"></i>
-                    <span>Logout</span>
+                    <a className="nav-link-top">Logout</a>
                 </li>
                 <li className="nav-item">
                     <span>Referral Code: {this.props.ref_code}</span>
