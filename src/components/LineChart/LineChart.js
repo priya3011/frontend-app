@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import './LineChart.scss';
 import { lineChart } from '../../service/extractData'
+import { COLORS } from '../../config/config'
 
 export default class LineChart extends Component {
     state = {
@@ -33,13 +34,14 @@ export default class LineChart extends Component {
         const chartData = lineChart(data, interval);
 
         const lineOptions={
-            chart: { 
+            colors: COLORS,
+            chart: {
                 type: 'line',
                 spacingBottom: 15,
                 spacingTop: 10,
                 spacingLeft: 10,
-                spacingRight: 10,                
-                margin: null,                
+                spacingRight: 10,
+                margin: null,
                 width: null,
                 height: null,
                 style: { 'font-family': 'Lato', 'font-size': '0.6771vw'}
@@ -87,13 +89,13 @@ export default class LineChart extends Component {
         }
 
         const mountainOptions={
-            chart: { 
-                type: 'area', 
+            chart: {
+                type: 'area',
                 spacingBottom: 15,
                 spacingTop: 10,
                 spacingLeft: 10,
-                spacingRight: 10,                
-                margin: null,                
+                spacingRight: 10,
+                margin: null,
                 width: null,
                 height: null,
                 style: { 'font-family': 'Lato', 'font-size': '0.6771vw'}
@@ -134,7 +136,7 @@ export default class LineChart extends Component {
                         highcharts = { Highcharts }
                         options = { lineOptions }
                     />;
-        if(!showLineChart) 
+        if(!showLineChart)
         showOne = <HighchartsReact
                     highcharts = { Highcharts }
                     options = { mountainOptions }

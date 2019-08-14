@@ -1,5 +1,5 @@
-import { FETCH_ALL_INVESTMENTS , UNABLE_FETCH_DATA } from './types';
 import axios from "axios";
+import { FETCH_ALL_INVESTMENTS , UNABLE_FETCH_DATA } from './types';
 import { FRONTEND_API  } from '../config/config'
 
 export function fetchAllInvestments()  {

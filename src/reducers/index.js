@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import { default as UserStore } from './userReducer';
+import userReducer from './userReducer';
 import investmentReducer from './investmentReducer';
 
 const appReducer = combineReducers({
-  UserStore,
+  user:userReducer,
   investment:investmentReducer
 });
 

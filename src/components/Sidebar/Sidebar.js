@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Sidebar.scss';
 import { fetchAllInvestments } from '../../actions/investmentActions'
+import { reset } from '../../actions/userActions'
 //import Sidebar, {SidebarStyles} from 'react-sidebar';
 
 class LeftSidebar extends Component {
@@ -12,6 +13,11 @@ class LeftSidebar extends Component {
         ref_code: PropTypes.string.isRequired,
         fetchAllInvestments: PropTypes.func.isRequired
     };
+
+    constructor(props){
+      super(props);
+      this.logout = this.logout.bind(this);
+    }
 
     componentWillMount(){
         this.props.fetchAllInvestments();
@@ -90,6 +96,12 @@ class LeftSidebar extends Component {
 
     }
 
+  logout(){
+
+    this.props.reset();
+    this.props.history.push('/signin');
+  }
+
 
 
 
@@ -99,30 +111,30 @@ class LeftSidebar extends Component {
 
 
     const InvestmentsMenu  = this.renderInvestmentsMenu();
-    const ref_code = this.props.ref_code;
+    const ref_code = localStorage.getItem("ref_code");
     return (
         <div className="sidebar-container">
         <ul className="sidebar navbar-nav" >
                 <div className="navigation-type">
                 <li className="nav-item">
                     <i className="fa fa-home"></i>
-                    <Link to={{ pathname: "/dashboard", state: { ref_code }}} className="nav-link-top">Dashboard</Link>
+                    <Link to="/dashboard" className="nav-link-top">Dashboard</Link>
 
                 </li>
 
                 <li className="nav-item">
                     <i className="fa fa-empire"></i>
                     {/* <i class="fas fa-steering-wheel"></i> */}
-                    <Link to={{ pathname: "/affiliate", state: { ref_code }}} className="nav-link-top">Affiliate</Link>
+                    <Link to="/affiliate" className="nav-link-top">Affiliate</Link>
                 </li>
                 <li className="nav-item">
                     <i className="fa fa-clock-o"></i>
-                    <Link to={{ pathname: "/stats", state: { ref_code }}} className="nav-link-top">Stats</Link>
+                    <Link to="/stats" className="nav-link-top">Stats</Link>
                 </li>
 
                 <li className="nav-item">
                 <i className="fa fa-line-chart"></i>
-                    <Link to={{ pathname: "/exchange", state: { ref_code }}} className="nav-link-top">Exchange</Link>
+                    <Link to="/exchange" className="nav-link-top">Exchange</Link>
                 </li>
                 </div>
                 <div className="Currency-type">
@@ -131,14 +143,14 @@ class LeftSidebar extends Component {
                 <div className="other-containt">
                 <li className="nav-item">
                     <i className="fa fa-envelope-square"></i>
-                    <Link to={{ pathname: "/contact", state: { ref_code }}} className="nav-link-top">Contact</Link>
+                    <Link to="/contact" className="nav-link-top">Contact</Link>
                 </li>
-                <li className="nav-item" onClick={()=>console.log("hi")}>
+                <li className="nav-item" onClick={this.logout}>
                     <i className="fa fa-sign-out"></i>
                     <a className="nav-link-top">Logout</a>
                 </li>
                 <li className="nav-item">
-                    <span>Referral Code: {this.props.ref_code}</span>
+                    <span>Referral Code: {ref_code}</span>
                 </li>
                 </div>
             </ul>
@@ -151,8 +163,9 @@ class LeftSidebar extends Component {
 //map state of the store to the props
 const mapStateToProps = state => ({
     //reducer name is post
-    investments: state.investment.all_investments
+    investments: state.investment.all_investments,
+    ref_code: state.user.ref_code
     // user: state.user.user_details
 });
 
-export default connect(mapStateToProps, { fetchAllInvestments })(LeftSidebar);
+export default connect(mapStateToProps, { fetchAllInvestments, reset })(LeftSidebar);

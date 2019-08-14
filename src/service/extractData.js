@@ -7,7 +7,7 @@ export const doughnutChart = (data)=>{
         if(JSON.stringify(data) !== '{}'){
             for(let i=0; i<data.user_balance.length; i++){
                 chartData.push({
-                    name: data.user_balance[i].investment_id, 
+                    name: data.user_balance[i].investment_name,
                     y: data.user_balance[i].balance/* _cad */
                 });
             }
@@ -38,7 +38,7 @@ export const lineChart = (data, interval)=>{
         if(JSON.stringify(data) !== '{}'){
             let balanceHistory = data.balance_history;
             for(let i=0; i<balanceHistory.length; i++){
-                let obj = { 
+                let obj = {
                     name: balanceHistory[i].investment_name,
                     data: []
                  };
@@ -68,7 +68,7 @@ export const transactionTable = (data, search)=>{
                     (one.description.indexOf(search)) !== -1 ||
                     (one.type.indexOf(search)) !== -1 ||
                     one.amount === +search ||
-                    one.account_balance === +search                
+                    one.account_balance === +search
                 )
             });
             return tableData;
