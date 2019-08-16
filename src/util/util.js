@@ -8,7 +8,10 @@ export function formatAmount(amount){
   let reverseBeforeDecimal = beforeDecimal.split("").reverse().join("")
   beforeDecimal = reverseBeforeDecimal.replace(/.{3}/g, '$& ,').split("").reverse().join("")
 
-  afterDecimal = afterDecimal.replace(/.{4}/g, '$&, ')
+  if(!afterDecimal)
+    afterDecimal = ''
+  else
+    afterDecimal = afterDecimal.replace(/.{4}/g, '$&, ')
 
   //
   // console.log(beforeDecimal)
