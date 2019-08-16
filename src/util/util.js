@@ -1,5 +1,6 @@
 export function formatAmount(amount){
 
+  if(!amount) return "-";
   let strAmount = amount.toString();
   let [beforeDecimal, afterDecimal] = strAmount.split(".");
   // console.log(beforeDecimal, afterDecimal)
