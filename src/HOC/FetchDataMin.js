@@ -18,7 +18,7 @@ export default function FetchDataMin(WrappedComponents, axios_services, data, in
                             this.setState({data: res.data})
                         })
                         .catch((err)=>{
-                            alert(`No data available.`)
+                            console.log(`No data available.`)
                         });
 
         setFetchDataInterval = ()=>setInterval(this.getData, FETCH_DATA_INTERVAL);
