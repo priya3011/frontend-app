@@ -9,3 +9,7 @@ export const getBalanceHistory = (data)=>Axios.post(BACKEND_API + 'users/balance
 export const getTransactionHistory = (data)=>Axios.post(BACKEND_API + 'accounts/transaction_history', data);
 export const getInvestments  = (data) => Axios.post(FRONTEND_API + 'all_investments', data);
 export const transferAmount = (data) => Axios.post(BACKEND_API + 'transactions/transfer', data);
+
+export const inviteUser = (data) => Axios.post(FRONTEND_API + 'invite_user',data);
+
+// export const 
