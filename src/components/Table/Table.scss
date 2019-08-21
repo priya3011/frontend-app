@@ -1,6 +1,6 @@
 .Charttable-container{
      min-width: 25vw;
-     width: 29.451vw;
+     width: 100%;
      margin: 0px;
      padding-top: 1.765vw;
      padding-right: 1.209vw;
@@ -33,14 +33,23 @@
     //border: 1px solid blue;    
     display: flex;
     flex-direction: column;
-    min-width:80vw;
+    min-width:100%;
+    margin-top: 5.416vw;
+
+    // display: flex;
+    // flex-direction: column;
+    // box-shadow: 1px 5px 12px 6px #DBDBDB;
+    // padding-top: 1.25vw;
+    // padding-left: 0.683vw;
+    // padding-right: 0.752vw;
+    // padding-bottom: 1.25vw;
 
     .transaction-container{
-        //border: 1px solid blue;
-        margin-top: 0.752vw;
-        margin-right: 1.302vw;
-        margin-bottom: 1,239vw;
-        margin-left: 1.302vw;
+        // border: 1px solid blue;
+        // margin-top: 0.752vw;
+        // margin-right: 1.302vw;
+        // margin-bottom: 1,239vw;
+        // margin-left: 1.302vw;
 
         .table-title {
             text-align: left;
@@ -58,9 +67,9 @@
     .reacttable-container{
         //border: 1px solid black;
         min-width: 50vw;
-        width: 61.351vw;
-        margin-top: 6.823vw;
-        margin-left: 10.4154vw;
+        // width: 61.351vw;
+        // margin-top: 6.823vw;
+        // margin-left: 10.4154vw;
         box-shadow: 1px 2px 6px 3px #DBDBDB;
         border-radius: 15px;
         font-size: 0.9375vw;
@@ -80,10 +89,15 @@
     box-shadow: 3px 3px 3px #DBDBDB;
     margin-bottom: 7.923%;
     font-size: 0.9375vw !important;
+    color: #969696;
 }
 
 .transaction-select-control {
     font-size: 0.9375vw !important;
+    text-align: center;
+    letter-spacing: 0.54px;
+    color: #646464;
+    opacity: 1;
 }
 
 /*
@@ -114,6 +128,6 @@
   }
   
   .Table__pageButton--active {
-    color: #45b3e3;
+    color: #40BBF2;
     font-weight: bold;
   }

@@ -28,7 +28,7 @@ class ChartTable extends Component {
               // className: 'align-right'
             },
             { id: 'balance_cad',
-              accessor: (data) =>'$' + formatAmount((+data.balance_cad).toFixed(2)),
+              accessor: (data) =>'$' + formatAmount((+data.balance_cad).toFixed(2),true),
               Footer: <span>{`$${formatAmount((CADSum).toFixed(2))}`}</span>}
         ]
 

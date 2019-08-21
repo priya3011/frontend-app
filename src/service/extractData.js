@@ -17,6 +17,7 @@ export const doughnutChart = (data)=>{
 
 /** Convert the date format coming from the server */
 const convertDateInLineChart = (dateStr)=>{
+    console.log("dateStr", dateStr)
     const date = dateStr.slice(0,2);
     const month = dateStr.slice(3,5);
     const year = dateStr.slice(6);
@@ -34,20 +35,26 @@ const compare = (property)=>{
 
 export const lineChart = (data, interval)=>{
     let chartData = [];
-    const startMilliseconds = Date.now() - interval*24*60*60*1000;
+    const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
+    // console.log("startMilliseconds: ", (Date.now()));
+    
         if(JSON.stringify(data) !== '{}'){
             let balanceHistory = data.balance_history;
             for(let i=0; i<balanceHistory.length; i++){
                 let obj = {
+                    
+                   
                     name: balanceHistory[i].investment_name,
                     data: []
                  };
                 let accountHistory = balanceHistory[i].account_history
+                console.log("lastMillisecond: ",Date.parse(convertDateInLineChart(balanceHistory[i].account_history[0].date)));
                 for(let j=0; j<accountHistory.length; j++){
+                    
                     let dateMilliseconds = Date.parse(convertDateInLineChart(accountHistory[j].date));
-                    if(dateMilliseconds >= startMilliseconds){
-                        obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance/* _cad */} )
-                    }
+                    // if(dateMilliseconds >= startMilliseconds){
+                    obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance/* _cad */} )
+                    // }
                 }
                 obj.data.sort(compare('x'));
                 chartData.push(obj);
@@ -65,8 +72,8 @@ export const transactionTable = (data, search)=>{
             tableData = serverData.filter((one)=>{
                 return (
                     (new Date(one.time).toLocaleDateString().indexOf(search)) !== -1 ||
-                    (one.description.indexOf(search)) !== -1 ||
-                    (one.type.indexOf(search)) !== -1 ||
+                    (one.description.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
+                    (one.investment_name.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
                     one.amount === +search ||
                     one.account_balance === +search
                 )

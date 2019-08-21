@@ -11,7 +11,8 @@ import { reset } from '../../actions/userActions'
 class LeftSidebar extends Component {
     static propTypes={
         ref_code: PropTypes.string.isRequired,
-        fetchAllInvestments: PropTypes.func.isRequired
+        fetchAllInvestments: PropTypes.func.isRequired,
+        investments: PropTypes.array.isRequired
     };
 
     constructor(props){
@@ -71,13 +72,13 @@ class LeftSidebar extends Component {
 
             const { currency, investments } = mapping;
 
-            return <div><a href="" className="nav-link-top"><li  className="nav-item" id={currency}>
+            return <div key={currency}><a href="" className="nav-link-top"><li  className="nav-item" id={currency} >
                             <i className="fa fa-chevron-right"></i>
                             <span href="">{mapping.currency}</span>
                     </li></a>
                      <UncontrolledCollapse toggler={"#"+currency}>
                         {  investments.map(i => {
-                            return  (<li className="nav-item" >
+                            return  (<li className="nav-item" key={i.investment_id} >
                             <Link to={"/investment/"+i.investment_id} className="nav-link">{i.investment_name}</Link>
                             </li>)
 
@@ -162,7 +163,7 @@ class LeftSidebar extends Component {
 
 //map state of the store to the props
 const mapStateToProps = state => ({
-    //reducer name is post
+    
     investments: state.investment.all_investments,
     ref_code: state.user.ref_code
     // user: state.user.user_details

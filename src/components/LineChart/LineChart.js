@@ -8,17 +8,40 @@ import { lineChart } from '../../service/extractData'
 import { COLORS } from '../../config/config'
 
 export default class LineChart extends Component {
-    state = {
-        showLineChart: true
-    }
 
-    static propTypes = {
-        data : PropTypes.object.isRequired
+    // static propTypes = {
+    //     data : PropTypes.object.isRequired
+    // }
+
+    constructor(props){
+        super(props);
+        this.state = {
+            showLineChart: true,
+            interval:this.props.interval.toString(),
+            data: this.props.data
+        };
+
     }
 
     handleChange = (e)=>{
-        this.props.intervalChange(e);
+
+        console.log(e.target.value);
+        let newInterval = e.target.value;
+        this.setState({interval:newInterval},
+        ()=>{
+            let requestData = {...this.props.requestData,time_period_days:newInterval};
+            this.props.refreshData(requestData);
+            //rerender
+
+
+        });
+
+
+
+        // this.props.refreshData(e);
     }
+
+    // componentWillReceiveProps()
 
     handleClickLineChart = ()=>{
         this.setState({ showLineChart: true});
@@ -29,9 +52,19 @@ export default class LineChart extends Component {
     }
 
     render(){
-        const { data, interval } = this.props;
-        const { showLineChart } = this.state;
+        
+        const { data } = this.props;
+        const { showLineChart , interval } = this.state;
         const chartData = lineChart(data, interval);
+
+        let startDate = new Date().setHours(0,0,0,0) -(interval)*24*60*60*1000;
+        let endDate = new Date().setHours(0,0,0,0)
+
+        // let startDate = chartData[0].data[0].x;
+        // let endDate = chartData[0].data[interval -1].x;
+
+
+        // console.log("chartData ",chartData[0].data[0])
 
         const lineOptions={
             colors: COLORS,
@@ -55,21 +88,26 @@ export default class LineChart extends Component {
                 valuePrefix: '$'
             },
             xAxis: {
+                tickmarkPlacement:"on",
+                showFirstLabel:true,
+                showLastLabel:true,
+                // labels :{step:interval-1},
                 type: 'datetime',
                 gridLineWidth: 1,
-                max: Date.now(),
-                min: Date.now()-interval*24*60*60*1000,
-                endOnTick: true,
-                dateTimeLabelFormats: {
-                    /* millisecond: '%H:%M:%S.%L',
-                    second: '%H:%M:%S',
-                    minute: '%H:%M',
-                    hour: '%H:%M', */
-                    day: '%y-%m-%d',
-                    /* week: '%m-%d',
-                    month: '%Y-%m',
-                    year: '%Y' */
-                }
+                // max: endDate,
+                // min: startDate,
+                // startOnTick: false,
+                // endOnTick: false,
+                // dateTimeLabelFormats: {
+                //     /* millisecond: '%H:%M:%S.%L',
+                //     second: '%H:%M:%S',
+                //     minute: '%H:%M',
+                //     hour: '%H:%M', */
+                //     // day: '%d-%m-%y',
+                //     /* week: '%m-%d',
+                //     month: '%Y-%m',
+                //     year: '%Y' */
+                // }
             },
             yAxis: [{
                 lineWidth: 1,
@@ -84,6 +122,8 @@ export default class LineChart extends Component {
                 }
             }],
             plotOptions: {
+
+                series:{pointStart: startDate},
 
             }
         }
@@ -109,14 +149,19 @@ export default class LineChart extends Component {
                 valuePrefix: '$'
             },
             xAxis: {
+                tickmarkPlacement:"on",
+                showFirstLabel:true,
+                showLastLabel:true,
+                // labels :{step:interval-1},
                 type: 'datetime',
                 gridLineWidth: 1,
-                max: Date.now(),
-                min: Date.now()-interval*24*60*60*1000,
-                endOnTick: true,
-                dateTimeLabelFormats: {
-                    day: '%y-%m-%d'
-                }
+                // max: endDate,
+                // min: startDate,
+                // startOnTick: false,
+                // endOnTick: false,
+                // dateTimeLabelFormats: {
+                //     day: '%d-%m-%y'
+                // }
             },
             yAxis: [{
                 lineWidth: 1,
@@ -129,17 +174,25 @@ export default class LineChart extends Component {
                 title: {
                     text: null
                 }
-            }]
+            },
+            ],
+            plotOptions: {
+
+                series:{pointStart: startDate},
+
+            }
         }
 
         let showOne = <HighchartsReact
                         highcharts = { Highcharts }
                         options = { lineOptions }
+                        
                     />;
         if(!showLineChart)
         showOne = <HighchartsReact
                     highcharts = { Highcharts }
                     options = { mountainOptions }
+
                 />;
 
         return (
@@ -151,7 +204,7 @@ export default class LineChart extends Component {
                           <div onClick={this.handleClickMountainChart} className={ !showLineChart? "chart-link-active" : "chart-link"} >Mountain Chart View</div>
                         </div>
                       <div>
-                            <select name="interval" className="chart-dropdown" value={ this.props.interval } onChange={ this.handleChange }>
+                            <select name="interval" className="chart-dropdown" value={ this.state.interval } onChange={ this.handleChange }>
                                 <option value='30'>Last 30 Days</option>
                                 <option value='60'>Last 60 Days</option>
                                 <option value='90'>Last 90 Days</option>

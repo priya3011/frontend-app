@@ -1,9 +1,11 @@
 .footer-control{
     //height: 4.886vw;
     margin-top: 2.118vw;
-    margin-left: 18.229vw;
-    margin-right: 18.229vw;
+    margin-left: 12vw;
+    margin-right: 12vw;
     margin-bottom: 2.016vw;
+    // text-align: left;
+    // font-size: 18px;
     //padding-left: 15vw;
     //padding-right: 15vw;
     //padding-top: 28px;
@@ -13,5 +15,10 @@
         flex-direction: row;
         justify-content: space-between;
         color: white;
+    }
+
+    .nav-link-top{
+        color: white;
+        text-decoration: none;
     }
 }

@@ -1,7 +1,10 @@
-export function formatAmount(amount){
+export function formatAmount(amount, isCAD=false){
 
   if(!amount) return "-";
-  let strAmount = amount.toString();
+
+  let dp = isCAD? 2 : 8;
+
+  let strAmount = parseFloat(amount).toFixed(dp);
   let [beforeDecimal, afterDecimal] = strAmount.split(".");
   // console.log(beforeDecimal, afterDecimal)
 

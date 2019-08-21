@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 
 import PropTypes from 'prop-types';
 import { transactionTable } from '../../service/extractData'
+import { formatAmount } from '../../util/util'
 
 
 export default class TransactionTable extends Component {
@@ -31,16 +32,16 @@ export default class TransactionTable extends Component {
                     return new Date(data.time).toLocaleDateString();
                 }
             },
-            { Header: 'Investment??', accessor: 'type' },
+            { Header: 'Investment', accessor: 'investment_name' },
             { Header: 'Description', accessor: 'description' },
             { id:'amount', Header: 'Amount', 
                 accessor: (data) => {
-                    return (+data.amount).toFixed(2);
+                    return formatAmount(+data.amount);
                 } 
             },
             { id: 'amountcad', Header: 'Amount in CAD',
                 accessor: (data) => {
-                    return '$' + (+data.account_balance).toFixed(2);
+                    return '$' + formatAmount((+data.amount_cad).toFixed(2),true);
                 }
         }]
        return(
