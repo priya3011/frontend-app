@@ -69,7 +69,7 @@ export default class CustomSnackbar extends Component {
         return (
             <Snackbar
                 anchorOrigin={{
-                vertical: 'bottom',
+                vertical: 'top',
                 horizontal: 'right',
                 }}
                 open={open}

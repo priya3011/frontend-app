@@ -103,37 +103,3 @@ export default class Dashboard extends Component{
     }
 }
 
-// <Row className="table-container"><TransactionTableMin/></Row>
-// <Row className="transfer-modal-container"><TransferModal/></Row>
-// <Row className="footer-container"><Footer/></Row>
-// <Container>
-//   <Row>
-//     <Col sm={8}>sm=8</Col>
-//     <Col sm={4}>sm=4</Col>
-//   </Row>
-//   <Row>
-//     <Col sm>sm=true</Col>
-//     <Col sm>sm=true</Col>
-//     <Col sm>sm=true</Col>
-//   </Row>
-// </Container>
-
-
-
-        //  return (
-        //     <div className="dashboard-container">
-        //         <div className="navigation">
-        //             <LeftSidebar  />
-        //         </div>
-        //         <div className="content-wrapper" id="content-div">
-        //             <div className="overview-container">
-        //                 <div className="overview-table"><ChartTableMin/></div>
-        //                 <div className="overview-graph"><DoughnutChartMin/></div>
-        //             </div>
-        //             <div className="graph-container"><LineChartMin intervalChange={this.handleChange} interval={interval}/></div>
-        //             <div className="table-container"><TransactionTableMin/></div>
-        //             <div className="transfer-modal-container"><TransferModal/></div>
-        //             <div className="footer-container"><Footer/></div>
-        //         </div>
-        //     </div>
-        // );

@@ -4,9 +4,15 @@ import {
     LeftSidebar,
     Footer,
     CustomSnackbar,
-    InfoCard } from './../../components';
+    InfoCard,
+    TransferModal } from './../../components';
 import './Investment.scss'
 
+//TODO: 
+//1. Connect it to the user investments store -- currency, investment name, 
+//2. Create an API to get the user investment details -- account balance, exchange rate
+//3. API to get the investment balance history
+//4. Modify Transfer modal if investment id is passed, dont show the dropdown , otherwise do show the dropdown 
 
 export default class Investment extends Component {
 
@@ -43,7 +49,7 @@ export default class Investment extends Component {
     }
 
     render() {
-        const { isAlertVisible, alertType, alertMessage } = this.state;
+        const { isAlertVisible, alertType, alertMessage, investment_id} = this.state;
 
         return (
             <div className="main-container">
@@ -53,9 +59,9 @@ export default class Investment extends Component {
                 </div>
                 <Container  className="content-wrapper" id="content-div">
                     <Row className="page-content">
-                        <Col lg={4} md={4} sm={4}><InfoCard label="Referral Code" value={"test"}></InfoCard></Col>
-                        <Col><InfoCard label="CAD" value={"test"}></InfoCard></Col>
-                        <Col><InfoCard label="Referral Code" value={"test"}></InfoCard></Col>
+                        <Col lg={4} md={4} sm={4}><InfoCard label="Cash Investment Balance" value={"50,000"}></InfoCard></Col>
+                        <Col><InfoCard label="CAD / CAD" value={"1.00"}></InfoCard></Col>
+                        <Col><InfoCard label="CAD VALUE" value={"50,000.00"}></InfoCard></Col>
                     </Row>
                     <Row >
                     {/* <Col></Col>
@@ -72,6 +78,9 @@ export default class Investment extends Component {
                     </Col>
                     <Col></Col> */}
                     
+                    </Row>
+                    <Row>
+                        <TransferModal showAlert={this.showAlert} investment_id={investment_id}></TransferModal>
                     </Row>
             
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
