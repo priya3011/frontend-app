@@ -30,3 +30,5 @@ export const PASSWORD_CHECK = "^.*(?=.{6,})(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[
 export const EMAIL_CHECK = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?"
 
 export const RESETPWD_SUCCESS_MSG = "Email verified successfully. Please check your email and follow it to reset your password."
+
+export const COLORS = ["#4D96CC", "#98B1C4", "#2F4858", "#96A3AB", "#8ADB92", "#C4EDC8", "#DEA16F", "#EED0B6", "#E8E288"]

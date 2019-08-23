@@ -1,12 +1,16 @@
 .transfer-container{
     display: flex;
     //border: solid 1px black;
+    flex-direction: column;
+    min-width: 100%;
+    margin-top: 5.416vw;
+    margin-bottom: 5.416vw;
 
     .transfer-form-wrapper{
-        width: 61.458vw;
+        // width: 61.458vw;
         display: flex;
-        margin-top: 4.476vw;
-        margin-left: 10.415vw;
+        // margin-top: 4.476vw;
+        // margin-left: 10.415vw;
         padding-top: 2.760vw;
         padding-right: 22.240vw;
         padding-bottom: 1.823vw;
@@ -37,7 +41,10 @@
     }
 
     .transfer-btn{
-        width: 6vw;
-        border-radius: 40px !important;
+        // width: 6vw;
+        // border-radius: 40px !important;
+        background: #4D96CC 0% 0% no-repeat padding-box;
+        border-radius: 30px;
+        opacity: 1;
     }
 }

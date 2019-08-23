@@ -1,0 +1,33 @@
+.info-container{
+
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 20px #b9b9b9;
+    border-radius: 20px;
+    opacity: 1;
+    // max-width: 250;
+    max-width: 15vw;
+    // height: 6.5vw;
+
+    .info-label{
+
+        text-align: left;
+        font-weight: bold;
+        letter-spacing: 0;
+        color: #646464;
+        opacity: 1;
+        margin-left: 1vw;
+        padding-top: 1vw;
+
+    }
+
+    .info-value{
+        // margin-left: 1vw;
+        padding: 1vw;
+        text-align: left;
+        font: bold 25px/20px Lato;
+        letter-spacing: 1.02px;
+        color: #4D96CC;
+        opacity: 1;
+
+    }
+}

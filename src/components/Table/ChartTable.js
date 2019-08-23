@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import './Table.scss';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import { formatAmount } from '../../util/util'
 
 import PropTypes from 'prop-types';
 
@@ -15,18 +16,20 @@ class ChartTable extends Component {
 
         var CADSum = 0;
         if(JSON.stringify(data) !== '{}'){
-            for(let i=0; i<data.user_balance.length; i++){        
+            for(let i=0; i<data.user_balance.length; i++){
                 CADSum += +(data.user_balance[i].balance_cad);
             }
-        }        
+        }
         const columns = [
-            { accessor: 'investment_id',
-              Footer: <span>{'Total in CAD'}</span>}, 
+            { accessor: 'investment_name',
+              Footer: <span>{'Total in CAD'}</span>},
             { id: 'balance',
-              accessor: (data)=> (+data.balance).toFixed(2)},
+              accessor: (data)=> formatAmount(+data.balance),
+              // className: 'align-right'
+            },
             { id: 'balance_cad',
-              accessor: (data) =>'$' + (+data.balance_cad).toFixed(2),
-              Footer: <span>{`$${CADSum.toFixed(2)}`}</span>}
+              accessor: (data) =>'$' + formatAmount((+data.balance_cad).toFixed(2),true),
+              Footer: <span>{`$${formatAmount((CADSum).toFixed(2))}`}</span>}
         ]
 
         if(JSON.stringify(data) === '{}')
@@ -35,7 +38,7 @@ class ChartTable extends Component {
             if( data.code === "Success" )
                 return(
                     <div className="Charttable-container">
-                        <ReactTable 
+                        <ReactTable
                             className="-striped"
                             data={data.user_balance}
                             columns={columns}

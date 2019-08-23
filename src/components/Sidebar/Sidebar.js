@@ -1,69 +1,157 @@
 import React, { Component } from 'react';
+import { UncontrolledCollapse } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Sidebar.scss';
+import { fetchAllInvestments } from '../../actions/investmentActions'
+import { reset } from '../../actions/userActions'
 //import Sidebar, {SidebarStyles} from 'react-sidebar';
 
 class LeftSidebar extends Component {
     static propTypes={
-        ref_code: PropTypes.string.isRequired
+        ref_code: PropTypes.string.isRequired,
+        fetchAllInvestments: PropTypes.func.isRequired,
+        investments: PropTypes.array.isRequired
     };
+
+    constructor(props){
+      super(props);
+      this.logout = this.logout.bind(this);
+    }
+
+    componentWillMount(){
+        this.props.fetchAllInvestments();
+    }
+
+    getCurrencyInvestmentMapping(){
+
+        console.log("getCurrencyInvestmentMapping: ",this.props);
+        let { investments } = this.props;
+        let currencySet = new Set();
+
+        investments.forEach(investment => {
+
+            currencySet.add(investment.currency)
+        });
+
+        //sort the set
+        currencySet = Array.from(currencySet).sort();
+
+        let currencyInvestmentMapping = [];
+        currencySet.forEach( currency => {
+
+            let currencyInvestments = investments.filter( investment =>{
+                return investment['currency']==currency;
+            });
+
+            currencyInvestmentMapping.push({
+                currency: currency,
+                investments: currencyInvestments
+
+            });
+
+        });
+
+        return currencyInvestmentMapping
+    }
+
+
+
+
+    renderInvestmentsMenu(){
+
+
+
+        // rearrange the investments
+        const currencyInvestmentMapping = this.getCurrencyInvestmentMapping();
+
+
+
+        const investmentsMenu = currencyInvestmentMapping.map( mapping =>{
+
+            const { currency, investments } = mapping;
+
+            return <div key={currency}><a href="" className="nav-link-top"><li  className="nav-item" id={currency} >
+                            <i className="fa fa-chevron-right"></i>
+                            <span href="">{mapping.currency}</span>
+                    </li></a>
+                     <UncontrolledCollapse toggler={"#"+currency}>
+                        {  investments.map(i => {
+                            return  (<li className="nav-item" key={i.investment_id} >
+                            <Link to={"/investment/"+i.investment_id} className="nav-link">{i.investment_name}</Link>
+                            </li>)
+
+                            })
+                        }
+                     </UncontrolledCollapse>
+
+                     </div>
+
+
+
+
+        });
+
+        return investmentsMenu;
+
+    }
+
+  logout(){
+
+    this.props.reset();
+    this.props.history.push('/signin');
+  }
+
+
+
+
   render(){
+
+    // console.log("mapping  ", this.getCurrencyInvestmentMapping());
+
+
+    const InvestmentsMenu  = this.renderInvestmentsMenu();
+    const ref_code = localStorage.getItem("ref_code");
     return (
         <div className="sidebar-container">
         <ul className="sidebar navbar-nav" >
                 <div className="navigation-type">
                 <li className="nav-item">
                     <i className="fa fa-home"></i>
-                    <span>Dashboard</span>
+                    <Link to="/dashboard" className="nav-link-top">Dashboard</Link>
+
                 </li>
 
                 <li className="nav-item">
                     <i className="fa fa-empire"></i>
                     {/* <i class="fas fa-steering-wheel"></i> */}
-                    <span>Affiliates</span>
+                    <Link to="/affiliate" className="nav-link-top">Affiliate</Link>
                 </li>
                 <li className="nav-item">
                     <i className="fa fa-clock-o"></i>
-                    <span>Stats</span>
+                    <Link to="/stats" className="nav-link-top">Stats</Link>
                 </li>
 
                 <li className="nav-item">
                 <i className="fa fa-line-chart"></i>
-                    <span>Exchange</span>
+                    <Link to="/exchange" className="nav-link-top">Exchange</Link>
                 </li>
                 </div>
-                <div className="Currency-type"><li className="nav-item">
-                    <i className="fa fa-chevron-right"></i>
-                    <span>CLAM</span>
-                </li>
-                <li className="nav-item">
-                    <i className="fa fa-chevron-right"></i>
-                    <span>BTC</span>
-                </li>
-                <li className="nav-item">
-                    <i className="fa fa-chevron-right"></i>
-                    <span>CAD</span>
-                </li>
-                <li className="nav-item">
-                    <i className="fa fa-chevron-right"></i>
-                    <span>USD</span>
-                </li>
-                <li className="nav-item">
-                    <i className="fa fa-chevron-right"></i>
-                    <span>GOLD</span>
-                </li>
+                <div className="Currency-type">
+                    {InvestmentsMenu}
                 </div>
                 <div className="other-containt">
                 <li className="nav-item">
                     <i className="fa fa-envelope-square"></i>
-                    <span>Contact</span>
+                    <Link to="/contact" className="nav-link-top">Contact</Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item" onClick={this.logout}>
                     <i className="fa fa-sign-out"></i>
-                    <span>Logout</span>
+                    <a className="nav-link-top">Logout</a>
                 </li>
                 <li className="nav-item">
-                    <span>Referral Code: {this.props.ref_code}</span>
+                    <span>Referral Code: {ref_code}</span>
                 </li>
                 </div>
             </ul>
@@ -73,83 +161,12 @@ class LeftSidebar extends Component {
   }
 }
 
-// class LeftSidebar extends Component {
-//     render() {
-//         const sidebar = <div>Item 1</div>
-//         const sidebarStyle = {
-//             root: {
-//                 position: "absolute",
-//                 top: 0,
-//                 left: 0,
-//                 right: 0,
-//                 bottom: 0,
-//                 overflow: "hidden"
-//             },
-//             sidebar: {
-//                 zIndex: 2,
-//                 position: "absolute",
-//                 top: 0,
-//                 bottom: 0,
-//                 transition: "transform .3s ease-out",
-//                 WebkitTransition: "-webkit-transform .3s ease-out",
-//                 willChange: "transform",
-//                 overflowY: "auto",
-//                 width: '250px'
-//             },
-//             content: {
-//                 position: "absolute",
-//                 top: 0,
-//                 left: 0,
-//                 right: 0,
-//                 bottom: 0,
-//                 overflowY: "auto",
-//                 WebkitOverflowScrolling: "touch",
-//                 transition: "left .3s ease-out, right .3s ease-out"
-//             },
-//             overlay: {
-//                 zIndex: 1,
-//                 position: "fixed",
-//                 top: 0,
-//                 left: 0,
-//                 right: 0,
-//                 bottom: 0,
-//                 opacity: 0,
-//                 visibility: "hidden",
-//                 transition: "opacity .3s ease-out, visibility .3s ease-out",
-//                 backgroundColor: "rgba(0,0,0,.3)"
-//             },
-//             dragHandle: {
-//                 zIndex: 1,
-//                 position: "fixed",
-//                 top: 0,
-//                 bottom: 0
-//             }
-//         };
-//         return <Sidebar
-//             defaultSidebarWidth = {
-//                 160
-//             }
-//             docked = {
-//                 true
-//             }
-//             open = {
-//                 true
-//             }
-//             sidebar = {
-//                 sidebar
-//             }
-//             styles = {
-//                 sidebarStyle
-//             }
-//             onSetOpen = {
-//                 (open: boolean) => {}
-//             }
-//             rootId = "test-root-id"
-//             sidebarId = "test-sidebar-id"
-//             contentId = "content-div"
-//             overlayId = "test-overlay-id" >
-//         </Sidebar>
-//     }
-// }
+//map state of the store to the props
+const mapStateToProps = state => ({
+    
+    investments: state.investment.all_investments,
+    ref_code: state.user.ref_code
+    // user: state.user.user_details
+});
 
-export default LeftSidebar;
+export default connect(mapStateToProps, { fetchAllInvestments, reset })(LeftSidebar);

@@ -10,18 +10,19 @@ import messages_en from "./translation/en.json";
 import { BrowserRouter } from 'react-router-dom';
 
 //redux
-import { createStore, applyMiddleware/* , compose */ } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './sagas/rootSaga';
+// import { createStore, applyMiddleware/* , compose */ } from 'redux';
+// import createSagaMiddleware from 'redux-saga';
+// import rootSaga from './sagas/rootSaga';
 import { Provider } from 'react-redux';
-import rootReducer from './reducers/rootReducer';
+// import rootReducer from './reducers/rootReducer';
 
 //styling
 import './index.css';
+import store from './store'
 
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer,applyMiddleware(sagaMiddleware));
-sagaMiddleware.run(rootSaga);
+// const sagaMiddleware = createSagaMiddleware();
+// const store = createStore(rootReducer,applyMiddleware(sagaMiddleware));
+// sagaMiddleware.run(rootSaga);
 
 const messages = {
     'en': messages_en

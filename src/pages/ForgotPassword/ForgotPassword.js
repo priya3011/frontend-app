@@ -30,7 +30,7 @@ class ForgotPassword extends Component {
     if(!e.target.checkValidity()){      // Add a Bootstrap class to show prompts if checkValidity is false.
       this.setState({ className: 'needs-validation was-validated'}); 
     }else{
-      axios.post(FRONTEND_API + "frontend/reset_password", { email })
+      axios.post(FRONTEND_API + "reset_password", { email })
       .then((res)=>{
         if(res.data.code === 'Reset successful'){
           this.setState({ 

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchToken } from '../../actions/signInActions';
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
 import './SignIn.scss';
-import { FRONTEND_API } from "../../config/config";
+import { login, reset } from '../../actions/userActions';
 
 class SignIn extends Component {
 
@@ -15,21 +14,57 @@ class SignIn extends Component {
   constructor(props){
     super(props);
 
+
+
     this.state = {
-      isAuthenticated: false,
-      ref_code: '',
+      authenticated: false,
       username: '',
       password: '',
       className: 'needs-validation',  // When validation fails, add a boostrap class to display prompts.
-      err_msg: { err: false, msg: ''}, // Held the failure state & messag returned from server.
-      confirmation_msg:{show:false, msg:''} //if any confirmation message is required to be shown when redirected to Sign In
+      message: { show: false, msg: '', type:''}, // Held the failure state & messag returned from server.
+
     }
 
-    // console.log("SignIn props ",props);
-    // if (props.location && props.location.state)
-    //   this.setState({
-    //     confirmation_msg: props.location.state.confirmation_msg
-    //   })
+    //when redirected to sign in reset all the auth params
+    this.props.reset();
+
+  }
+
+
+
+  componentDidMount(){
+
+    //confirmation message from sign up
+
+    if (this.props.location.state && this.props.location.state.confirmation_msg){
+
+      // console.log("got the confirmation message");
+
+      let { confirmation_msg } = this.props.location.state;
+      this.setState({
+        message: { show: true , msg: confirmation_msg.msg , type:'success'}
+      })
+    }
+
+    //check if user is authenticated
+    this.setState({
+      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!='',
+      message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+    });
+
+
+
+
+  }
+
+  componentWillReceiveProps(){
+
+    //check if user is authenticated
+    this.setState({
+      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!='',
+      message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+    });
+
 
   }
 
@@ -44,51 +79,57 @@ class SignIn extends Component {
       this.setState({ className: 'needs-validation was-validated'});
     }else{
       const { username, password } = this.state;
-      axios.post(FRONTEND_API+'login', { username, password })
-      .then((res1)=>{
-        if(res1.data.code === "Login successful")
-        return axios.get(FRONTEND_API+`user_data/${username}`);
-      })
-      .then((res2)=>{
-        if(res2.data.code === "success")
-          this.setState({
-            isAuthenticated: true,
-            ref_code: res2.data.ref_code
-        });
-      })
-      .catch((err)=>{
-        let msg = "";
-        if(err.response.data.code)
-          msg = `${err.response.data.code}: ${err.response.data.error}.`;
-        else msg = `${err.response.data.msg}: ${err.response.data.err}.`;
-          this.setState({
-            err_msg: {err: true, msg},
-            className: 'needs-validation'
-          })
-      });
+      this.props.login(username, password);
+      // axios.post(FRONTEND_API+'login', { username, password })
+      // .then((res1)=>{
+      //   if(res1.data.code === "Login successful")
+      //   return axios.get(FRONTEND_API+`user_data/${username}`);
+      // })
+      // .then((res2)=>{
+      //   if(res2.data.code === "success")
+      //   {
+      //
+      //     this.setState({
+      //       isAuthenticated: true,
+      //       ref_code: res2.data.ref_code});
+      //      localStorage.setItem('username', username);
+      //   }
+      //
+      //
+      //
+      // })
+      // .catch((err)=>{
+      //   let msg = "";
+      //   if(err.response.data.code)
+      //     msg = `${err.response.data.code}: ${err.response.data.error}.`;
+      //   else msg = `${err.response.data.msg}: ${err.response.data.err}.`;
+      //     this.setState({
+      //       message: {show: true, msg, type:'error'},
+      //       className: 'needs-validation'
+      //     })
+      // });
     }
     e.preventDefault();
   }
 
-  // {
-  //   confirmation_msg.show &&
-  //       <div className="alert alert-success alert-text" role="alert">
-  //         {confirmation_msg.msg}
-  //       </div>
-  //
-  // }
-  render(){
-    const { isAuthenticated, ref_code, username, password, className, err_msg, confirmation_msg } = this.state;
 
-    if(!isAuthenticated)
+  render(){
+    const { authenticated, username, password, className, message } = this.state;
+
+
+
+
+    const alertClass = (message.type == "error")? "alert alert-danger alert-text" : (message.type == "success") ? "alert alert-success alert text" : "";
+
+
+    if(!authenticated)
       return (
         <div className="signin-container">
           <div >
 
-
-            { err_msg.err &&
-                <div className="alert alert-danger alert-text" role="alert">
-                  {err_msg.msg}
+            { message.show &&
+                <div className={alertClass} role="alert">
+                  {message.msg}
                 </div>
             }
             <form className={className} noValidate onSubmit={this.handleSubmit}>
@@ -116,28 +157,19 @@ class SignIn extends Component {
         </div>
       );
     else
-      return <Redirect to={{ pathname: "/dashboard", state: { ref_code }}}/> // The "state" pass data to dashboard.
+      return <Redirect to="/dashboard" /> // The "state" passes data to dashboard.
   }
 }
 
 function mapStateToProps(state){
   return {
-    UserStore: state.UserStore
+    user: state.user
   }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(
-            {
-                fetchToken,
-            },
-            dispatch
-        )
-    }
-}
+
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    { login, reset }
 )(SignIn)
