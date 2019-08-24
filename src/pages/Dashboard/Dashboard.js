@@ -90,7 +90,7 @@ export default class Dashboard extends Component{
                     </Row>
                     <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
-                    <Row ><Col lg={12} md={12} sm={12}><TransferModal  showAlert={this.showAlert}></TransferModal></Col></Row>
+                    <Row ><Col lg={12} md={12} sm={12}><TransferModal  showAlert={this.showAlert} onSuccess={()=>{}}></TransferModal></Col></Row>
                     </Container>
                     
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>

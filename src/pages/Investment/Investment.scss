@@ -24,7 +24,7 @@
         .page-content{
             margin-top: 50px;
             height: 100%;
-            padding: 50px 200px;
+            padding: 50px 10%;
         }
 
         // min-height: 500px;
@@ -44,4 +44,8 @@
 
     
     }
+}
+
+.auto-height{
+    height: auto;
 }

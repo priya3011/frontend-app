@@ -22,7 +22,7 @@ function App() {
           <Route path="/forgotpassword" component={ForgotPassword}/>
           <Route path="/dashboard" component={sessionTimeout(Dashboard)}/>
           <Route path="/affiliate" component={sessionTimeout(Affiliates)}/>
-          <Route path="/investment/:id" component={sessionTimeout(Investment)}/>
+          <Route path="/investment/:investment_id" component={sessionTimeout(Investment)}/>
 
           <Route render={ props => <Redirect to={{ pathname: '/signin', state: { from: props.location } }} /> } />
         </Switch>

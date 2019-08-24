@@ -21,7 +21,10 @@ class LeftSidebar extends Component {
     }
 
     componentWillMount(){
+        
         this.props.fetchAllInvestments();
+        
+
     }
 
     getCurrencyInvestmentMapping(){
@@ -72,14 +75,25 @@ class LeftSidebar extends Component {
 
             const { currency, investments } = mapping;
 
+            
+
             return <div key={currency}><a href="" className="nav-link-top"><li  className="nav-item" id={currency} >
                             <i className="fa fa-chevron-right"></i>
                             <span href="">{mapping.currency}</span>
                     </li></a>
                      <UncontrolledCollapse toggler={"#"+currency}>
-                        {  investments.map(i => {
+                        {  investments.map((i, idx) => {
                             return  (<li className="nav-item" key={i.investment_id} >
-                            <Link to={"/investment/"+i.investment_id} className="nav-link">{i.investment_name}</Link>
+                            <Link to={{
+                                    pathname: "/investment/"+i.investment_id,
+                                    state:{
+                                        
+                                        investment_name: i.investment_name,
+                                        currency:currency,
+                                        index:idx
+                                    }
+                                    }} 
+                                className="nav-link">{i.investment_name}</Link>
                             </li>)
 
                             })

@@ -36,8 +36,15 @@ class TransferModal extends Component {
         this.props.fetchUserInvestments(username);
 
         if(this.props.investment_id){
+            console.log("props has investment id")
             this.setState({ showInvestments: false, investment_id: this.props.investment_id });
         }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+
+        if(prevProps.investment_id != this.props.investment_id)
+            this.setState({investment_id:this.props.investment_id});
     }
 
 
@@ -52,6 +59,8 @@ class TransferModal extends Component {
         .then((res)=>{
             //triggers a state change which will refresh all components
             this.props.showAlert(res.data.message,'success');
+            this.setState({amount:'',recipient:''})
+            this.props.onSuccess();
         })
         .catch((err)=>{
             //triggers a state change which will refresh all components

@@ -5,7 +5,11 @@ import {
     Footer,
     CustomSnackbar,
     InfoCard,
-    TransferModal } from './../../components';
+    TransferModal,
+    TransactionTable,
+    SimpleChart } from './../../components';
+import { getAccountDetails, getTransactionHistory, getAccountBalanceHistory} from '../../service/axios-service';
+import { formatAmount } from '../../util/util'
 import './Investment.scss'
 
 //TODO: 
@@ -28,16 +32,97 @@ export default class Investment extends Component {
             investment_id:'',
             investment_name:'',
             currency:'',
-            account_id:''
+            account_id:'',
+            account_details : [],
+            account_tx_history:[],
+            account_balance_history:{ balance_history:[]},
+
+            linechart_time_days: 180
         };
 
         this.dismissAlert = this.dismissAlert.bind(this);
         this.showAlert = this.showAlert.bind(this);
+        this.updateAccountInfo = this.updateAccountInfo.bind(this);
+        this.updateTransactionHistory = this.updateTransactionHistory.bind(this);
+        this.updateAccountBalanceHistory = this.updateAccountBalanceHistory.bind(this);
     }
 
     componentDidMount(){
-        //fetch currency detail and set the state
+
+        //TODO: set a timer for update
+        this.updateAccountInfo();
     }
+
+    componentDidUpdate(prevProps, prevState){
+
+        if(prevProps.match.params.investment_id != this.props.match.params.investment_id)
+            this.updateAccountInfo();
+    }
+
+    updateAccountInfo(){
+        
+        console.log("update balance")
+        //fetch the account details
+        const username = localStorage.getItem("username");
+        const { investment_id } = this.props.match.params
+
+
+        getAccountDetails({username, investment_id})
+        .then((res)=>{
+            
+            this.setState({account_details: res.data.account},
+
+                ()=>{
+                    this.updateTransactionHistory(res.data.account.account_id);
+                    this.updateAccountBalanceHistory(this.state.linechart_time_days);
+                }
+                );
+           
+        })
+        .catch((err)=>{
+            //triggers a state change which will refresh all components
+            this.showAlert(err.response.data.code,'error');
+        });
+
+
+
+    }
+
+    updateTransactionHistory(account_id){
+        
+        getTransactionHistory({account_id})
+        .then((res)=>{
+            
+            this.setState({account_tx_history: res.data});
+        })
+        .catch((err)=>{
+            //triggers a state change which will refresh all components
+            this.showAlert(err.response.data.code,'error');
+        });
+
+    }
+
+    updateAccountBalanceHistory(time_period_days){
+
+        
+        if(time_period_days)
+            this.setState({linechart_time_days: time_period_days},
+            ()=>{   
+                const { linechart_time_days } = this.state;
+                const { account_id } = this.state.account_details;
+                getAccountBalanceHistory({account_id, time_period_days:parseInt(linechart_time_days)})
+                .then((res)=>{
+                
+                    this.setState({account_balance_history: res.data});
+                })
+                .catch((err)=>{
+                    //triggers a state change which will refresh all components
+                    this.showAlert(err.response.data.code,'error');
+                });
+                
+            });
+    }
+
 
     showAlert(message, type){
         this.setState({ alertMessage:message, alertType:type, isAlertVisible:true });
@@ -49,8 +134,16 @@ export default class Investment extends Component {
     }
 
     render() {
-        const { isAlertVisible, alertType, alertMessage, investment_id} = this.state;
 
+        
+        
+        const { investment_id } = this.props.match.params
+        const { investment_name, currency, index } = this.props.location.state;
+        const { isAlertVisible, alertType, alertMessage, account_details, account_tx_history, account_balance_history, linechart_time_days } = this.state;
+
+        console.log("investment_id ",investment_id)
+
+        console.log("account_balance_history",account_balance_history.balance_history)
         return (
             <div className="main-container">
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
@@ -58,30 +151,26 @@ export default class Investment extends Component {
                     <LeftSidebar history={this.props.history} />
                 </div>
                 <Container  className="content-wrapper" id="content-div">
-                    <Row className="page-content">
-                        <Col lg={4} md={4} sm={4}><InfoCard label="Cash Investment Balance" value={"50,000"}></InfoCard></Col>
-                        <Col><InfoCard label="CAD / CAD" value={"1.00"}></InfoCard></Col>
-                        <Col><InfoCard label="CAD VALUE" value={"50,000.00"}></InfoCard></Col>
-                    </Row>
-                    <Row >
-                    {/* <Col></Col>
-                    <Col  lg={5} md={6} sm={6}>
-                        <form className="invite-form" onSubmit={this.sendAffiliateInvite}>
-                            <div className="form-group">
-                                <input type="email" className="form-control invite-form-control" id="email" name="email" placeholder="Email" value={email} required  onChange={this.handleInputChange}></input>
-                            </div>
-                        
-                            <div>
-                                <button type="submit" name="invite" className="btn btn-info invite-btn" >Invite</button>
-                            </div>
-                        </form>
-                    </Col>
-                    <Col></Col> */}
-                    
-                    </Row>
-                    <Row>
-                        <TransferModal showAlert={this.showAlert} investment_id={investment_id}></TransferModal>
-                    </Row>
+                    <div className="page-content">
+                        <Row style={{justifyContent:"space-between", height: "fit-content"}}>
+                            <Col lg={4} md={4} sm={12} className="auto-height" ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
+                            <Col lg={4} md={4} sm={12} className="auto-height" ><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
+                            <Col lg={4} md={4} sm={12} className="auto-height" ><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
+                        </Row>
+
+                        <Row>
+                            <SimpleChart data={account_balance_history} index={index} investment_name={investment_name} refreshData={this.updateAccountBalanceHistory} interval={linechart_time_days}></SimpleChart>
+                        </Row>
+
+                        <Row>
+                            <TransactionTable data={account_tx_history}></TransactionTable>
+                        </Row>
+
+                        <Row>
+                            <TransferModal showAlert={this.showAlert} investment_id={investment_id} onSuccess={this.updateAccountInfo}></TransferModal>
+                        </Row>
+                    </div>
+
             
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
 
