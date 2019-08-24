@@ -5,29 +5,42 @@
     border-radius: 20px;
     opacity: 1;
     // max-width: 250;
-    max-width: 15vw;
-    // height: 6.5vw;
+    // min-width: 15vw;
+    height: 100%;
+    padding: 0.5vw 1vw;
+    margin-top: 10px; 
+    
 
     .info-label{
 
         text-align: left;
-        font-weight: bold;
-        letter-spacing: 0;
+        // font-weight: 400;
+        // font-size: small;
+        letter-spacing: 0.72px;
         color: #646464;
         opacity: 1;
-        margin-left: 1vw;
+        margin-left: 0.6vw;
         padding-top: 1vw;
+        // font: 600 24px/28px Lato;
+        font-size: medium;
+        font-weight: bold;
+        height:50%;
 
+        
     }
 
     .info-value{
         // margin-left: 1vw;
-        padding: 1vw;
+        padding: 0.6vw;
         text-align: left;
         font: bold 25px/20px Lato;
         letter-spacing: 1.02px;
         color: #4D96CC;
         opacity: 1;
+        height:50%;
+        font-size: large;
+
+        
 
     }
 }

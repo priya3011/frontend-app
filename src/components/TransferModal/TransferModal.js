@@ -20,7 +20,8 @@ class TransferModal extends Component {
         this.state = {
             amount:'',
             recipient:'',
-            investment_id:''
+            investment_id:'',
+            showInvestments: true
         };
 
         this.executeTransfer = this.executeTransfer.bind(this);
@@ -33,6 +34,17 @@ class TransferModal extends Component {
     componentDidMount(){
         const username = localStorage.getItem("username");
         this.props.fetchUserInvestments(username);
+
+        if(this.props.investment_id){
+            console.log("props has investment id")
+            this.setState({ showInvestments: false, investment_id: this.props.investment_id });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+
+        if(prevProps.investment_id != this.props.investment_id)
+            this.setState({investment_id:this.props.investment_id});
     }
 
 
@@ -47,6 +59,8 @@ class TransferModal extends Component {
         .then((res)=>{
             //triggers a state change which will refresh all components
             this.props.showAlert(res.data.message,'success');
+            this.setState({amount:'',recipient:''})
+            this.props.onSuccess();
         })
         .catch((err)=>{
             //triggers a state change which will refresh all components
@@ -78,7 +92,7 @@ class TransferModal extends Component {
     
     render(){
 
-        const { recipient, investment_id, amount } = this.state;
+        const { recipient, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
         return (
             <div className="transfer-container">
@@ -88,12 +102,15 @@ class TransferModal extends Component {
                             <div className="form-group">
                                 <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="To:Username" value={recipient} required  onChange={this.handleInputChange}></input>
                             </div>
-                            <div className="form-group">
-                                <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
-                                    <option value="" defaultValue>Investment</option>
-                                    {investmentList}
-                                </select>
-                            </div>
+
+                            {   showInvestments && 
+                                <div className="form-group">
+                                    <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
+                                        <option value="" defaultValue>Investment</option>
+                                        {investmentList}
+                                    </select>
+                                </div>
+                            }
                             <div className="form-group">
                                 <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
                             </div>

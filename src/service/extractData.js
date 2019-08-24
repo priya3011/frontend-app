@@ -17,7 +17,7 @@ export const doughnutChart = (data)=>{
 
 /** Convert the date format coming from the server */
 const convertDateInLineChart = (dateStr)=>{
-    console.log("dateStr", dateStr)
+    // console.log("dateStr", dateStr)
     const date = dateStr.slice(0,2);
     const month = dateStr.slice(3,5);
     const year = dateStr.slice(6);
@@ -34,8 +34,11 @@ const compare = (property)=>{
 }
 
 export const lineChart = (data, interval)=>{
+
+    console.log("linechart ",data)
     let chartData = [];
     const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
+    if (!data) return [];
     // console.log("startMilliseconds: ", (Date.now()));
     
         if(JSON.stringify(data) !== '{}'){
@@ -59,6 +62,40 @@ export const lineChart = (data, interval)=>{
                 obj.data.sort(compare('x'));
                 chartData.push(obj);
             }
+        }
+        //console.log("Line-chart-data: ", chartData)
+    return chartData;
+}
+
+export const lineChartSingleSeries = (investment_name, data, interval)=>{
+
+    console.log("linechart ",data)
+    let chartData = [];
+    const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
+    if (!data) return [];
+    // console.log("startMilliseconds: ", (Date.now()));
+    
+        if(JSON.stringify(data) !== '{}'){
+            let balanceHistory = data.balance_history;
+            
+                let obj = {
+                    
+                   
+                    name: investment_name,
+                    data: []
+                 };
+                
+               
+                for(let j=0; j<balanceHistory.length; j++){
+                    
+                    let dateMilliseconds = Date.parse(convertDateInLineChart(balanceHistory[j].date));
+                    // if(dateMilliseconds >= startMilliseconds){
+                    obj.data.push( {x:Date.parse(convertDateInLineChart(balanceHistory[j].date)), y:balanceHistory[j].account_balance/* _cad */} )
+                    // }
+                }
+                obj.data.sort(compare('x'));
+                chartData.push(obj);
+        
         }
         //console.log("Line-chart-data: ", chartData)
     return chartData;

@@ -25,7 +25,13 @@ export default class TransactionTable extends Component {
     render(){
         const { entries, search } = this.state;
         const { data }= this.props;
-        const tableData = transactionTable(data, search)
+        const tableData = transactionTable(data, search);
+        
+        // console.log(tableData && tableData.length < entries)
+        let pageSize = entries;
+        // if(tableData && tableData.length < entries)
+        //     pageSize=entries;
+
         const columns = [
             { id: 'date', Header: 'Date', 
                 accessor:(data) => {
@@ -76,7 +82,7 @@ export default class TransactionTable extends Component {
                         PaginationComponent={Pagination}
                         data={tableData}
                         columns={columns}
-                        pageSize={+entries}
+                        pageSize={pageSize}
                         showPagination={true}
                         resizable={true}
                         />
@@ -86,3 +92,4 @@ export default class TransactionTable extends Component {
             );
         }
 }
+  // pageSize={ (entries > tableData.length) ? tableData.length : entries}
