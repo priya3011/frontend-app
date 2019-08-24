@@ -1,7 +1,7 @@
 import React from 'react';
 //import ReactDOM from "react-dom";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { SignIn, SignUp, ForgotPassword, Dashboard, Affiliates, Investment} from './pages';
+import { SignIn, SignUp, ForgotPassword, Dashboard, Affiliates, Investment, Stats} from './pages';
 import sessionTimeout from './HOC/sessionTimeout'
 import './App.scss';
 
@@ -23,6 +23,7 @@ function App() {
           <Route path="/dashboard" component={sessionTimeout(Dashboard)}/>
           <Route path="/affiliate" component={sessionTimeout(Affiliates)}/>
           <Route path="/investment/:investment_id" component={sessionTimeout(Investment)}/>
+          <Route path="/stats" component={sessionTimeout(Stats)}/>
 
           <Route render={ props => <Redirect to={{ pathname: '/signin', state: { from: props.location } }} /> } />
         </Switch>

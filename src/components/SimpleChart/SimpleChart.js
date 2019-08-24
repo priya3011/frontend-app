@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import  HighchartsReact  from 'highcharts-react-official';
-import { lineChartSingleSeries } from '../../service/extractData';
+import { lineChartSingleSeries , formatUserHistoryData} from '../../service/extractData';
 
 import { COLORS } from '../../config/config'
 import './SimpleChart.scss';
@@ -17,6 +17,8 @@ export default class SimpleChart extends Component {
             interval:this.props.interval.toString(),
             data: this.props.data}
         this.handleChange = this.handleChange.bind(this);
+        this.extractChartData = this.extractChartData.bind(this);
+        this.getChartOptions = this.getChartOptions.bind(this);
 
     }
 
@@ -31,80 +33,88 @@ export default class SimpleChart extends Component {
 
     }
 
+    extractChartData(data, interval, dataType){
+        
+        if(dataType == "users")
+            return formatUserHistoryData('Users',data);
+        else if (dataType == "balance")   
+            return lineChartSingleSeries(this.props.investment_name, data, interval);
+    }
+
+    getChartOptions(chartData, chartType, dataType, interval, color_index){
+
+
+       
+        let tooltip = { enabled:true };
+        let startDate = new Date().setHours(0,0,0,0) -(interval)*24*60*60*1000;
+        let endDate = new Date().setHours(0,0,0,0);
+
+        if(dataType == "users")
+            tooltip = {...tooltip, valueSuffix:' users'}
+        else if (dataType == "balance")
+            tooltip = {...tooltip, valueDecimals: 2, valuePrefix:'$'}
+
+        return {
+                colors: [COLORS[color_index]],
+                chart: {
+                    type: chartType,
+                    spacingBottom: 15,        
+                    spacingTop: 10,
+                    spacingLeft: 10,
+                    spacingRight: 10,
+                    margin: null,
+                    width: null,
+                    height: null,
+                    style: { 'font-family': 'Lato', 'font-size': '0.6771vw'}
+                },
+                credits: { enabled: false},
+                title: { text: null },
+                series: chartData,
+                tooltip: tooltip,
+                xAxis: {
+                    tickmarkPlacement:"on",
+                    showFirstLabel:true,
+                    showLastLabel:true,
+                    // labels :{step:interval-1},
+                    type: 'datetime',
+                    gridLineWidth: 1,
+                   
+                },
+                yAxis: [{
+                    lineWidth: 1,
+                    title: {
+                        text: null
+                    }
+                }, {
+                    lineWidth: 1,
+                    opposite: true,
+                    title: {
+                        text: null
+                    }
+                }],
+                plotOptions: {
+    
+                    series:{pointStart: startDate},
+    
+                }
+            };
+        
+            
+    }
+
 
 
     render() {
 
-        const { data, investment_name, index} = this.props;
+        const { chartTitle, chartType, dataType, index, data} = this.props;
         const { interval } = this.state;
-        const chartData = lineChartSingleSeries(investment_name, data, interval);
 
-        console.log(COLORS[index%COLORS.length])
 
-        let startDate = new Date().setHours(0,0,0,0) -(interval)*24*60*60*1000;
-        let endDate = new Date().setHours(0,0,0,0);
+        // console.log(COLORS[index%COLORS.length])
 
-        const lineOptions={
-            colors: [COLORS[index%COLORS.length]],
-            chart: {
-                type: 'line',
-                spacingBottom: 15,
-                spacingTop: 10,
-                spacingLeft: 10,
-                spacingRight: 10,
-                margin: null,
-                width: null,
-                height: null,
-                style: { 'font-family': 'Lato', 'font-size': '0.6771vw'}
-            },
-            credits: { enabled: false},
-            title: { text: null },
-            series: chartData,
-            tooltip: {
-                enabled: true,
-                valueDecimals: 2,
-                valuePrefix: '$'
-            },
-            xAxis: {
-                tickmarkPlacement:"on",
-                showFirstLabel:true,
-                showLastLabel:true,
-                // labels :{step:interval-1},
-                type: 'datetime',
-                gridLineWidth: 1,
-                // max: endDate,
-                // min: startDate,
-                // startOnTick: false,
-                // endOnTick: false,
-                // dateTimeLabelFormats: {
-                //     /* millisecond: '%H:%M:%S.%L',
-                //     second: '%H:%M:%S',
-                //     minute: '%H:%M',
-                //     hour: '%H:%M', */
-                //     // day: '%d-%m-%y',
-                //     /* week: '%m-%d',
-                //     month: '%Y-%m',
-                //     year: '%Y' */
-                // }
-            },
-            yAxis: [{
-                lineWidth: 1,
-                title: {
-                    text: null
-                }
-            }, {
-                lineWidth: 1,
-                opposite: true,
-                title: {
-                    text: null
-                }
-            }],
-            plotOptions: {
 
-                series:{pointStart: startDate},
-
-            }
-        }
+        const chartData = this.extractChartData(data, interval, dataType);
+        const chartOptions = this.getChartOptions(chartData, chartType, dataType, interval,index%COLORS.length );
 
 
         return (
@@ -112,7 +122,7 @@ export default class SimpleChart extends Component {
             <div className="simple-chart-wrapper">
                 <div className="simple-chart-controls">
                     <div style={{display: 'inline-flex'}}>
-                      <div onClick={this.handleClickLineChart} className="chart-title">{investment_name}</div>
+                      <div onClick={this.handleClickLineChart} className="chart-title">{chartTitle}</div>
                      
                     </div>
                   <div>
@@ -128,7 +138,7 @@ export default class SimpleChart extends Component {
                 <div>
                 <HighchartsReact
                         highcharts = { Highcharts }
-                        options = { lineOptions }
+                        options = { chartOptions }
                         
                     />
                 </div>

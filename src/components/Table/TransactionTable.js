@@ -24,7 +24,7 @@ export default class TransactionTable extends Component {
 
     render(){
         const { entries, search } = this.state;
-        const { data }= this.props;
+        const { data , title }= this.props;
         const tableData = transactionTable(data, search);
         
         // console.log(tableData && tableData.length < entries)
@@ -54,7 +54,7 @@ export default class TransactionTable extends Component {
             <div className="transactiontable-container">
                 <div className="reacttable-container">
                     <div className="transaction-container">
-                        <div className="table-title">Transaction History</div>
+                        <div className="table-title">{ title || "Transaction History"}</div>
                         <div className="table-filters">
                             <div>
                                 <form className="form-inline">

@@ -50,6 +50,7 @@ export default class Investment extends Component {
     componentDidMount(){
 
         //TODO: set a timer for update
+        this.updateInfoTimer = setInterval(() => this.updateAccountInfo(), 60*1000);
         this.updateAccountInfo();
     }
 
@@ -58,6 +59,10 @@ export default class Investment extends Component {
         if(prevProps.match.params.investment_id != this.props.match.params.investment_id)
             this.updateAccountInfo();
     }
+
+    componentWillUnmount() {
+        clearInterval(this.updateInfoTimer);
+      }
 
     updateAccountInfo(){
         
@@ -159,7 +164,7 @@ export default class Investment extends Component {
                         </Row>
 
                         <Row>
-                            <SimpleChart data={account_balance_history} index={index} investment_name={investment_name} refreshData={this.updateAccountBalanceHistory} interval={linechart_time_days}></SimpleChart>
+                            <SimpleChart chartType="line" dataType="balance" data={account_balance_history} index={index}  investmentName={investment_name} chartTitle={investment_name} refreshData={this.updateAccountBalanceHistory} interval={linechart_time_days}></SimpleChart>
                         </Row>
 
                         <Row>

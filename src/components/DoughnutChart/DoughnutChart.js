@@ -20,17 +20,18 @@ export default class DoughnutChart extends Component {
         const options={
             colors: COLORS,
             chart: {
+                events: { redraw:true},
                 type: 'pie',
                 /* width: 560,
                 height: 399.74,
                 className: 'highcharts-img'  */
                 spacingBottom: 15,
-                spacingTop: 10,
+                spacingTop: 20,
                 spacingLeft: 10,
                 spacingRight: 10,
                 margin: null,
                 width: null,
-                height: null,
+                height: "auto",
                 style: { 'font-family': 'Lato', 'font-size': '0.6771vw'}
             },
             credits: { enabled: false},

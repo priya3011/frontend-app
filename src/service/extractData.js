@@ -17,7 +17,7 @@ export const doughnutChart = (data)=>{
 
 /** Convert the date format coming from the server */
 const convertDateInLineChart = (dateStr)=>{
-    // console.log("dateStr", dateStr)
+    console.log("dateStr", dateStr)
     const date = dateStr.slice(0,2);
     const month = dateStr.slice(3,5);
     const year = dateStr.slice(6);
@@ -99,6 +99,28 @@ export const lineChartSingleSeries = (investment_name, data, interval)=>{
         }
         //console.log("Line-chart-data: ", chartData)
     return chartData;
+}
+
+
+export const formatUserHistoryData = (series_name, user_data) =>{
+
+    console.log("formatUserHistoryData", series_name, user_data)
+
+    let chartData = { name:series_name, data:[]};
+    if (user_data.length == 0) return chartData;
+
+    let user_stats = user_data.map(stat => {
+    
+       
+       return {
+                x:Date.parse(convertDateInLineChart(stat.date)),
+                y:stat.count
+        }; 
+    });
+
+    chartData['data'] = user_stats;
+    console.log("chartData ", chartData);
+    return [chartData];
 }
 
 export const transactionTable = (data, search)=>{

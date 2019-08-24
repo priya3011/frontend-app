@@ -8,3 +8,4 @@ export { default as Footer } from './Footer/Footer';
 export { default as CustomSnackbar } from './CustomSnackbar/CustomSnackbar';
 export { default as InfoCard } from './InfoCard/InfoCard';
 export { default as SimpleChart } from './SimpleChart/SimpleChart';
+

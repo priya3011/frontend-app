@@ -14,5 +14,6 @@ export const inviteUser = (data) => Axios.post(FRONTEND_API + 'invite_user',data
 
 export const getAccountDetails = (data) => Axios.post(BACKEND_API + 'users/get_account',data);
 export const getAccountBalanceHistory = (data) => Axios.post(BACKEND_API + 'accounts/balance_history', data);
+export const getTotalUser = () => Axios.get(FRONTEND_API + "stats/total_users");
+export const getDailyRegisteredUsers = (data) => Axios.post(FRONTEND_API + "stats/daily_registered_users", data)
 
-// export const 
