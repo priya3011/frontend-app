@@ -99,10 +99,6 @@ class TransferModal extends Component {
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
-                            <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="To:Username" value={recipient} required  onChange={this.handleInputChange}></input>
-                            </div>
-
                             {   showInvestments && 
                                 <div className="form-group">
                                     <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
@@ -111,6 +107,10 @@ class TransferModal extends Component {
                                     </select>
                                 </div>
                             }
+
+                            <div className="form-group">
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="Username" value={recipient} required  onChange={this.handleInputChange}></input>
+                            </div>
                             <div className="form-group">
                                 <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
                             </div>

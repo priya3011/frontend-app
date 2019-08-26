@@ -94,11 +94,19 @@ class TransferModal extends Component {
 
         const { recipient, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
+        const level =  localStorage.getItem("user_level");
+
         return (
             <div className="transfer-container">
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
+                            { level == 1 &&
+                            <div className="form-group">
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="From:Username" value={recipient} required  onChange={this.handleInputChange}></input>
+                            </div>
+                            }
+
                             <div className="form-group">
                                 <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="To:Username" value={recipient} required  onChange={this.handleInputChange}></input>
                             </div>
