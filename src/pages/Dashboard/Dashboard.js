@@ -17,7 +17,10 @@ import {    LeftSidebar,
             ChartTable,
             TransactionTable,
             Footer,
-            CustomSnackbar } from './../../components';
+            CustomSnackbar,
+            GlobalUpdateModal,
+            DepositModal,
+            WithdrawModal } from './../../components';
 
 export default class Dashboard extends Component{
     /**
@@ -65,6 +68,8 @@ export default class Dashboard extends Component{
         const { refresh_interval_sec, linechart_time_days, isAlertVisible, alertType, alertMessage} = this.state;
         const ref_code = localStorage.getItem("ref_code");
         const username = localStorage.getItem("username");
+        const level =  localStorage.getItem("user_level");
+        console.log("YOUR LEVEL IS: " + level)
         // console.log("username ", localStorage.getItem("username"))
 
         const ChartTableMin = FetchDataMin(ChartTable, getOverviewTableData, {"key":"username", "value":username});
@@ -84,12 +89,16 @@ export default class Dashboard extends Component{
                         <Col></Col>
                         <Col></Col>
                     </Row>
+                    <Row ><Col lg={12} md={12} sm={12}><GlobalUpdateModal  showAlert={this.showAlert} onSuccess={()=>{}}></GlobalUpdateModal></Col></Row>
                     <Row style={{marginTop:50}} >
                         <Col lg={6} md={6} sm={12} ><ChartTableMin/></Col>
                         <Col lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
                     </Row>
                     <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
+                   
+                    <Row ><Col lg={12} md={12} sm={12}><WithdrawModal  showAlert={this.showAlert} onSuccess={()=>{}}></WithdrawModal></Col></Row>
+                    <Row ><Col lg={12} md={12} sm={12}><DepositModal  showAlert={this.showAlert} onSuccess={()=>{}}></DepositModal></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransferModal  showAlert={this.showAlert} onSuccess={()=>{}}></TransferModal></Col></Row>
                     </Container>
                     

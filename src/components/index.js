@@ -9,3 +9,6 @@ export { default as CustomSnackbar } from './CustomSnackbar/CustomSnackbar';
 export { default as InfoCard } from './InfoCard/InfoCard';
 export { default as SimpleChart } from './SimpleChart/SimpleChart';
 
+export { default as DepositModal } from './DepositModal/DepositModal';
+export { default as GlobalUpdateModal } from './GlobalUpdateModal/GlobalUpdateModal';
+export { default as WithdrawModal } from './WithdrawModal/WithdrawModal';
