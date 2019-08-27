@@ -4,7 +4,7 @@ import './WithdrawModal.scss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUserInvestments } from '../../actions/investmentActions'
-import { transferAmount } from '../../service/axios-service'
+import { withdrawal } from '../../service/axios-service'
 
 
 
@@ -19,7 +19,7 @@ class TransferModal extends Component {
         super(props);
         this.state = {
             amount:'',
-            recipient:'',
+            withdraw_from:'',
             investment_id:'',
             showInvestments: true
         };
@@ -54,12 +54,12 @@ class TransferModal extends Component {
         e.preventDefault();
 
         const username = localStorage.getItem("username");
-        const { recipient, investment_id, amount } = this.state;
-        transferAmount({username, sender:username, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
+        const {withdraw_from, investment_id, amount } = this.state;
+        withdrawal({username, withdraw_from:withdraw_from, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
         .then((res)=>{
             //triggers a state change which will refresh all components
-            this.props.showAlert(res.data.message,'success');
-            this.setState({amount:'',recipient:''})
+            this.props.showAlert(res.data.code,'success');
+            this.setState({amount:'', withdraw_from:''})
             this.props.onSuccess();
         })
         .catch((err)=>{
@@ -92,7 +92,7 @@ class TransferModal extends Component {
     
     render(){
 
-        const { recipient, investment_id, amount, showInvestments } = this.state;
+        const { withdraw_from, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
         return (
             <div className="transfer-container">
@@ -109,7 +109,7 @@ class TransferModal extends Component {
                             }
 
                             <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="Username" value={recipient} required  onChange={this.handleInputChange}></input>
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="withdraw_from" placeholder="Username" value={withdraw_from} required  onChange={this.handleInputChange}></input>
                             </div>
                             <div className="form-group">
                                 <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>

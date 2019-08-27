@@ -4,7 +4,7 @@ import './DepositModal.scss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUserInvestments } from '../../actions/investmentActions'
-import { transferAmount } from '../../service/axios-service'
+import { deposit } from '../../service/axios-service'
 
 
 
@@ -19,7 +19,7 @@ class TransferModal extends Component {
         super(props);
         this.state = {
             amount:'',
-            recipient:'',
+            deposit_to:'',
             investment_id:'',
             showInvestments: true
         };
@@ -53,12 +53,12 @@ class TransferModal extends Component {
         e.preventDefault();
 
         const username = localStorage.getItem("username");
-        const { recipient, investment_id, amount } = this.state;
-        transferAmount({username, sender:username, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
+        const { deposit_to, investment_id, amount } = this.state;
+        deposit({username, deposit_to:deposit_to, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
         .then((res)=>{
             //triggers a state change which will refresh all components
-            this.props.showAlert(res.data.message,'success');
-            this.setState({amount:'',recipient:''})
+            this.props.showAlert(res.data.code,'success');
+            this.setState({amount:'',deposit_to:''})
             this.props.onSuccess();
         })
         .catch((err)=>{
@@ -91,7 +91,7 @@ class TransferModal extends Component {
     
     render(){
 
-        const { recipient, investment_id, amount, showInvestments } = this.state;
+        const { deposit_to, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
         return (
             <div className="transfer-container">
@@ -108,7 +108,7 @@ class TransferModal extends Component {
                             }
 
                             <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="Username" value={recipient} required  onChange={this.handleInputChange}></input>
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="deposit_to" placeholder="Username" value={deposit_to} required  onChange={this.handleInputChange}></input>
                             </div>
 
                             <div className="form-group">
