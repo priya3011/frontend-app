@@ -4,7 +4,7 @@ import './GlobalUpdateModal.scss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUserInvestments } from '../../actions/investmentActions'
-import { transferAmount } from '../../service/axios-service'
+import { globalUpdate } from '../../service/axios-service'
 
 
 
@@ -54,19 +54,18 @@ class TransferModal extends Component {
         e.preventDefault();
 
         const username = localStorage.getItem("username");
-        const { recipient, investment_id, amount } = this.state;
-        transferAmount({username, sender:username, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
-        .then((res)=>{
-            //triggers a state change which will refresh all components
-            this.props.showAlert(res.data.message,'success');
-            this.setState({amount:'',recipient:''})
-            this.props.onSuccess();
+        const {investment_id, amount } = this.state;
+        globalUpdate({
+            username:username, amount:parseFloat(amount), investment_id:parseInt(investment_id)
+        }).then((res)=>{
+          //triggers a state change which will refresh all components
+          this.props.showAlert(res.data.code,'success');
+          this.setState({amount:''})
+          this.props.onSuccess();
+        }).catch((err)=>{
+           //triggers a state change which will refresh all components
+           this.props.showAlert(err.response.data.msg,'error');
         })
-        .catch((err)=>{
-            //triggers a state change which will refresh all components
-            this.props.showAlert(err.response.data.message,'error');
-        });
-
         
     }
 
@@ -92,7 +91,7 @@ class TransferModal extends Component {
     
     render(){
 
-        const { recipient, investment_id, amount, showInvestments } = this.state;
+        const { investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
         return (
             <div className="transfer-container">

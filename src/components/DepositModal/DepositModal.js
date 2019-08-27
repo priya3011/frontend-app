@@ -38,7 +38,7 @@ class TransferModal extends Component {
         if(this.props.investment_id){
             console.log("props has investment id")
             this.setState({ showInvestments: false, investment_id: this.props.investment_id });
-        }
+        } 
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -50,7 +50,6 @@ class TransferModal extends Component {
 
 
     executeTransfer(e){
-
         e.preventDefault();
 
         const username = localStorage.getItem("username");
