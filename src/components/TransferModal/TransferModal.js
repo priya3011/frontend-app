@@ -19,6 +19,7 @@ class TransferModal extends Component {
         super(props);
         this.state = {
             amount:'',
+            sender:'',
             recipient:'',
             investment_id:'',
             showInvestments: true
@@ -54,12 +55,12 @@ class TransferModal extends Component {
         e.preventDefault();
 
         const username = localStorage.getItem("username");
-        const { recipient, investment_id, amount } = this.state;
-        transferAmount({username, sender:username, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
+        const { sender, recipient, investment_id, amount } = this.state;
+        transferAmount({username, sender:sender, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
         .then((res)=>{
             //triggers a state change which will refresh all components
             this.props.showAlert(res.data.message,'success');
-            this.setState({amount:'',recipient:''})
+            this.setState({amount:'',recipient:'', sender:''})
             this.props.onSuccess();
         })
         .catch((err)=>{
@@ -92,7 +93,7 @@ class TransferModal extends Component {
     
     render(){
 
-        const { recipient, investment_id, amount, showInvestments } = this.state;
+        const {sender, recipient, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
         const level =  localStorage.getItem("user_level");
 
@@ -101,9 +102,9 @@ class TransferModal extends Component {
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
-                            { level == 1 &&
+                            { level == 0 &&
                             <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="From:Username" value={recipient} required  onChange={this.handleInputChange}></input>
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="sender" placeholder="From:Username" value={sender} required  onChange={this.handleInputChange}></input>
                             </div>
                             }
 

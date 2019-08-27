@@ -89,7 +89,11 @@ export default class Dashboard extends Component{
                         <Col></Col>
                         <Col></Col>
                     </Row>
+
+                    { level == 0 &&
                     <Row ><Col lg={12} md={12} sm={12}><GlobalUpdateModal  showAlert={this.showAlert} onSuccess={()=>{}}></GlobalUpdateModal></Col></Row>
+                    }
+
                     <Row style={{marginTop:50}} >
                         <Col lg={6} md={6} sm={12} ><ChartTableMin/></Col>
                         <Col lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
@@ -97,8 +101,13 @@ export default class Dashboard extends Component{
                     <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
                    
-                    <Row ><Col lg={12} md={12} sm={12}><WithdrawModal  showAlert={this.showAlert} onSuccess={()=>{}}></WithdrawModal></Col></Row>
+                   { level == 0 &&
+                    <Row ><Col lg={12} md={12} sm={12}><WithdrawModal  showAlert={this.showAlert} onSuccess={()=>{}}></WithdrawModal></Col></Row>                  
+                    }
+
+                   { level == 0 &&
                     <Row ><Col lg={12} md={12} sm={12}><DepositModal  showAlert={this.showAlert} onSuccess={()=>{}}></DepositModal></Col></Row>
+                   }
                     <Row ><Col lg={12} md={12} sm={12}><TransferModal  showAlert={this.showAlert} onSuccess={()=>{}}></TransferModal></Col></Row>
                     </Container>
                     
