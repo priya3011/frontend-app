@@ -5,7 +5,8 @@ import {
     Footer,
     CustomSnackbar,
     ExchangeTable,
-    ExchangeForm } from './../../components';
+    ExchangeForm,
+    SimpleChart } from './../../components';
 
 import { getExchangeRates, getRatesInCAD } from '../../service/axios-service'
 import './Exchange.scss'
@@ -24,13 +25,16 @@ export default class Exchange extends Component {
         this.state = {
             exchange_rates:[],
             rates_in_cad:[],
+            rates_history:[],
             isAlertVisible : false,
             alertType:'',
-            alertMessage:''
+            alertMessage:'',
+            time_period_chart:30
         };
 
         this.fetchFxQuotedRates = this.fetchFxQuotedRates.bind(this);
         this.fetchRatesInCAD = this.fetchRatesInCAD.bind(this);
+        this.updateRateHistory = this.updateRateHistory.bind(this);
         this.updateInfo = this.updateInfo.bind(this);
         this.showAlert = this.showAlert.bind(this);
         this.dismissAlert = this.dismissAlert.bind(this);
@@ -58,6 +62,11 @@ export default class Exchange extends Component {
     updateInfo(){
         this.fetchFxQuotedRates();
         this.fetchRatesInCAD();
+        this.updateRateHistory();
+    }
+
+    updateRateHistory(){
+
     }
 
 
@@ -88,7 +97,7 @@ export default class Exchange extends Component {
 
     render() {
 
-        const { exchange_rates, rates_in_cad,  isAlertVisible, alertType, alertMessage } = this.state;
+        const { exchange_rates, rates_in_cad, rates_history, isAlertVisible, alertType, alertMessage, time_period_chart } = this.state;
 
         return (
             <div className="main-container">
@@ -104,6 +113,9 @@ export default class Exchange extends Component {
 
                         <Row>
                             <ExchangeTable data={rates_in_cad}></ExchangeTable>
+                        </Row>
+                        <Row>
+                            <SimpleChart chartTitle={"Currency"} data={rates_history} dataType="rates" chartType="line"  refreshData={this.updateRateHistory} interval={time_period_chart}></SimpleChart>
                         </Row>
                            
 
