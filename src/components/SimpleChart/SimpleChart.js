@@ -38,7 +38,7 @@ export default class SimpleChart extends Component {
         if(dataType == "users")
             return formatUserHistoryData('Users',data);
         else if (dataType == "balance")   
-            return lineChartSingleSeries(this.props.investment_name, data, interval);
+            return lineChartSingleSeries(this.props.investmentName, data, interval);
     }
 
     getChartOptions(chartData, chartType, dataType, interval, color_index){
