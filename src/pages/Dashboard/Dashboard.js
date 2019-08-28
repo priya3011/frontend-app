@@ -9,6 +9,7 @@ import {    getOverviewTableData,
             getBalanceHistory,
             getTransactionHistory } from '../../service/axios-service'
 import { user, balance, account} from '../../service/body-data'
+import { INVESTMENT_USER } from '../../config/config'
 
 import {    LeftSidebar,
             TransferModal,
@@ -67,10 +68,12 @@ export default class Dashboard extends Component{
     render(){
         const { refresh_interval_sec, linechart_time_days, isAlertVisible, alertType, alertMessage} = this.state;
         const ref_code = localStorage.getItem("ref_code");
-        const username = localStorage.getItem("username");
+        let username = localStorage.getItem("username");
         const level =  localStorage.getItem("user_level");
         console.log("YOUR LEVEL IS: " + level)
         // console.log("username ", localStorage.getItem("username"))
+        if(level == 0)
+            username = INVESTMENT_USER
 
         const ChartTableMin = FetchDataMin(ChartTable, getOverviewTableData, {"key":"username", "value":username});
         const DoughnutChartMin = FetchDataMin(DoughnutChart, getOverviewTableData, {"key":"username", "value":username});
