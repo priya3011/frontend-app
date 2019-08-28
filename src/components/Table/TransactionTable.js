@@ -11,7 +11,7 @@ import { formatAmount } from '../../util/util'
 
 export default class TransactionTable extends Component {
     state = {
-        entries: '10',
+        entries: 10,
         search: ''
     }
     static propTypes = {
@@ -19,7 +19,12 @@ export default class TransactionTable extends Component {
     }
 
     handleChange = (e)=>{
-        this.setState({ [e.target.name]: e.target.value });
+        let { name, value } = e.target;
+
+        if(name == 'entries')
+            value = parseInt(value)
+
+        this.setState({ [name]: value });
     }
 
     render(){
@@ -28,7 +33,7 @@ export default class TransactionTable extends Component {
         const tableData = transactionTable(data, search);
         
         // console.log(tableData && tableData.length < entries)
-        let pageSize = entries;
+        // let pageSize = entries;
         // if(tableData && tableData.length < entries)
         //     pageSize=entries;
 
@@ -82,9 +87,10 @@ export default class TransactionTable extends Component {
                         PaginationComponent={Pagination}
                         data={tableData}
                         columns={columns}
-                        pageSize={pageSize}
+                        pageSize={entries}
                         showPagination={true}
                         resizable={true}
+                        minRows={0}
                         />
                     </div>
                 </div>
