@@ -1,4 +1,4 @@
-.transfer-container{
+.form-container{
     display: flex;
     //border: solid 1px black;
     flex-direction: column;
@@ -6,23 +6,23 @@
     margin-top: 5.416vw;
     margin-bottom: 5.416vw;
 
-    .transfer-form-wrapper{
+    .form-wrapper{
         // width: 61.458vw;
         display: flex;
         // margin-top: 4.476vw;
         // margin-left: 10.415vw;
         padding-top: 2.760vw;
-        padding-right: 0;
-        padding-bottom: 1.823vw;
-        padding-left: 0;
+        padding-right: 4vw;
+        // padding-bottom: 1.823vw;
+        padding-left: 4vw;
         box-shadow: 1px 5px 12px 6px #DBDBDB;
         border-radius: 15px;
         //border: solid 1px black;
 
         .form{
-            margin-left: auto;
-            margin-right: auto;
-            width: 17.022vw;
+            // margin-left: auto;
+            // margin-right: auto;
+            // width: 17.022vw;
 
             .Trans-form-control {
                 margin-bottom: 2.031vw;
@@ -47,4 +47,9 @@
         border-radius: 30px;
         opacity: 1;
     }
+}
+
+.no-padding{
+
+    padding: 0px !important;
 }

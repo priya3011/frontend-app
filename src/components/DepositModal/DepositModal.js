@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './TransferModal.scss';
+import './DepositModal.scss';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUserInvestments } from '../../actions/investmentActions'
-import { transferAmount } from '../../service/axios-service'
+import { deposit } from '../../service/axios-service'
 
 
 
@@ -19,8 +19,7 @@ class TransferModal extends Component {
         super(props);
         this.state = {
             amount:'',
-            sender:'',
-            recipient:'',
+            deposit_to:'',
             investment_id:'',
             showInvestments: true
         };
@@ -39,7 +38,7 @@ class TransferModal extends Component {
         if(this.props.investment_id){
             console.log("props has investment id")
             this.setState({ showInvestments: false, investment_id: this.props.investment_id });
-        }
+        } 
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -51,16 +50,15 @@ class TransferModal extends Component {
 
 
     executeTransfer(e){
-
         e.preventDefault();
 
         const username = localStorage.getItem("username");
-        const { sender, recipient, investment_id, amount } = this.state;
-        transferAmount({username, sender:sender, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
+        const { deposit_to, investment_id, amount } = this.state;
+        deposit({username, deposit_to:deposit_to, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
         .then((res)=>{
             //triggers a state change which will refresh all components
-            this.props.showAlert(res.data.message,'success');
-            this.setState({amount:'',recipient:'', sender:''})
+            this.props.showAlert(res.data.code,'success');
+            this.setState({amount:'',deposit_to:''})
             this.props.onSuccess();
         })
         .catch((err)=>{
@@ -93,25 +91,13 @@ class TransferModal extends Component {
     
     render(){
 
-        const {sender, recipient, investment_id, amount, showInvestments } = this.state;
+        const { deposit_to, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
-        const level =  localStorage.getItem("user_level");
-
         return (
             <div className="transfer-container">
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
-                            { level == 0 &&
-                            <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="sender" placeholder="From:Username" value={sender} required  onChange={this.handleInputChange}></input>
-                            </div>
-                            }
-
-                            <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="To:Username" value={recipient} required  onChange={this.handleInputChange}></input>
-                            </div>
-
                             {   showInvestments && 
                                 <div className="form-group">
                                     <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
@@ -120,11 +106,16 @@ class TransferModal extends Component {
                                     </select>
                                 </div>
                             }
+
+                            <div className="form-group">
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="deposit_to" placeholder="Username" value={deposit_to} required  onChange={this.handleInputChange}></input>
+                            </div>
+
                             <div className="form-group">
                                 <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
                             </div>
                             <div>
-                                <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Transfer</button>
+                                <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Deposit</button>
                             </div>
                         </form>
                     </div>

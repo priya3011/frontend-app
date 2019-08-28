@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './TransferModal.scss';
+import './WithdrawModal.scss';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUserInvestments } from '../../actions/investmentActions'
-import { transferAmount } from '../../service/axios-service'
+import { withdrawal } from '../../service/axios-service'
 
 
 
@@ -19,8 +19,7 @@ class TransferModal extends Component {
         super(props);
         this.state = {
             amount:'',
-            sender:'',
-            recipient:'',
+            withdraw_from:'',
             investment_id:'',
             showInvestments: true
         };
@@ -55,12 +54,12 @@ class TransferModal extends Component {
         e.preventDefault();
 
         const username = localStorage.getItem("username");
-        const { sender, recipient, investment_id, amount } = this.state;
-        transferAmount({username, sender:sender, recipient, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
+        const {withdraw_from, investment_id, amount } = this.state;
+        withdrawal({username, withdraw_from:withdraw_from, amount:parseFloat(amount), investment_id:parseInt(investment_id)})
         .then((res)=>{
             //triggers a state change which will refresh all components
-            this.props.showAlert(res.data.message,'success');
-            this.setState({amount:'',recipient:'', sender:''})
+            this.props.showAlert(res.data.code,'success');
+            this.setState({amount:'', withdraw_from:''})
             this.props.onSuccess();
         })
         .catch((err)=>{
@@ -93,25 +92,13 @@ class TransferModal extends Component {
     
     render(){
 
-        const {sender, recipient, investment_id, amount, showInvestments } = this.state;
+        const { withdraw_from, investment_id, amount, showInvestments } = this.state;
         const investmentList = this.generateInvestmentList();
-        const level =  localStorage.getItem("user_level");
-
         return (
             <div className="transfer-container">
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
-                            { level == 0 &&
-                            <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="sender" placeholder="From:Username" value={sender} required  onChange={this.handleInputChange}></input>
-                            </div>
-                            }
-
-                            <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="recipient" placeholder="To:Username" value={recipient} required  onChange={this.handleInputChange}></input>
-                            </div>
-
                             {   showInvestments && 
                                 <div className="form-group">
                                     <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
@@ -120,11 +107,15 @@ class TransferModal extends Component {
                                     </select>
                                 </div>
                             }
+
+                            <div className="form-group">
+                                <input type="text" className="form-control Trans-form-control" id="userName" name="withdraw_from" placeholder="Username" value={withdraw_from} required  onChange={this.handleInputChange}></input>
+                            </div>
                             <div className="form-group">
                                 <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
                             </div>
                             <div>
-                                <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Transfer</button>
+                                <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Withdraw</button>
                             </div>
                         </form>
                     </div>
