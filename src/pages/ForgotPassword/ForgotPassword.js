@@ -74,12 +74,14 @@ class ForgotPassword extends Component {
             
             <Container fluid={true}>
             <form className={ className } noValidate onSubmit={this.handleSubmit}>
-              <Row  className="justify-content-center"><Col xs={8} md={8} lg={8}>  
-                <input name="email" type="email" className="form-control forgotPwd-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={ EMAIL_CHECK }></input>
-                <div className="invalid-feedback text-left ml-1">
-                  Incorrect email format.
-                </div>
-              </Col></Row>
+              <Row  className="justify-content-center">
+                <Col xs={8} md={8} lg={8}>  
+                  <input name="email" type="email" className="form-control forgotPwd-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={ EMAIL_CHECK }></input>
+                  <div className="invalid-feedback text-left ml-1">
+                    Incorrect email format.
+                  </div>
+                </Col>
+              </Row>
               <Row  className="justify-content-center">
                 <Col xs={12} md={12} lg={12}>   
                   <button type="submit" name="forgotPwd" className=" btn btn-info forgotPwd-btn">Reset Password</button> 
@@ -87,9 +89,9 @@ class ForgotPassword extends Component {
               </Row>
             </form>
 
-              <Row className="forgotPwd-options-container" >
-                <Col xs={6} md={6} lg={6}> <NavLink to="/signIn" className="">Sign In</NavLink> </Col>
-                <Col xs={6} md={6} lg={6}>  <NavLink to="/signUp" className="">Sign Up</NavLink> </Col>
+              <Row className="forgotPwd-options-container justify-content-center" >
+                <Col xs={4} md={4} lg={4}> <NavLink to="/signIn" className="signup-link">Sign In</NavLink> </Col>
+                <Col xs={4} md={4} lg={4}>  <NavLink to="/signUp" className="forgot-password-link">Sign Up</NavLink> </Col>
               </Row>
             </Container>
             
