@@ -57,77 +57,34 @@ class ForgotPassword extends Component {
     const { email, className, suc_msg, err_msg } = this.state;
 
     return (
-      <Container fluid={true} className="formbox" >
-        { suc_msg.success && 
+    <div className="forgotPwd-container">
+        <div >
+          { suc_msg.success && 
               <div className="alert alert-success alert-text" role="alert">
                 {suc_msg.msg}
               </div>
-        }
-        { err_msg.err && 
+          }
+          { err_msg.err && 
               <div className="alert alert-danger alert-text" role="alert">
                 {err_msg.msg}
               </div>
-        }
-
-        <Row className="formbox">
-          <Col xs={12} md={8} lg={8} >
-            
-            <Container fluid={true}>
-            <form className={ className } noValidate onSubmit={this.handleSubmit}>
-              <Row  className="justify-content-center">
-                <Col xs={8} md={8} lg={8}>  
-                  <input name="email" type="email" className="form-control forgotPwd-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={ EMAIL_CHECK }></input>
-                  <div className="invalid-feedback text-left ml-1">
-                    Incorrect email format.
-                  </div>
-                </Col>
-              </Row>
-              <Row  className="justify-content-center">
-                <Col xs={12} md={12} lg={12}>   
-                  <button type="submit" name="forgotPwd" className=" btn btn-info forgotPwd-btn">Reset Password</button> 
-                </Col>
-              </Row>
-            </form>
-
-              <Row className="forgotPwd-options-container justify-content-center" >
-                <Col xs={4} md={4} lg={4}> <NavLink to="/signIn" className="signup-link">Sign In</NavLink> </Col>
-                <Col xs={4} md={4} lg={4}>  <NavLink to="/signUp" className="forgot-password-link">Sign Up</NavLink> </Col>
-              </Row>
-            </Container>
-            
-          </Col>
-        </Row>
-      </Container>
-
- 
-    // <div className="forgotPwd-container">
-    //     <div >
-    //       { suc_msg.success && 
-    //           <div className="alert alert-success alert-text" role="alert">
-    //             {suc_msg.msg}
-    //           </div>
-    //       }
-    //       { err_msg.err && 
-    //           <div className="alert alert-danger alert-text" role="alert">
-    //             {err_msg.msg}
-    //           </div>
-    //       }
-    //       <form className={ className } noValidate onSubmit={this.handleSubmit}>
-    //         <div className="form-group">
-    //           <input name="email" type="email" className="form-control forgotPwd-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={ EMAIL_CHECK }></input>
-    //           <div className="invalid-feedback text-left ml-1">
-    //             Incorrect email format.
-    //           </div></div>
-    //         <div >
-    //           <button type="submit" name="forgotPwd" className=" btn btn-info forgotPwd-btn">Reset Password</button>
-    //         </div>
-    //       </form>
-    //     </div>
-    //     <div className="forgotPwd-options-container">
-    //       <NavLink to="/signIn" className="signup-link">Login</NavLink>
-    //       <NavLink to="/signUp" className="forgot-password-link">Sign Up</NavLink>
-    //     </div>
-    //   </div>
+          }
+          <form className={ className } noValidate onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <input name="email" type="email" className="form-control forgotPwd-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={ EMAIL_CHECK }></input>
+              <div className="invalid-feedback text-left ml-1">
+                Incorrect email format.
+              </div></div>
+            <div >
+              <button type="submit" name="forgotPwd" className=" btn btn-info forgotPwd-btn">Reset Password</button>
+            </div>
+          </form>
+        </div>
+        <div className="forgotPwd-options-container">
+          <NavLink to="/signIn" className="signup-link">Login</NavLink>
+          <NavLink to="/signUp" className="forgot-password-link">Sign Up</NavLink>
+        </div>
+      </div>
     )
   }
 }
