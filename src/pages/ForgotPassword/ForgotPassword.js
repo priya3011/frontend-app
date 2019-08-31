@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
     const { email, className, suc_msg, err_msg } = this.state;
 
     return (
-      <Container fluid={true} className="container">
+      <Container fluid={true} className="formbox" >
         { suc_msg.success && 
               <div className="alert alert-success alert-text" role="alert">
                 {suc_msg.msg}
@@ -69,7 +69,7 @@ class ForgotPassword extends Component {
               </div>
         }
 
-        <Row className="item">
+        <Row className="formbox">
           <Col xs={12} md={8} lg={8} >
             
             <Container fluid={true}>

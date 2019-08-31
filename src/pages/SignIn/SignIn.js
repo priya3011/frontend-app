@@ -126,7 +126,6 @@ class SignIn extends Component {
       return (
         <div className="signin-container">
           <div >
-
             { message.show &&
                 <div className={alertClass} role="alert">
                   {message.msg}
