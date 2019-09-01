@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom';
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
+import { Container, Row, Col } from 'react-bootstrap';
+
+
 
 import './SignUp.scss';
 import { FRONTEND_API, USERNAME_CHECK, PASSWORD_CHECK, EMAIL_CHECK } from "../../config/config";
@@ -63,49 +66,51 @@ class SignUp extends Component {
     const { code, username, password, email, className, isSuccess, err_msg, confirmation_msg} = this.state;
     if(!isSuccess)
         return (
-            <div className="signup-container">
-                <div >
-                    { err_msg.err &&
-                        <div className="alert alert-danger alert-text" role="alert">
-                        {err_msg.msg}
-                        </div>
-                    }
-                    <form className={ className } noValidate onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <input name="username" type="text" className="form-control signup-form-control" id="userName" placeholder="Username" required autoFocus value={username} onChange={this.handleInputChange} pattern={USERNAME_CHECK}></input>
-                            <div className="invalid-feedback text-left ml-1">
-                              Make sure it's more than 3 and less than 17 characters which can be uppercases, lowercases, numbers, or underscore.
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <input name="password" type="password" className="form-control signup-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange} ></input>
-                            <div className="invalid-feedback text-left ml-1">
-                              Make sure it's at least 6 characters including a number, a lowercase, a uppercase and a special character.
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <input name="email" type="email" className="form-control signup-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={EMAIL_CHECK}></input>
-                            <div className="invalid-feedback text-left ml-1">
-                              Incorrect email format.
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <input name="code" type="text" className="form-control signup-form-control" id="referralCode" placeholder="Referral code" required value={code} onChange={this.handleInputChange}></input>
-                            <div className="invalid-feedback text-left ml-1">
-                              Input the referral code which you get from an affiliate.
-                            </div></div>
-                        <div >
-                            <button type="submit" name="signUp" className=" btn btn-info signup-btn">Sign Up</button>
-                        </div>
-                    </form>
-                </div>
+          <Container fluid={true} className="formbox" >
+            <Row className="formbox">
+              <Col xs={12} md={8} lg={4} >
+                { err_msg.err &&
+                    <div className="alert alert-danger alert-text" role="alert">
+                    {err_msg.msg}
+                    </div>
+                }
+                <form className={ className } noValidate onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                      <input name="username" type="text" className="form-control signup-form-control" id="userName" placeholder="Username" required autoFocus value={username} onChange={this.handleInputChange} pattern={USERNAME_CHECK}></input>
+                      <div className="invalid-feedback text-left ml-1">
+                        Make sure it's more than 3 and less than 17 characters which can be uppercases, lowercases, numbers, or underscore.
+                      </div>
+                  </div>
+                  <div className="form-group">
+                      <input name="password" type="password" className="form-control signup-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange} ></input>
+                      <div className="invalid-feedback text-left ml-1">
+                        Make sure it's at least 6 characters including a number, a lowercase, a uppercase and a special character.
+                      </div>
+                  </div>
+                  <div className="form-group">
+                      <input name="email" type="email" className="form-control signup-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={EMAIL_CHECK}></input>
+                      <div className="invalid-feedback text-left ml-1">
+                        Incorrect email format.
+                      </div>
+                  </div>
+                  <div className="form-group">
+                      <input name="code" type="text" className="form-control signup-form-control" id="referralCode" placeholder="Referral code" required value={code} onChange={this.handleInputChange}></input>
+                      <div className="invalid-feedback text-left ml-1">
+                        Input the referral code which you get from an affiliate.
+                      </div></div>
+                  <Row className="justify-content-center">
+                    <Col xs={6} md={8} lg={4}>
+                      <button type="submit" name="signUp" className=" btn btn-info signup-btn">Sign Up</button>
+                    </Col>
+                  </Row>
+                </form>
                 <div className="signup-options-container">
                     <NavLink to="/signIn" className="signup-link" >Login</NavLink>
                     <NavLink to="/forgotpassword" className="forgot-password-link">Forgot</NavLink>
                 </div>
-
-
-            </div>
+            </Col>
+          </Row>     
+        </Container>
         )
     else
         return <Redirect to="signin"
