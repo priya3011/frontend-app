@@ -8,7 +8,7 @@ export const doughnutChart = (data)=>{
             for(let i=0; i<data.user_balance.length; i++){
                 chartData.push({
                     name: data.user_balance[i].investment_name,
-                    y: data.user_balance[i].balance/* _cad */
+                    y: data.user_balance[i].balance_cad/* _cad */
                 });
             }
         }

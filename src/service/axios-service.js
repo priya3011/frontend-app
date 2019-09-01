@@ -22,7 +22,7 @@ export const getTotalUser = () => Axios.get(FRONTEND_API + "stats/total_users");
 
 export const getDailyRegisteredUsers = (data) => Axios.post(FRONTEND_API + "stats/daily_registered_users", data);
 
-export const getExchangeRates = () => Axios.get(BACKEND_API + 'fx/get_rates');
-export const getRatesInCAD = () => Axios.get(BACKEND_API + 'fx/get_rates_in_cad');
+export const getExchangeRates = () => Axios.get(BACKEND_API + 'fx/quote_rates');
+export const getRatesInCAD = () => Axios.get(BACKEND_API + 'fx/quote_rates_in_cad');
 export const exchangeInvestment = (data) => Axios.post(BACKEND_API + 'fx/exchange', data);
 
