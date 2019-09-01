@@ -70,7 +70,7 @@ class ForgotPassword extends Component {
       }
 
       <Row className="formbox">
-        <Col xs={12} md={8} lg={8} >
+        <Col xs={12} md={8} lg={6} >
           
           <Container fluid={true}>
           <form className={ className } noValidate onSubmit={this.handleSubmit}>
