@@ -75,7 +75,7 @@ class ForgotPassword extends Component {
           <Container fluid={true}>
           <form className={ className } noValidate onSubmit={this.handleSubmit}>
             <Row  className="justify-content-center">
-              <Col xs={10} md={8} lg={8}>  
+              <Col xs={12} md={8} lg={8}>  
                 <input name="email" type="email" className="form-control forgotPwd-form-control" id="email" placeholder="Email" required value={email} onChange={this.handleInputChange} pattern={ EMAIL_CHECK }></input>
                 <div className="invalid-feedback text-left ml-1">
                   Incorrect email format.
