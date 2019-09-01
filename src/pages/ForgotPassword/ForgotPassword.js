@@ -58,21 +58,19 @@ class ForgotPassword extends Component {
 
     return (
       <Container fluid={true} className="formbox" >
-      { suc_msg.success && 
+      <Row className="formbox">
+        <Col xs={12} md={8} lg={6} >    
+          <Container fluid={true}>
+          { suc_msg.success && 
             <div className="alert alert-success alert-text" role="alert">
               {suc_msg.msg}
             </div>
-      }
-      { err_msg.err && 
-            <div className="alert alert-danger alert-text" role="alert">
-              {err_msg.msg}
-            </div>
-      }
-
-      <Row className="formbox">
-        <Col xs={12} md={8} lg={6} >
-          
-          <Container fluid={true}>
+          }
+          { err_msg.err && 
+                <div className="alert alert-danger alert-text" role="alert">
+                  {err_msg.msg}
+                </div>
+          }
           <form className={ className } noValidate onSubmit={this.handleSubmit}>
             <Row  className="justify-content-center">
               <Col xs={12} md={8} lg={8}>  
@@ -97,7 +95,7 @@ class ForgotPassword extends Component {
           
         </Col>
       </Row>
-    </Container>
+    </Container>      
     )
   }
 }
