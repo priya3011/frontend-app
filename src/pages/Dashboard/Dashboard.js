@@ -83,7 +83,7 @@ export default class Dashboard extends Component{
         const TransactionTableMin = FetchDataMin(TransactionTable, getTransactionHistory, {username});
 
         return (
-            <div>
+            <div >
             <div className="navigation d-md-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
@@ -95,7 +95,7 @@ export default class Dashboard extends Component{
                     <LeftSidebar  history={this.props.history} />
                 </div>
 
-                <Container className="content-wrapper" id="content-div">
+                <Container fluid={true} className="content-wrapper pt-md-0 pt-sm-64px" id="content-div">
                     <Container class="row form-group">
                     <Row >
                         <Col></Col>
