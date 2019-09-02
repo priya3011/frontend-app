@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { UncontrolledCollapse } from 'reactstrap';
-import { Button, Collapse } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, NavbarBrand, Button, Collapse, NavDropdown } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import './Sidebar.scss';
+import './ResponsiveSidebar.scss';
 import { fetchAllInvestments } from '../../actions/investmentActions'
 import { reset } from '../../actions/userActions'
 //import Sidebar, {SidebarStyles} from 'react-sidebar';
 
-class LeftSidebar extends Component {
+import {    LeftSidebar } from './../../components'
+
+class ResponsiveSidebar extends Component {
     static propTypes={
         ref_code: PropTypes.string.isRequired,
         fetchAllInvestments: PropTypes.func.isRequired,
@@ -21,7 +23,11 @@ class LeftSidebar extends Component {
       super(props);
       this.logout = this.logout.bind(this);
 
+      this.state = {
+          open: false
+      }
     }
+
     componentWillMount(){
         
         this.props.fetchAllInvestments();
@@ -78,6 +84,7 @@ class LeftSidebar extends Component {
             const { currency, investments } = mapping;
 
             
+
             return <div key={currency}><a href="" className="nav-link-top"><li  className="nav-item" id={currency} >
                             <i className="fa fa-chevron-right"></i>
                             <span href="">{mapping.currency}</span>
@@ -119,59 +126,37 @@ class LeftSidebar extends Component {
   }
 
 
-
+  toggle(){
+    this.setState({open: !this.state.open})
+  }
 
   render(){
 
     // console.log("mapping  ", this.getCurrencyInvestmentMapping());
+
+
     const InvestmentsMenu  = this.renderInvestmentsMenu();
     const ref_code = localStorage.getItem("ref_code");
-
     return (
-       
-        <div className="sidebar-container">
-        <ul className="sidebar navbar-nav" >
-                <div className="navigation-type">
-
-                <li className="nav-item">
-                    <i className="fa fa-home"></i>
-                    <Link to="/dashboard" className="nav-link-top">Dashboard</Link>
-
-                </li>
-                
-                <li className="nav-item">
-                    <i className="fa fa-empire"></i>
-                    {/* <i class="fas fa-steering-wheel"></i> */}
-                    <Link to="/affiliate" className="nav-link-top">Affiliate</Link>
-                </li>
-                <li className="nav-item">
-                    <i className="fa fa-clock-o"></i>
-                    <Link to="/stats" className="nav-link-top">Stats</Link>
-                </li>
-
-                <li className="nav-item">
-                <i className="fa fa-line-chart"></i>
-                    <Link to="/exchange" className="nav-link-top">Exchange</Link>
-                </li>
+        <div>
+            <Navbar bg="dark" variant="dark" sticky="top" style={{top: 0, position: "fixed", width: "100%"}}>
+                <Navbar.Brand>
+                <Button variant="dark" onClick={()=>{this.setState({open: !this.state.open})}}>
+                     <i className="fa fa-bars"></i>
+                </Button>
+                {' Qoinify'}
+                </Navbar.Brand>
+            </Navbar>
+            
+            { this.state.open &&
+            <div id="overlay" onClick={()=>{this.setState({open: !this.state.open})}}>
+                <div id="overlay-content">
+                     <LeftSidebar  history={this.props.history} />
                 </div>
-                <div className="Currency-type">
-                    {InvestmentsMenu}
-                </div>
-                <div className="other-containt">
-                <li className="nav-item">
-                    <i className="fa fa-envelope-square"></i>
-                    <Link to="/contact" className="nav-link-top">Contact</Link>
-                </li>
-                <li className="nav-item" onClick={this.logout}>
-                    <i className="fa fa-sign-out"></i>
-                    <a className="nav-link-top">Logout</a>
-                </li>
-                <li className="nav-item">
-                    <span>Referral Code: {ref_code}</span>
-                </li>
-                </div>
-            </ul>
-    </div>
+            </div>
+            }
+        </div>
+        
     );
   }
 }
@@ -184,4 +169,4 @@ const mapStateToProps = state => ({
     // user: state.user.user_details
 });
 
-export default connect(mapStateToProps, { fetchAllInvestments, reset })(LeftSidebar);
+export default connect(mapStateToProps, { fetchAllInvestments, reset })(ResponsiveSidebar);

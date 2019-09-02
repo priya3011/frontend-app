@@ -53,3 +53,8 @@
 .no-margin{
     margin:0px !important;
 }
+
+.hidescroll{
+  overflow: scroll;
+  scrollbar-width: none; /* Firefox */
+}

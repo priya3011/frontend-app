@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, NavbarBrand, Button, Collapse, NavDropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './Dashboard.scss';
 
@@ -12,6 +12,7 @@ import { user, balance, account} from '../../service/body-data'
 import { INVESTMENT_USER } from '../../config/config'
 
 import {    LeftSidebar,
+            ResponsiveSidebar,
             TransferModal,
             DoughnutChart,
             LineChart,
@@ -41,7 +42,8 @@ export default class Dashboard extends Component{
             linechart_time_days: 180,
             isAlertVisible : false,
             alertType:'',
-            alertMessage:''
+            alertMessage:'',
+
         };
 
        this.showAlert = this.showAlert.bind(this);
@@ -80,13 +82,20 @@ export default class Dashboard extends Component{
         const LineChartMin = FetchDataMin(LineChart, getBalanceHistory, {username , time_period_days:linechart_time_days });
         const TransactionTableMin = FetchDataMin(TransactionTable, getTransactionHistory, {username});
 
-         return (
+        return (
+            <div>
+            <div className="navigation d-md-none d-sm">
+                    <ResponsiveSidebar  history={this.props.history} />
+            </div>
+            
             <div className="dashboard-container">
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
-                <div className="navigation">
-                    <LeftSidebar history={this.props.history} />
+                    
+                <div className="navigation d-none d-md-block">
+                    <LeftSidebar  history={this.props.history} />
                 </div>
-                <Container fluid={true} className="content-wrapper" id="content-div">
+
+                <Container className="content-wrapper" id="content-div">
                     <Container class="row form-group">
                     <Row >
                         <Col></Col>
@@ -95,7 +104,7 @@ export default class Dashboard extends Component{
 
                     <Row style={{marginTop:50}} >
                         <Col lg={6} md={6} sm={12} ><ChartTableMin/></Col>
-                        <Col lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
+                        <Col className="hidescroll" lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
                     </Row>
                     <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
@@ -125,7 +134,8 @@ export default class Dashboard extends Component{
                 </Container>
                 
                 
-            </div>
+            </div>    
+            </div>    
         );
     }
 }
