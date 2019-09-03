@@ -8,6 +8,7 @@ import { Redirect } from "react-router-dom";
 import './SignIn.scss';
 import { login, reset } from '../../actions/userActions';
 
+
 class SignIn extends Component {
 
 
@@ -36,20 +37,26 @@ class SignIn extends Component {
 
     //confirmation message from sign up
 
+
+
     if (this.props.location.state && this.props.location.state.confirmation_msg){
 
       // console.log("got the confirmation message");
 
       let { confirmation_msg } = this.props.location.state;
       this.setState({
-        message: { show: true , msg: confirmation_msg.msg , type:'success'}
-      })
+        message: { show: confirmation_msg.show , msg: confirmation_msg.msg , type:'success'}
+      });
+
+      //clearing the state once sign up notif is shown
+      this.props.history.replace();
+
     }
 
     //check if user is authenticated
     this.setState({
-      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!='',
-      message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!=''
+      //, message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
     });
 
 
@@ -61,8 +68,8 @@ class SignIn extends Component {
 
     //check if user is authenticated
     this.setState({
-      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!='',
-      message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!=''
+      // ,message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
     });
 
 
