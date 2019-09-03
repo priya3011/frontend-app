@@ -103,10 +103,8 @@ class Affiliates extends Component {
                             </div>
                             </Col></Row>
                             
-                            <Row className="justify-content-center"><Col xs={10} md={6} lg={4}>
-                            <div>
+                            <Row className="justify-content-center"><Col xs={10} md={3} lg={3}>
                                 <button type="submit" name="invite" className="btn btn-info invite-btn" >Invite</button>
-                            </div>
                             </Col></Row>
                         </form>
                     </Col>                    
