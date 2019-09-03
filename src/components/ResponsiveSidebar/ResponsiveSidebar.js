@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { UncontrolledCollapse } from 'reactstrap';
-import { Container, Row, Col, Navbar, NavbarBrand, Button, Collapse, NavDropdown } from 'react-bootstrap';
+import { Row, Col, Navbar,  Button } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -137,15 +137,29 @@ class ResponsiveSidebar extends Component {
 
     const InvestmentsMenu  = this.renderInvestmentsMenu();
     const ref_code = localStorage.getItem("ref_code");
+    const username = localStorage.getItem("username");
+
     return (
         <div>
             <Navbar bg="dark" variant="dark" sticky="top" style={{top: 0, position: "fixed", width: "100%"}}>
-                <Navbar.Brand>
-                <Button variant="dark" onClick={()=>{this.setState({open: !this.state.open})}}>
-                     <i className="fa fa-bars"></i>
-                </Button>
-                {' Qoinify'}
-                </Navbar.Brand>
+
+                <Row className="align-items-center" style={{width: "100%"}}>
+                    <Col>
+                    <Navbar.Brand>
+                        <Button variant="dark" onClick={()=>{this.setState({open: !this.state.open})}}>
+                            <i className="fa fa-bars"></i>
+                        </Button>
+                    </Navbar.Brand>
+                    </Col>
+                    <Col>
+                    <Navbar.Brand>
+                    <Navbar.Text>
+                          Signed in as: <a >{`${username}`}</a>
+                    </Navbar.Text>                    
+                    </Navbar.Brand>
+                    
+                    </Col>
+                </Row>
             </Navbar>
             
             { this.state.open &&
@@ -155,6 +169,7 @@ class ResponsiveSidebar extends Component {
                 </div>
             </div>
             }
+           
         </div>
         
     );
