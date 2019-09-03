@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { transactionTable } from '../../service/extractData'
 import { formatAmount } from '../../util/util'
 
+import {Row, Col, } from 'react-bootstrap'
+
 
 export default class TransactionTable extends Component {
     state = {
@@ -61,7 +63,32 @@ export default class TransactionTable extends Component {
                     <div className="transaction-container">
                         <div className="table-title">{ title || "Transaction History"}</div>
                         <div className="table-filters">
-                            <div>
+                            <Row style={{width:"100%", justifyContent: "space-between"}}>
+                                <Col xs={6} md={6} lg={6}>
+                                <div>
+                                <form className="form-inline">
+                                    <label>Show&nbsp;</label>
+                                    <select name="entries" style={{width: "auto"}} className="custom-select my-1 mr-sm-2 transaction-select-control" value={entries} onChange={this.handleChange}>
+                                        <option value='10'>10</option>
+                                        <option value='20'>20</option>
+                                        <option value='30'>30</option>
+                                        <option value='40'>40</option>
+                                        <option value='50'>50</option>
+                                    </select>
+                                    <label>&nbsp;entries</label>
+                                </form>                                
+                                </div>
+                                </Col>
+                                <Col xs={6} md={4} lg={3}>
+                                <div className="search-container">
+                                <div className="form-group">
+                                    <input name="search" style={{width:"100%"}} className="form-control trasaction-input-control" placeholder="Search" value={search} onChange={this.handleChange}></input>
+                                </div>
+                                </div>
+                                </Col>
+
+                            </Row>
+                            {/* <div>
                                 <form className="form-inline">
                                     <label>Show&nbsp;</label>
                                     <select name="entries" className="custom-select my-1 mr-sm-2 transaction-select-control" value={entries} onChange={this.handleChange}>
@@ -78,7 +105,7 @@ export default class TransactionTable extends Component {
                                 <div className="form-group">
                                     <input name="search" className="form-control trasaction-input-control" placeholder="Search" value={search} onChange={this.handleChange}></input>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div>
