@@ -213,31 +213,31 @@ class ExchangeForm extends Component {
 
         return (
             <div className="form-container">
-                <div className="form-wrapper">
-                    <div className="form">
+                <div className="form-wrapper justify-content-center">
+                    <div className="form justify-content-center">
                         <form  onSubmit={this.executeExchange}>
-                        <Row>
-                        <Col className="form-group no-padding">
+                        <Row className="justify-content-center">
+                        <Col xs={6} md={2} lg={3} className="form-group no-padding">
                             <select className="form-control Trans-form-control" name="source_investment" required  value={source_investment}  onChange={this.handleInputChange}>
                                 {/* <option value="" defaultValue>Investment</option> */}
                                 {userInvestmentList}
                             </select>
                             
                         </Col>
-                        <Col className="form-group no-padding">
+                        <Col xs={6} md={2} lg={2} className="form-group no-padding">
                             <input type="text" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
                         </Col>
-                        <Col className="form-group">
-                            <button type="submit" name="exchange" className="btn btn-info transfer-btn" >Exchange</button>
+                        <Col xs={12} md={2} lg={2} className="form-group">
+                            <button style={{width: "auto"}} type="submit" name="exchange" className="btn btn-info transfer-btn" >Exchange</button>
                         </Col>
-                        <Col className="form-group no-padding">
+                        <Col xs={6} md={2} lg={3} className="form-group no-padding">
                             <select className="form-control Trans-form-control" name="target_investment" required  value={target_investment}  onChange={this.handleInputChange}>
                                 {/* <option value="" defaultValue>Investment</option> */}
                                 {allInvestmentList}
                             </select>
                             
                         </Col>
-                        <Col className="form-group no-padding">
+                        <Col xs={6} md={2} lg={2} className="form-group no-padding">
                             <input type="text" className="form-control Trans-form-control" id="target_amount" name="target_amount" placeholder="Amount" value={target_amount} required  onChange={this.handleInputChange}></input>
                         </Col>
                         </Row>
