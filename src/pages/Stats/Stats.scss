@@ -5,6 +5,7 @@
     font-family: 'Lato';
     min-height: 100%;
     margin: auto;
+    height: -webkit-fill-available;
 
     .navigation{
         display: flex;
@@ -39,7 +40,7 @@
         // bottom: 0;
         // right: 0;
         // width: 100%;
-        min-height: 8vh;
+        min-height: auto;
         background-color: #373737;
 
     

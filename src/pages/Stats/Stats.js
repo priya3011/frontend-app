@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import {   
+import {  
+    ResponsiveSidebar, 
     LeftSidebar,
     Footer,
     CustomSnackbar,
@@ -111,12 +112,19 @@ export default class Stats extends Component {
         const { tx_history, user_count, user_history, overall_balance,  time_period_chart } = this.state;
 
         return (
-            <div className="main-container">
+            <div>
+
+            <div className="navigation d-md-none d-sm">
+                    <ResponsiveSidebar  history={this.props.history} />
+            </div>
+
+            <div className="dashboard-container">
                
-                <div className="navigation">
+                <div className="navigation  d-none d-md-block">
                     <LeftSidebar history={this.props.history} />
                 </div>
-                <Container  className="content-wrapper" id="content-div">
+                <Container fluid={true}  className="content-wrapper" id="content-div">
+                    <Container >
                     <div className="page-content">
                         <Row style={{justifyContent:"space-between", height: "fit-content"}}>
                             <Col lg={4} md={4} sm={4} className="auto-height" style={{paddingLeft:0}} ><InfoCard label={"Total Users"} value={user_count+" Users"}></InfoCard></Col>
@@ -131,19 +139,22 @@ export default class Stats extends Component {
                         </Row>
                         <Row style={{marginTop:"5.416vw"}}>
                             <Col lg={6} md={12} sm={12} style={{paddingLeft:0}}><ChartTable data={overall_balance}></ChartTable></Col>
-                            <Col lg={6} md={12} sm={12} ><DoughnutChart data={overall_balance}></DoughnutChart></Col>
+                            <Col lg={6} md={12} sm={12} className="hidescroll" style={{paddingTop: "10px"}} ><DoughnutChart data={overall_balance}></DoughnutChart></Col>
                         </Row>
 
                         
                     </div>
 
-            
+                
+                    </Container>
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
 
                 </Container>
                 
                 
             </div>
+            </div>
+
         )
     }
 }
