@@ -1,3 +1,6 @@
+import { chart } from "highcharts";
+import { declareTypeAlias } from "@babel/types";
+
 /**
  * Extract data from server responds for charts or tables
  */
@@ -17,7 +20,7 @@ export const doughnutChart = (data)=>{
 
 /** Convert the date format coming from the server */
 const convertDateInLineChart = (dateStr)=>{
-    console.log("dateStr", dateStr)
+    // console.log("dateStr", dateStr)
     const date = dateStr.slice(0,2);
     const month = dateStr.slice(3,5);
     const year = dateStr.slice(6);
@@ -56,7 +59,7 @@ export const lineChart = (data, interval)=>{
                     
                     let dateMilliseconds = Date.parse(convertDateInLineChart(accountHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
-                    obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance/* _cad */} )
+                    obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
                     // }
                 }
                 obj.data.sort(compare('x'));
@@ -123,6 +126,29 @@ export const formatUserHistoryData = (series_name, user_data) =>{
     return [chartData];
 }
 
+export const formatRatesHistoryData = (data) => {
+
+    console.log("formatRatesHistoryData ",data);
+    
+
+    let currency_rate_histories = data;
+    let chartData = [];
+
+    chartData = currency_rate_histories.map( rate_history => {
+
+        let obj = { name: rate_history.currency , data: []}
+        obj['data'] = rate_history.rates.map( rate => {
+            return {x: Date.parse(convertDateInLineChart(rate.date)) , y:rate.rate};
+        });
+
+        return obj;
+    });
+
+    console.log("formatRatesHistoryData chartData",chartData);
+
+    return chartData;
+}
+
 export const transactionTable = (data, search)=>{
     if(JSON.stringify(data) !== '{}'){
         const serverData = data.transaction_history;
@@ -142,4 +168,25 @@ export const transactionTable = (data, search)=>{
         return serverData
     }
     return [];
+}
+
+export const getMinimumY = (chartData) => {
+
+    console.log("chartData ". chartData)
+
+
+    let y_values = [];
+    chartData.forEach((series) =>{
+        series.data.forEach( (data) => {
+
+            console.log("data ",data)
+            if(data.y!=0)
+                y_values.push(data.y)
+        });
+    });
+
+
+
+    console.log("y_values", Math.min(y_values));
+    return Math.min.apply(null, y_values);
 }

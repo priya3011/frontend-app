@@ -115,7 +115,7 @@ export default class Investment extends Component {
             ()=>{   
                 const { linechart_time_days } = this.state;
                 const { account_id } = this.state.account_details;
-                getAccountBalanceHistory({account_id, time_period_days:parseInt(linechart_time_days)})
+                getAccountBalanceHistory({account_id, time_period_days:parseInt(linechart_time_days), chart:true})
                 .then((res)=>{
                 
                     this.setState({account_balance_history: res.data});
