@@ -48,11 +48,28 @@ export default class TransactionTable extends Component {
             { id:'amount', Header: 'Amount', 
                 accessor: (data) => {
                     return formatAmount(+data.amount);
-                } 
+                } ,
+                sortMethod: (a, b) => {
+
+                    console.log("cad: ",a,b)
+                    let numericA = parseFloat(a.replace(/[^0-9.]+/g,''));
+                    let numericB = parseFloat(b.replace(/[^0-9.]+/g,''));
+
+                    return numericA > numericB ? 1 : -1;
+                }
             },
             { id: 'amountcad', Header: 'Amount in CAD',
                 accessor: (data) => {
                     return '$' + formatAmount((+data.amount_cad).toFixed(2),true);
+                },
+                sortMethod: (a, b) => {
+
+                    console.log("cad: ",a,b)
+                    let numericA = parseFloat(a.replace(/[^0-9.]+/g,''));
+                    let numericB = parseFloat(b.replace(/[^0-9.]+/g,''));
+
+                    return numericA > numericB ? 1 : -1;
+
                 }
         }]
        return(
