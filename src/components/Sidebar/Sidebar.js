@@ -130,7 +130,7 @@ class LeftSidebar extends Component {
     return (
        
         <div className="sidebar-container">
-        <ul className="sidebar navbar-nav" >
+        <ul className="sidebar navbar-nav scroll" >
                 <div className="navigation-type">
 
                 <li className="nav-item">
