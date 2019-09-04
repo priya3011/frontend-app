@@ -40,9 +40,15 @@ class TransferModal extends Component {
 
         //admin
         if (level == 0)
+        {    
             this.props.fetchAllInvestments();
+            
+        
+        }
         else
-            this.props.fetchUserInvestments(username);
+        {       this.props.fetchUserInvestments(username);
+                this.setState({ sender: username})
+        }
 
         if(this.props.investment_id){
             console.log("props has investment id")
