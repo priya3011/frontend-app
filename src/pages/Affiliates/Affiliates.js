@@ -80,7 +80,7 @@ class Affiliates extends Component {
 
         return (
           
-            <div>
+            <div style={{height:"inherit"}}>
             <div className="navigation d-md-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
