@@ -1,5 +1,7 @@
-import { chart } from "highcharts";
-import { declareTypeAlias } from "@babel/types";
+// import { chart } from "highcharts";
+// import { declareTypeAlias } from "@babel/types";
+import { formatAmount } from '../util/util'
+
 
 /**
  * Extract data from server responds for charts or tables
@@ -159,8 +161,11 @@ export const transactionTable = (data, search)=>{
                     (new Date(one.time).toLocaleDateString().indexOf(search)) !== -1 ||
                     (one.description.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
                     (one.investment_name.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
-                    one.amount === +search ||
-                    one.account_balance === +search
+                    ((one.amount.toString().toLowerCase().indexOf(search.toLowerCase())) !== -1 || (formatAmount(one.amount).toLowerCase().indexOf(search.toLowerCase())) !== -1 ) ||
+                    ((one.account_balance.toString().toLowerCase().indexOf(search.toLowerCase())) !== -1 || (formatAmount(one.account_balance).toLowerCase().indexOf(search.toLowerCase())) !== -1)
+
+                    // one.amount === +search ||
+                    // one.account_balance === +search
                 )
             });
             return tableData;

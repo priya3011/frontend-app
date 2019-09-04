@@ -22,5 +22,5 @@ export function formatAmount(amount, isCAD=false){
 
   let formattedAmount = [beforeDecimal, afterDecimal].join(".")
   formattedAmount = formattedAmount.trim().replace(/(^,)|(,$)/g, "")
-  return formattedAmount;
+  return formattedAmount.trim();
 }

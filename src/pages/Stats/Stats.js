@@ -127,7 +127,7 @@ export default class Stats extends Component {
                             <SimpleChart chartTitle={"Total Users"} data={user_history} dataType="users" chartType="area" index={0} refreshData={this.updateRegisteredUserHistory} interval={time_period_chart}></SimpleChart>
                         </Row>
                         <Row>
-                            <TransactionTable data={tx_history} title={"Site Wide Transactions"}></TransactionTable>
+                            <TransactionTable data={tx_history} title={"Site Wide Transactions"} mask={true}></TransactionTable>
                         </Row>
                         <Row style={{marginTop:"5.416vw"}}>
                             <Col lg={6} md={12} sm={12} style={{paddingLeft:0}}><ChartTable data={overall_balance}></ChartTable></Col>

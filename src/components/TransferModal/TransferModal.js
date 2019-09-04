@@ -3,7 +3,7 @@ import './TransferModal.scss';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchUserInvestments } from '../../actions/investmentActions'
+import { fetchUserInvestments , fetchAllInvestments } from '../../actions/investmentActions'
 import { transferAmount } from '../../service/axios-service'
 
 
@@ -11,6 +11,7 @@ import { transferAmount } from '../../service/axios-service'
 class TransferModal extends Component {
 
     static propTypes={
+        all_investments: PropTypes.array.isRequired,
         investments: PropTypes.array.isRequired,
         fetchUserInvestments: PropTypes.func.isRequired
     };
@@ -34,7 +35,14 @@ class TransferModal extends Component {
 
     componentDidMount(){
         const username = localStorage.getItem("username");
-        this.props.fetchUserInvestments(username);
+        const level =  localStorage.getItem("user_level");
+
+
+        //admin
+        if (level == 0)
+            this.props.fetchAllInvestments();
+        else
+            this.props.fetchUserInvestments(username);
 
         if(this.props.investment_id){
             console.log("props has investment id")
@@ -82,7 +90,8 @@ class TransferModal extends Component {
 
     generateInvestmentList(){
 
-        const { investments } = this.props;
+        const level =  localStorage.getItem("user_level");
+        const investments = level == 0 ?  this.props.all_investments : this.props.investments ;
         const investmentsOptions = investments.map( investment =>{
             return <option key={investment.investment_id} value={investment.investment_id}>{investment.investment_name}</option>
         });
@@ -137,8 +146,9 @@ class TransferModal extends Component {
 //map state of the store to the props
 const mapStateToProps = state => ({
     
-    investments: state.investment.user_investments
+    investments: state.investment.user_investments,
+    all_investments: state.investment.all_investments
     
 });
 
-export default connect(mapStateToProps, { fetchUserInvestments })(TransferModal);
+export default connect(mapStateToProps, { fetchUserInvestments, fetchAllInvestments })(TransferModal);
