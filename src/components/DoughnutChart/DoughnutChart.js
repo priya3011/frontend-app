@@ -14,6 +14,26 @@ export default class DoughnutChart extends Component {
         data : PropTypes.object.isRequired
     }
 
+    constructor(props){
+        super(props);
+        this.state = {
+            width: "80%" //default for lg screens
+
+        };
+
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', ()=>{
+            if (window.innerWidth <= 600){
+                this.setState({width: "50%" })
+            } else {
+                this.setState({width: "80%" })
+            }
+        });
+
+    }
+
     render(){
         const { data } = this.props;
         const chartData = doughnutChart(data)
@@ -41,7 +61,7 @@ export default class DoughnutChart extends Component {
                 style: { "font-size": "0.8rem"},
                 y: -5
             },
-            series: [ { size: '75%', innerSize: '50%', data: chartData} ],
+            series: [ { size: this.state.width, innerSize: '50%', data: chartData} ],
             tooltip: {
                 enabled: true,
                 valueDecimals: 2,
@@ -59,7 +79,7 @@ export default class DoughnutChart extends Component {
             }
         }
         return (
-            <div className="doughnut-container">
+            <div className="doughnut-container pt-10">
                 <div className="doughnut-wrapper">
                     <HighchartsReact
                         highcharts = { Highcharts }
