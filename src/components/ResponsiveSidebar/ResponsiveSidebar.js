@@ -130,7 +130,7 @@ class ResponsiveSidebar extends Component {
     this.setState({open: !this.state.open});
     if(this.state.open){
         document.body.style.overflow = "visible";
-    } else {
+    } else if(!this.state.open) {
         document.body.style.overflow = "hidden";
 
     }
