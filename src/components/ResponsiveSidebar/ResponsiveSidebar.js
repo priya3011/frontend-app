@@ -127,7 +127,13 @@ class ResponsiveSidebar extends Component {
 
 
   toggle(){
-    this.setState({open: !this.state.open})
+    this.setState({open: !this.state.open});
+    if(this.state.open){
+        document.body.style.overflow = "visible";
+    } else {
+        document.body.style.overflow = "hidden";
+
+    }
   }
 
   render(){
@@ -142,16 +148,14 @@ class ResponsiveSidebar extends Component {
     return (
         <div>
             <Navbar bg="dark" variant="dark" sticky="top" style={{top: 0, position: "fixed", width: "100%"}}>
-
-                <Row className="align-items-center" style={{width: "100%"}}>
-                    <Col>
+                    <Col xs={6}>
                     <Navbar.Brand>
-                        <Button variant="dark" onClick={()=>{this.setState({open: !this.state.open})}}>
+                        <Button variant="dark" onClick={()=>{this.toggle()}}>
                             <i className="fa fa-bars"></i>
                         </Button>
                     </Navbar.Brand>
                     </Col>
-                    <Col>
+                    <Col xs={6}>
                     <Navbar.Brand>
                     <Navbar.Text>
                           Signed in as: <a >{`${username}`}</a>
@@ -159,11 +163,10 @@ class ResponsiveSidebar extends Component {
                     </Navbar.Brand>
                     
                     </Col>
-                </Row>
             </Navbar>
             
             { this.state.open &&
-            <div id="overlay" onClick={()=>{this.setState({open: !this.state.open})}}>
+            <div id="overlay" onClick={()=>{this.setState({open: !this.state.open}); document.body.style.overflow = "hidden";}}>
                 <div id="overlay-content">
                      <LeftSidebar  history={this.props.history} />
                 </div>
