@@ -41,7 +41,7 @@ export default class DoughnutChart extends Component {
                 style: { "font-size": "0.8rem"},
                 y: -5
             },
-            series: [ { size: '80%', innerSize: '50%', data: chartData} ],
+            series: [ { size: '75%', innerSize: '50%', data: chartData} ],
             tooltip: {
                 enabled: true,
                 valueDecimals: 2,

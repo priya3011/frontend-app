@@ -104,7 +104,7 @@ export default class Dashboard extends Component{
 
                     <Row style={{marginTop:50}} >
                         <Col lg={6} md={6} sm={12} ><ChartTableMin/></Col>
-                        <Col className="hidescroll" lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
+                        <Col className="" lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
                     </Row>
                     <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>

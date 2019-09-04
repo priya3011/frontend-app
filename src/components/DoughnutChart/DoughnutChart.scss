@@ -1,18 +1,12 @@
 .doughnut-container {
     display: flex;
-    // position: absolute;
-    // width: 100% !important;
-    width:100% !important;
-    // padding: -20px;
-    height:100% !important;
-    margin-top: 0.5vw;
-    // border: 1px solid black;
-
+    flex-direction: column;
 
     .doughnut-wrapper {
         display: flex;
-        // width: 31.25vw;
-        // height: 20.820vw;
-        //border: 1px solid orange;
+        flex-direction: column;
+        // width: 61.458vw;
+        // margin-left: 10.415vw;
+        
     }
 }
