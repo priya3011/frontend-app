@@ -26,12 +26,22 @@ export default class ExchangeTable extends Component {
                 id:'currency',
                 accessor: 'currency',
             },
-            { 
-               Header:'Rate in CAD',
-               id:'rate_in_cad',
-               accessor: (data)=> formatAmount(+data.rate_in_cad, true),
+            {
+                Header:'Bid',
+                id:'bid',
+                accessor: (data)=> formatAmount(+data.rate_in_cad.bid, true),
+            },
+            {
+                Header:'Ask',
+                id:'ask',
+                accessor: (data)=> formatAmount(+data.rate_in_cad.ask, true),
+            },
+            // { 
+            //    Header:'Rate in CAD',
+            //    id:'rate_in_cad',
+            //    accessor: (data)=> formatAmount(+data.rate_in_cad, true),
               
-            }
+            // }
         ];
 
         if(JSON.stringify(data) === '{}')
