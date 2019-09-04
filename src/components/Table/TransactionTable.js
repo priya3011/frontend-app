@@ -29,7 +29,7 @@ export default class TransactionTable extends Component {
 
     render(){
         const { entries, search } = this.state;
-        const { data , title }= this.props;
+        const { data , title, mask }= this.props;
         const tableData = transactionTable(data, search);
         
         // console.log(tableData && tableData.length < entries)
@@ -44,7 +44,7 @@ export default class TransactionTable extends Component {
                 }
             },
             { Header: 'Investment', accessor: 'investment_name' },
-            { Header: 'Description', accessor: 'description' },
+            { Header: 'Description', accessor: mask? 'transaction_type': 'description' },
             { id:'amount', Header: 'Amount', 
                 accessor: (data) => {
                     return formatAmount(+data.amount);
