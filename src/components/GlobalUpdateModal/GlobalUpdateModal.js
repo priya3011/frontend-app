@@ -131,7 +131,7 @@ class TransferModal extends Component {
 //map state of the store to the props
 const mapStateToProps = state => ({
     
-    investments: state.investment.user_investments
+    investments: state.investment.all_investments
     
 });
 

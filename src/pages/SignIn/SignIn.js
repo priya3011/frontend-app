@@ -8,6 +8,9 @@ import { Redirect } from "react-router-dom";
 import './SignIn.scss';
 import { login, reset } from '../../actions/userActions';
 
+import { Container, Row, Col } from 'react-bootstrap';
+
+
 class SignIn extends Component {
 
 
@@ -36,20 +39,26 @@ class SignIn extends Component {
 
     //confirmation message from sign up
 
+
+
     if (this.props.location.state && this.props.location.state.confirmation_msg){
 
       // console.log("got the confirmation message");
 
       let { confirmation_msg } = this.props.location.state;
       this.setState({
-        message: { show: true , msg: confirmation_msg.msg , type:'success'}
-      })
+        message: { show: confirmation_msg.show , msg: confirmation_msg.msg , type:'success'}
+      });
+
+      //clearing the state once sign up notif is shown
+      this.props.history.replace();
+
     }
 
     //check if user is authenticated
     this.setState({
-      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!='',
-      message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!=''
+      //, message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
     });
 
 
@@ -61,8 +70,8 @@ class SignIn extends Component {
 
     //check if user is authenticated
     this.setState({
-      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!='',
-      message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+      authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!=''
+      // ,message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
     });
 
 
@@ -124,37 +133,42 @@ class SignIn extends Component {
 
     if(!authenticated)
       return (
-        <div className="signin-container">
-          <div >
-
-            { message.show &&
-                <div className={alertClass} role="alert">
-                  {message.msg}
-                </div>
-            }
-            <form className={className} noValidate onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <input name="username" type="text" className="form-control signin-form-control" id="userName" placeholder="Username" required autoFocus value={username} onChange={this.handleInputChange}></input>
-                    <div className="invalid-feedback text-left ml-1">
-                      Username cannot be empty.
-                    </div>
-                </div>
-                <div className="form-group">
-                    <input name="password" type="password" className="form-control signin-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange}></input>
-                    <div className="invalid-feedback text-left ml-1">
-                      Password cannot be empty.
-                    </div>
-                </div>
-                <div>
-                    <button type="submit" name="signIn" className="btn btn-info signin-btn">Login</button>
-                </div>
-            </form>
-          </div>
-          <div className="signup-options-container">
-              <NavLink to="/signup" className="signup-link">Sign Up</NavLink>
-              <NavLink to="/forgotpassword" className="forgot-password-link">Forgot</NavLink>
-          </div>
-        </div>
+        <Container fluid={true} className="formbox" >
+          <Row className="formbox">
+            <Col xs={12} md={8} lg={4} >
+              { message.show &&
+                  <div className={alertClass} role="alert">
+                    {message.msg}
+                  </div>
+              }
+              <form className={className} noValidate onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                      <input name="username" type="text" className="form-control signin-form-control" id="userName" placeholder="Username" required autoFocus value={username} onChange={this.handleInputChange}></input>
+                      <div className="invalid-feedback text-left ml-1">
+                        Username cannot be empty.
+                      </div>
+                  </div>
+                  <div className="form-group">
+                      <input name="password" type="password" className="form-control signin-form-control" id="password" placeholder="Password" required value={password} onChange={this.handleInputChange}></input>
+                      <div className="invalid-feedback text-left ml-1">
+                        Password cannot be empty.
+                      </div>
+                  </div>
+                  <div>
+                    <Row className="justify-content-center">
+                      <Col xs={6} md={8} lg={4}>
+                          <button type="submit" name="signIn" className="btn btn-info signin-btn">Login</button>
+                      </Col>
+                    </Row>
+                  </div>
+              </form>
+              <Row className="signup-options-container">
+                  <Col xs={6} md={6} lg={6} ><NavLink to="/signup" className="signup-link">Sign Up</NavLink></Col>
+                  <Col xs={6} md={6} lg={6} ><NavLink to="/forgotpassword" className="forgot-password-link">Forgot</NavLink></Col>
+              </Row>
+            </Col>
+          </Row>     
+        </Container>
       );
     else
       return <Redirect to="/dashboard" /> // The "state" passes data to dashboard.

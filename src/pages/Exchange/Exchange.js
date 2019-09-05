@@ -9,8 +9,9 @@ import {
     ExchangeForm,
     SimpleChart } from './../../components';
 
-import { getExchangeRates, getRatesInCAD } from '../../service/axios-service'
+import { getExchangeRates, getRatesInCAD, getRatesHistory } from '../../service/axios-service'
 import './Exchange.scss'
+import { stat } from 'fs';
 
 
 
@@ -66,7 +67,25 @@ export default class Exchange extends Component {
         this.updateRateHistory();
     }
 
-    updateRateHistory(){
+    updateRateHistory(newInterval){
+
+        let time_period_days = this.state.time_period_chart;
+
+        if(newInterval){
+            this.setState({ time_period_chart: newInterval });
+            time_period_days = newInterval;
+        }
+
+        getRatesHistory({ time_period_days: parseInt(time_period_days) })
+        .then((res)=>{
+            console.log("rates_history ", res.data.rates_history );
+            
+            this.setState({rates_history: res.data.rates_history});
+        })
+        .catch((err)=>{
+            //triggers a state change which will refresh all components
+            // this.showAlert(err.response.data.code,'error');
+        });
 
     }
 
@@ -74,6 +93,7 @@ export default class Exchange extends Component {
     fetchRatesInCAD(){
         getRatesInCAD()
         .then((res)=>{
+            console.log(res.data.rates);
             this.setState({rates_in_cad: res.data.rates});
         })
         .catch((err)=>{
@@ -103,13 +123,13 @@ export default class Exchange extends Component {
         return (
             <div>
 
-            <div className="navigation d-md-none d-sm">
+            <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
 
             <div className="dashboard-container">
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
-                <div className="navigation d-none d-md-block">
+                <div className="navigation d-none d-lg-block">
                     <LeftSidebar history={this.props.history} />
                 </div>
                 <Container fluid={true}  className="content-wrapper" id="content-div">

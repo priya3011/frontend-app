@@ -84,6 +84,8 @@ class LeftSidebar extends Component {
                     </li></a>
                      <UncontrolledCollapse toggler={"#"+currency}>
                         {  investments.map((i, idx) => {
+
+                            console.log("idx", idx);
                             return  (<li className="nav-item" key={i.investment_id} >
                             <Link to={{
                                     pathname: "/investment/"+i.investment_id,
