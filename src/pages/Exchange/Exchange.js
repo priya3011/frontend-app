@@ -92,6 +92,7 @@ export default class Exchange extends Component {
     fetchRatesInCAD(){
         getRatesInCAD()
         .then((res)=>{
+            console.log(res.data.rates);
             this.setState({rates_in_cad: res.data.rates});
         })
         .catch((err)=>{

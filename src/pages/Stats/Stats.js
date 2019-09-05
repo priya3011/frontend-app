@@ -8,9 +8,11 @@ import {
     TransactionTable,
     SimpleChart,
     DoughnutChart,
+    ExchangeTable,
     ChartTable } from './../../components';
 import { getTransactionHistory, getTotalUser, getDailyRegisteredUsers, getOverviewTableData} from '../../service/axios-service';
-import { INVESTMENT_USER } from '../../config/config'
+import { INVESTMENT_USER } from '../../config/config';
+import { getRatesInCAD } from '../../service/axios-service'
 import './Stats.scss'
 
 
@@ -19,7 +21,7 @@ export default class Stats extends Component {
     constructor(props){
         super(props);
         this.state={
-
+            rates_in_cad:[],
             user_history:[],
             tx_history:{},
             overall_balance:{},
@@ -32,6 +34,7 @@ export default class Stats extends Component {
         this.updateUserCount = this.updateUserCount.bind(this);
         this.updateRegisteredUserHistory = this.updateRegisteredUserHistory.bind(this);
         this.updataOverallBalance = this.updataOverallBalance.bind(this);
+        this.fetchRatesInCAD = this.fetchRatesInCAD.bind(this);
 
     }
 
@@ -44,10 +47,22 @@ export default class Stats extends Component {
         clearInterval(this.updateInfoTimer);
     }
 
+    fetchRatesInCAD(){
+        getRatesInCAD()
+        .then((res)=>{
+            console.log(res.data.rates);
+            this.setState({rates_in_cad: res.data.rates});
+        })
+        .catch((err)=>{
+            //triggers a state change which will refresh all components
+            // this.showAlert(err.response.data.code,'error');
+        });
+    }
     updateInfo(){
         this.updateUserCount();
         this.updateTxHistory();
         this.updateRegisteredUserHistory();
+        this.fetchRatesInCAD();
         this.updataOverallBalance();
     }
 
@@ -92,8 +107,6 @@ export default class Stats extends Component {
             time_period_days = parseInt(newInterval);
             this.setState({time_period_chart:time_period_days});
         
-        
-
         getDailyRegisteredUsers({time_period_days})
         .then((res)=>{
             
@@ -108,7 +121,7 @@ export default class Stats extends Component {
     render() {
 
         // const { isAlertVisible, alertType, alertMessage, account_details, account_tx_history, account_balance_history, linechart_time_days } = this.state;
-        const { tx_history, user_count, user_history, overall_balance,  time_period_chart } = this.state;
+        const { tx_history, user_count, user_history, overall_balance,  time_period_chart, rates_in_cad} = this.state;
 
         return (
             <div className="main-container">
@@ -118,26 +131,24 @@ export default class Stats extends Component {
                 </div>
                 <Container  className="content-wrapper" id="content-div">
                     <div className="page-content">
-                        <Row style={{justifyContent:"space-between", height: "fit-content"}}>
-                            <Col lg={4} md={4} sm={4} className="auto-height" style={{paddingLeft:0}} ><InfoCard label={"Total Users"} value={user_count+" Users"}></InfoCard></Col>
-                            <Col lg={8} md={8} sm={8} className="auto-height" ></Col>
-                          
-                        </Row>
-                        <Row>
-                            <SimpleChart chartTitle={"Total Users"} data={user_history} dataType="users" chartType="area" index={0} refreshData={this.updateRegisteredUserHistory} interval={time_period_chart}></SimpleChart>
-                        </Row>
-                        <Row>
-                            <TransactionTable data={tx_history} title={"Site Wide Transactions"} mask={true}></TransactionTable>
-                        </Row>
                         <Row style={{marginTop:"5.416vw"}}>
                             <Col lg={6} md={12} sm={12} style={{paddingLeft:0}}><ChartTable data={overall_balance}></ChartTable></Col>
                             <Col lg={6} md={12} sm={12} ><DoughnutChart data={overall_balance}></DoughnutChart></Col>
                         </Row>
-
-                        
+                        <Row>
+                            <ExchangeTable data={rates_in_cad}></ExchangeTable>
+                        </Row>
+                        <Row>
+                            <TransactionTable data={tx_history} title={"Site Wide Transactions"} mask={true}></TransactionTable>
+                        </Row>
+                        <Row>
+                            <SimpleChart chartTitle={"Total Users"} data={user_history} dataType="users" chartType="area" index={0} refreshData={this.updateRegisteredUserHistory} interval={time_period_chart}></SimpleChart>
+                        </Row>
+                        <Row style={{justifyContent:"space-between", height: "fit-content", marginTop: "20px"}}>
+                            <Col lg={4} md={4} sm={4} className="auto-height" style={{paddingLeft:0}} ><InfoCard label={"Total Users"} value={user_count+" Users"}></InfoCard></Col>
+                            <Col lg={8} md={8} sm={8} className="auto-height" ></Col>
+                        </Row>
                     </div>
-
-            
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
 
                 </Container>
