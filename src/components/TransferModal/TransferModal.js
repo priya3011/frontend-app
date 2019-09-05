@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './TransferModal.scss';
+import {Col, Row} from 'react-bootstrap'
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -117,6 +118,8 @@ class TransferModal extends Component {
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
+                        <Row className="justify-content-center">
+                            <Col xs={8} md={8} lg={4}>
                             { level == 0 &&
                             <div className="form-group">
                                 <input type="text" className="form-control Trans-form-control" id="userName" name="sender" placeholder="From:Username" value={sender} required  onChange={this.handleInputChange}></input>
@@ -138,9 +141,13 @@ class TransferModal extends Component {
                             <div className="form-group">
                                 <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
                             </div>
-                            <div>
-                                <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Transfer</button>
-                            </div>
+                            </Col>
+                            </Row>
+                            <Row className="justify-content-center">
+                                <Col xs={6} md={6} lg={3}>
+                                    <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Transfer</button>
+                                </Col>
+                            </Row>
                         </form>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import {   
+    ResponsiveSidebar,
     LeftSidebar,
     Footer,
     CustomSnackbar,
@@ -156,17 +157,23 @@ export default class Investment extends Component {
 
         console.log("account_balance_history",account_balance_history.balance_history)
         return (
-            <div className="main-container">
+            <div>
+
+            <div className="navigation d-md-none d-sm">
+                    <ResponsiveSidebar  history={this.props.history} />
+            </div>
+            <div className="dashboard-container">
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
-                <div className="navigation">
+                <div className="navigation d-none d-md-block">
                     <LeftSidebar history={this.props.history} />
                 </div>
-                <Container  className="content-wrapper" id="content-div">
+                <Container fluid={true}  className="content-wrapper" id="content-div">
+                    <Container>
                     <div className="page-content">
                         <Row style={{justifyContent:"space-between", height: "fit-content"}}>
-                            <Col lg={4} md={4} sm={12} className="auto-height" ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
-                            <Col lg={4} md={4} sm={12} className="auto-height" ><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
-                            <Col lg={4} md={4} sm={12} className="auto-height" ><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
+                            <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
+                            <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
+                            <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
                         </Row>
 
                         <Row>
@@ -181,13 +188,14 @@ export default class Investment extends Component {
                             <TransferModal showAlert={this.showAlert} investment_id={investment_id} onSuccess={this.updateAccountInfo}></TransferModal>
                         </Row>
                     </div>
-
+                    </Container>                   
             
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
 
                 </Container>
                 
                 
+            </div>
             </div>
         )
     }

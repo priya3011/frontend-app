@@ -1,7 +1,8 @@
 .sidebar-container {
-    width:16.044vw;
+    min-width:16.044vw ;
+    width:auto;
     height:100%;
-    float: left;
+    // float: left;
     background-color: #646464;
     font-family: Lato;
     color: white;
@@ -20,11 +21,17 @@
         margin-top: 25px;
     }
 
+    .scroll{
+        height: 100%;
+        overflow-y: auto;
+    }
+
 
     .nav-item{
         width:100%;
         margin-top: 10px;
-        height: 35px;
+        min-height: 35px;
+        height: auto;
         background-color: #969696;
         text-align: left;
         padding-left: 36px;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUserInvestments } from '../../actions/investmentActions'
 import { deposit } from '../../service/axios-service'
-
+import {Col, Row} from 'react-bootstrap'
 
 
 class TransferModal extends Component {
@@ -98,25 +98,33 @@ class TransferModal extends Component {
                 <div className="transfer-form-wrapper">
                     <div className="form">
                         <form onSubmit={this.executeTransfer}>
-                            {   showInvestments && 
+                        <Row className="justify-content-center">
+                            <Col  xs={8} md={8} lg={4}>
+                                {   showInvestments && 
+                                    <div className="form-group">
+                                        <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
+                                            <option value="" defaultValue>Investment</option>
+                                            {investmentList}
+                                        </select>
+                                    </div>
+                                }
+
                                 <div className="form-group">
-                                    <select className="form-control Trans-form-control" name="investment_id" required  value={investment_id} onChange={this.handleInputChange}>
-                                        <option value="" defaultValue>Investment</option>
-                                        {investmentList}
-                                    </select>
+                                    <input type="text" className="form-control Trans-form-control" id="userName" name="deposit_to" placeholder="Username" value={deposit_to} required  onChange={this.handleInputChange}></input>
                                 </div>
-                            }
 
-                            <div className="form-group">
-                                <input type="text" className="form-control Trans-form-control" id="userName" name="deposit_to" placeholder="Username" value={deposit_to} required  onChange={this.handleInputChange}></input>
-                            </div>
-
-                            <div className="form-group">
-                                <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
-                            </div>
-                            <div>
-                                <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Deposit</button>
-                            </div>
+                                <div className="form-group">
+                                    <input type="number" className="form-control Trans-form-control" id="amount" name="amount" placeholder="Amount" value={amount} required  onChange={this.handleInputChange}></input>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-center">
+                            <Col xs={6} md={6} lg={3}>
+                                <div>
+                                    <button type="submit" name="transfer" className="btn btn-info transfer-btn" >Deposit</button>
+                                </div>
+                            </Col>
+                         </Row>      
                         </form>
                     </div>
                 </div>
