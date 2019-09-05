@@ -43,6 +43,7 @@ class ExchangeForm extends Component {
         this.generateInvestmentList = this.generateInvestmentList.bind(this);
         this.findCurrency = this.findCurrency.bind(this);
         this.executeExchange = this.executeExchange.bind(this);
+        this.updateExchangeRate = this.updateExchangeRate.bind(this);
     }
 
     componentDidMount(){
@@ -51,9 +52,13 @@ class ExchangeForm extends Component {
         this.props.fetchUserInvestments(username);
         this.props.fetchAllInvestments();
 
+    
+    }
 
+    componentDidUpdate(prevProps, prevState){
 
-        //set a timer to get a new rate every min 
+        if(prevProps.exchange_rates != this.props.exchange_rates)
+            this.updateExchangeRate();
     }
 
     executeExchange(e){
@@ -94,8 +99,45 @@ class ExchangeForm extends Component {
 
     }
 
+    
+    updateExchangeRate() {
+
+        const { source_currency, target_currency } = this.state;
+
+
+
+        console.log("this.props.exchange_rates", this.props.exchange_rates);
+        console.log(source_currency, target_currency);
+
+        let exchange_rate = null;
+
+        if(source_currency == target_currency)
+            exchange_rate= {bid:1, ask:1, mid:1}
+        else{
+
+            exchange_rate = this.props.exchange_rates[source_currency+"_"+target_currency];
+
+            //find the reverse direction rate
+            if(!exchange_rate){
+                exchange_rate = this.props.exchange_rates[target_currency+"_"+source_currency];
+                console.log("t: ",target_currency+"_"+source_currency)
+                exchange_rate = { bid:1/exchange_rate.ask, ask:1/exchange_rate.bid, mid:1/exchange_rate.mid};
+            }
+        }
+         
+            
+        this.setState({ exchange_rate}, ()=>{
+            const { amount, exchange_rate} = this.state;
+
+                if(amount != '')
+                    this.setState({target_amount: (amount * exchange_rate.bid) });
+        });
+
+    }
+
     handleInputChange(e){
      
+        // this.updateExchangeRate();
         const { exchange_rate } = this.state;
         
         this.setState({
@@ -105,6 +147,11 @@ class ExchangeForm extends Component {
         if(e.target.name == "amount"){
             //calculate the target amount 
             // this.setState({target_amount: (e.target.value * exchange_rate.mid) })
+            console.log("e.target.value ",e.target.value);
+            console.log("exchange_rate.bid ",exchange_rate.bid);
+            
+            console.log("target_amount: ", e.target.value * exchange_rate.bid);
+            
             this.setState({target_amount: (e.target.value * exchange_rate.bid) })
         }
 
@@ -118,37 +165,6 @@ class ExchangeForm extends Component {
         else{
         //source currency or target currency is changed
 
-            let updateExchangeRate = () =>{
-
-                const { source_currency, target_currency } = this.state;
-
-                console.log("this.props.exchange_rates", this.props.exchange_rates);
-                console.log(source_currency, target_currency);
-
-                let exchange_rate = null;
-
-                if(source_currency == target_currency)
-                    exchange_rate= {bid:1, ask:1, mid:1}
-                else{
-
-                    exchange_rate = this.props.exchange_rates[source_currency+"_"+target_currency];
-
-                    //find the reverse direction rate
-                    if(!exchange_rate){
-                        exchange_rate = this.props.exchange_rates[target_currency+"_"+source_currency];
-                        exchange_rate = { bid:1/exchange_rate.ask, ask:1/exchange_rate.bid, mid:1/exchange_rate.mid};
-                    }
-                }
-                 
-                    
-                this.setState({ exchange_rate}, ()=>{
-                    const { amount, exchange_rate} = this.state;
-
-                        if(amount != '')
-                            this.setState({target_amount: (amount * exchange_rate.bid) });
-                });
-
-            };
 
 
 
@@ -162,13 +178,13 @@ class ExchangeForm extends Component {
                 
                 let currency = this.findCurrency(this.props.user_investments, investment_id);
                 console.log("currency", currency);
-                this.setState({source_currency: currency , source_investment: investment_id}, updateExchangeRate);
+                this.setState({source_currency: currency , source_investment: investment_id}, this.updateExchangeRate);
             }
             else{
 
                 let currency = this.findCurrency(this.props.investments, investment_id);
                 console.log("currency", currency);
-                this.setState({target_currency:currency, target_investment:investment_id}, updateExchangeRate);
+                this.setState({target_currency:currency, target_investment:investment_id}, this.updateExchangeRate);
             }
 
             
@@ -184,13 +200,22 @@ class ExchangeForm extends Component {
         
         const investmentsOptions = investments.map( (investment, idx) =>{
 
+            //set the default source currency
             if(idx==0 ){
                 if(type=="source" && this.state.source_currency=='' && this.state.source_investment=='')
                     this.setState({source_currency:investment.currency, source_investment:investment.investment_id});
-                
-                if(type=="target" && this.state.target_currency=='' && this.state.target_investment=='')
-                    this.setState({target_currency:investment.currency, target_investment:investment.investment_id});
+            
             }
+
+            //set the default target currency
+            if(idx == 1){
+                if(type=="target" && this.state.target_currency=='' && this.state.target_investment=='')
+                this.setState({target_currency:investment.currency, target_investment:investment.investment_id});
+
+                
+            }
+
+
 
             if(investment.investment_id == hidden_investment_id){
                 return <option style={{display:"none"}} currency={investment.currency} key={investment.investment_id} value={investment.investment_id}>{investment.investment_name + " ("+ investment.currency+")"}</option>
@@ -200,6 +225,8 @@ class ExchangeForm extends Component {
             }
             
         });
+
+        
 
         return investmentsOptions;
 

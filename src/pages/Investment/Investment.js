@@ -10,6 +10,7 @@ import {
     SimpleChart } from './../../components';
 import { getAccountDetails, getTransactionHistory, getAccountBalanceHistory} from '../../service/axios-service';
 import { formatAmount } from '../../util/util'
+import { INVESTMENT_USER } from '../../config/config'
 import './Investment.scss'
 
 //TODO: 
@@ -68,9 +69,12 @@ export default class Investment extends Component {
         
         console.log("update balance")
         //fetch the account details
-        const username = localStorage.getItem("username");
+        
         const { investment_id } = this.props.match.params
 
+        const level =  localStorage.getItem("user_level");
+        const username = level == 0? INVESTMENT_USER :localStorage.getItem("username");
+        
 
         getAccountDetails({username, investment_id})
         .then((res)=>{
@@ -95,7 +99,9 @@ export default class Investment extends Component {
 
     updateTransactionHistory(account_id){
         
-        getTransactionHistory({account_id})
+        const level =  localStorage.getItem("user_level");
+        let requestData = level == 0 ? { investment_id : this.props.match.params.investment_id} : { account_id}
+        getTransactionHistory(requestData)
         .then((res)=>{
             
             this.setState({account_tx_history: res.data});
@@ -115,7 +121,7 @@ export default class Investment extends Component {
             ()=>{   
                 const { linechart_time_days } = this.state;
                 const { account_id } = this.state.account_details;
-                getAccountBalanceHistory({account_id, time_period_days:parseInt(linechart_time_days)})
+                getAccountBalanceHistory({account_id, time_period_days:parseInt(linechart_time_days), chart:true})
                 .then((res)=>{
                 
                     this.setState({account_balance_history: res.data});
@@ -168,7 +174,7 @@ export default class Investment extends Component {
                         </Row>
 
                         <Row>
-                            <TransactionTable data={account_tx_history}></TransactionTable>
+                            <TransactionTable data={account_tx_history} mask={false}></TransactionTable>
                         </Row>
 
                         <Row>

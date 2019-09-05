@@ -8,8 +8,9 @@ import {
     ExchangeForm,
     SimpleChart } from './../../components';
 
-import { getExchangeRates, getRatesInCAD } from '../../service/axios-service'
+import { getExchangeRates, getRatesInCAD, getRatesHistory } from '../../service/axios-service'
 import './Exchange.scss'
+import { stat } from 'fs';
 
 
 
@@ -65,7 +66,25 @@ export default class Exchange extends Component {
         this.updateRateHistory();
     }
 
-    updateRateHistory(){
+    updateRateHistory(newInterval){
+
+        let time_period_days = this.state.time_period_chart;
+
+        if(newInterval){
+            this.setState({ time_period_chart: newInterval });
+            time_period_days = newInterval;
+        }
+
+        getRatesHistory({ time_period_days: parseInt(time_period_days) })
+        .then((res)=>{
+            console.log("rates_history ", res.data.rates_history );
+            
+            this.setState({rates_history: res.data.rates_history});
+        })
+        .catch((err)=>{
+            //triggers a state change which will refresh all components
+            // this.showAlert(err.response.data.code,'error');
+        });
 
     }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import  HighchartsReact  from 'highcharts-react-official';
-import { lineChartSingleSeries , formatUserHistoryData} from '../../service/extractData';
+import { lineChartSingleSeries , formatUserHistoryData, formatRatesHistoryData, getMinimumY } from '../../service/extractData';
 
 import { COLORS } from '../../config/config'
 import './SimpleChart.scss';
@@ -39,23 +39,29 @@ export default class SimpleChart extends Component {
             return formatUserHistoryData('Users',data);
         else if (dataType == "balance")   
             return lineChartSingleSeries(this.props.investmentName, data, interval);
+        else if (dataType == "rates")
+            return formatRatesHistoryData(data)
+        
     }
 
     getChartOptions(chartData, chartType, dataType, interval, color_index){
 
-
-       
+        console.log("color_index ", color_index);
+        
+        // let minimumY = getMinimumY(chartData);
+        // console.log("minimumY ", minimumY);
         let tooltip = { enabled:true };
         let startDate = new Date().setHours(0,0,0,0) -(interval)*24*60*60*1000;
         let endDate = new Date().setHours(0,0,0,0);
 
         if(dataType == "users")
             tooltip = {...tooltip, valueSuffix:' users'}
-        else if (dataType == "balance")
+        else if (dataType == "balance" || dataType == "rates")
             tooltip = {...tooltip, valueDecimals: 2, valuePrefix:'$'}
+       
 
         return {
-                colors: [COLORS[color_index]],
+                colors: color_index ?  [COLORS[color_index]] : COLORS,
                 chart: {
                     type: chartType,
                     spacingBottom: 15,        
@@ -81,11 +87,15 @@ export default class SimpleChart extends Component {
                    
                 },
                 yAxis: [{
+
+                    // floor:minimumY,
+                    allowDecimals: (dataType != "users"),
                     lineWidth: 1,
                     title: {
                         text: null
                     }
                 }, {
+                    allowDecimals: (dataType !== "users"),
                     lineWidth: 1,
                     opposite: true,
                     title: {

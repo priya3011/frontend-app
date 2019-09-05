@@ -35,11 +35,12 @@ export default class ExchangeTable extends Component {
                 Header:'Ask',
                 id:'ask',
                 accessor: (data)=> formatAmount(+data.rate_in_cad.ask, true),
-            },
+            }
             // { 
             //    Header:'Rate in CAD',
             //    id:'rate_in_cad',
             //    accessor: (data)=> formatAmount(+data.rate_in_cad, true),
+
               
             // }
         ];
