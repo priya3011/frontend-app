@@ -26,7 +26,7 @@ export default class DoughnutChart extends Component {
     componentDidMount(){
         window.addEventListener('resize', ()=>{
             if (window.innerWidth <= 600){
-                this.setState({width: "50%" })
+                this.setState({width: "80%" })
             } else {
                 this.setState({width: "80%" })
             }
