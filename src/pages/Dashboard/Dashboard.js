@@ -84,14 +84,14 @@ export default class Dashboard extends Component{
 
         return (
             <div >
-            <div className="navigation d-md-none d-sm">
+            <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
             
             <div className="dashboard-container">
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
                     
-                <div className="navigation d-none d-md-block">
+                <div className="navigation d-none d-lg-block">
                     <LeftSidebar  history={this.props.history} />
                 </div>
 
