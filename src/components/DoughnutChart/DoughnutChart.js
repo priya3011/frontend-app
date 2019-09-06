@@ -16,27 +16,31 @@ export default class DoughnutChart extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            width: "80%" //default for lg screens
+        // this.state = {
+        //     width: "80%" //default for lg screens
 
-        };
+        // };
 
     }
 
     componentDidMount(){
-        window.addEventListener('resize', ()=>{
-            if (window.innerWidth <= 600){
-                this.setState({width: "80%" })
-            } else {
-                this.setState({width: "80%" })
-            }
-        });
+        // window.addEventListener('resize', ()=>{
+        //     if (window.innerWidth <= 600){
+        //         this.setState({width: "100%" })
+        //     } else {
+        //         this.setState({width: "80%" })
+        //     }
+        // });
+        
 
     }
 
     render(){
         const { data } = this.props;
+
+        //console.log("DATA:" + JSON.stringify(data))
         const chartData = doughnutChart(data)
+        console.log("DATA:" + JSON.stringify(chartData))
         const options={
             colors: COLORS,
             chart: {
@@ -45,10 +49,10 @@ export default class DoughnutChart extends Component {
                 /* width: 560,
                 height: 399.74,
                 className: 'highcharts-img'  */
-                spacingBottom: 15,
-                spacingTop: 20,
-                spacingLeft: 10,
-                spacingRight: 10,
+                // spacingBottom: 15,
+                // spacingTop: 20,
+                // spacingLeft: 10,
+                // spacingRight: 10,
                 margin: null,
                 width: null,
                 height: "auto",
@@ -61,7 +65,7 @@ export default class DoughnutChart extends Component {
                 style: { "font-size": "0.8rem"},
                 y: -5
             },
-            series: [ { size: this.state.width, innerSize: '50%', data: chartData} ],
+            series: [ {showInLegend: false, size: "80%", innerSize: '50%', data: chartData} ],
             tooltip: {
                 enabled: true,
                 valueDecimals: 2,
@@ -74,12 +78,48 @@ export default class DoughnutChart extends Component {
                         formatter:function(){
                             return '<b style="color:'+ this.color+'">'+ this.point.name +'</b><br><b style="color:'+ this.color+'">$'+ formatAmount((this.point.y).toFixed(2),true)+' CAD</b>';
                         }
-                    }
+                    },
+                    
                 }
+            },
+           
+            responsive: {
+                rules:[
+                    {
+                        condition: {
+                            maxWidth: 360
+                        },
+                        chartOptions:{
+                            plotOptions:{
+                                pie:{
+                                    dataLabels:{
+                                        enabled: false,
+                                    }
+                                }
+                            },
+                            series: [ {showInLegend:true , size: "100%", innerSize: '50%'} ],
+                            legend: {
+                                enabled: true,
+                                layout: 'horizontal',
+                                align: 'center',
+                                alignColumn:false,
+                                verticalAlign: 'bottom',
+                                //labelFormatter: (obs) => {return obs} 
+                            },
+                            title: {
+                                text: "<b>Total</b><br/><b>Investments</b>",
+                                verticalAlign: 'middle',
+                                style: { "font-size": "0.8rem"},
+                                y: -40
+                            },
+                        }
+                        
+                     }
+                ]
             }
         }
         return (
-            <div className="doughnut-container pt-10">
+            <div className="doughnut-container pt-sm-5 pt-lg-0 pt-md-3 pt-1">
                 <div className="doughnut-wrapper">
                     <HighchartsReact
                         highcharts = { Highcharts }
