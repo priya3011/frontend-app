@@ -40,7 +40,7 @@ export default class DoughnutChart extends Component {
 
         //console.log("DATA:" + JSON.stringify(data))
         const chartData = doughnutChart(data)
-        console.log("DATA:" + JSON.stringify(chartData))
+        //console.log("DATA:" + JSON.stringify(chartData))
         const options={
             colors: COLORS,
             chart: {
@@ -65,7 +65,7 @@ export default class DoughnutChart extends Component {
                 style: { "font-size": "0.8rem"},
                 y: -5
             },
-            series: [ {showInLegend: false, size: "80%", innerSize: '50%', data: chartData} ],
+            series: [ {showInLegend: false, size: "80%", innerSize: '50%', data: chartData, name:""} ],
             tooltip: {
                 enabled: true,
                 valueDecimals: 2,
