@@ -139,8 +139,8 @@ export default class Stats extends Component {
                 <Container fluid={true}  className="content-wrapper" id="content-div">
                     <Container >
                     <div className="page-content">
-                        <Row style={{marginTop:"10px"}}>
-                            <Col lg={6} md={12} sm={12} style={{paddingLeft:0}}><ChartTable data={overall_balance}></ChartTable></Col>
+                        <Row style={{alignContent: "center", alignItems: "center"}}>
+                            <Col lg={6} md={12} sm={12} ><ChartTable data={overall_balance}></ChartTable></Col>
                             <Col lg={6} md={12} sm={12} className=""><DoughnutChart data={overall_balance}></DoughnutChart></Col>
                         </Row>
                         <Row>

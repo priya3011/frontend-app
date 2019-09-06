@@ -102,7 +102,7 @@ export default class Dashboard extends Component{
                         <Col></Col>
                     </Row>
 
-                    <Row style={{marginTop:50}} >
+                    <Row style={{ alignItems: "center"}} >
                         <Col lg={6} md={6} sm={12} ><ChartTableMin/></Col>
                         <Col className="" lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
                     </Row>

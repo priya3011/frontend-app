@@ -16,23 +16,10 @@ export default class DoughnutChart extends Component {
 
     constructor(props){
         super(props);
-        // this.state = {
-        //     width: "80%" //default for lg screens
-
-        // };
 
     }
 
     componentDidMount(){
-        // window.addEventListener('resize', ()=>{
-        //     if (window.innerWidth <= 600){
-        //         this.setState({width: "100%" })
-        //     } else {
-        //         this.setState({width: "80%" })
-        //     }
-        // });
-        
-
     }
 
     render(){

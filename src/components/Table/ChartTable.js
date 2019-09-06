@@ -3,6 +3,7 @@ import './Table.scss';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { formatAmount } from '../../util/util'
+import {Row, Col, Container} from "react-bootstrap"
 
 import PropTypes from 'prop-types';
 
@@ -20,16 +21,48 @@ class ChartTable extends Component {
                 CADSum += +(data.user_balance[i].balance_cad);
             }
         }
+
         const columns = [
             { accessor: 'investment_name',
               Footer: <span>{'Total in CAD'}</span>},
             { id: 'balance',
               accessor: (data)=> formatAmount(+data.balance),
-              // className: 'align-right'
             },
             { id: 'balance_cad',
               accessor: (data) =>'$' + formatAmount((+data.balance_cad).toFixed(2),true),
               Footer: <span>{`$${formatAmount((CADSum).toFixed(2))}`}</span>}
+        ]
+
+        const columnsSmall = [
+            { 
+                // Cell: row => (
+                // <span> {row.value} </span>
+                // ),
+              style: {textAlign:"left"},
+              width: 100,
+              Cell: row => (
+                <span className="text-align-left"> {row.value} </span>
+            ),
+              accessor: 'investment_name',
+              Footer: <span>{'Total in CAD'}</span>},
+             
+              
+            { id: 'balance',
+              Cell: row => (
+                    <Container fluid={true}>
+                        <Row style={{justifyContent:"flex-end"}}>
+                            <Col><span>{row.value[0]}</span></Col>
+                        </Row>
+                        <Row style={{paddingTop:"10px", justifyContent:"flex-end", fontSize:"smaller"}}> <Col>
+                            <span style={{color:"gray"}} >{`$CAD ${row.value[1]}`}</span>
+                        </Col></Row>
+                    </Container>        
+                ),
+              style: {textAlign:"end"},
+              accessor: (data) => [formatAmount(+data.balance), formatAmount((+data.balance_cad).toFixed(2),true) ],
+              Footer: <span>{`$${formatAmount((CADSum).toFixed(2))}`}</span>,
+              //width: 200,
+            },
         ]
 
         if(JSON.stringify(data) === '{}')
@@ -37,14 +70,25 @@ class ChartTable extends Component {
         else  if(typeof(data.code) !== 'undefined')
             if( data.code === "Success" )
                 return(
-                    <div className="Charttable-container">
-                        <ReactTable
-                            className="-striped"
-                            data={data.user_balance}
-                            columns={columns}
-                            pageSize={data.user_balance.length}
-                            showPagination={false}
-                        />
+                    <div>
+                        <div className="Charttable-container d-none d-sm-block">
+                            <ReactTable
+                                className="-striped"
+                                data={data.user_balance}
+                                columns={columns}
+                                pageSize={data.user_balance.length}
+                                showPagination={false}
+                            />
+                        </div>
+                        <div className="Charttable-container d-sm-none d-xs">
+                            <ReactTable
+                                className="-striped"
+                                data={data.user_balance}
+                                columns={columnsSmall}
+                                pageSize={data.user_balance.length}
+                                showPagination={false}
+                            />
+                        </div>
                     </div>
                 )
     }
