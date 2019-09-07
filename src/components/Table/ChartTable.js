@@ -61,13 +61,14 @@ class ChartTable extends Component {
                             <Col><span>{row.value[0]}</span></Col>
                         </Row>
                         <Row style={{ justifyContent:"flex-end", fontSize:"smaller"}}> <Col>
-                            <span style={{color:"gray"}} >{`$CAD ${row.value[1]}`}</span>
+                            <span style={{color:"gray"}} >{`$${row.value[1]}`}</span>
                         </Col></Row>
                     </Container>        
                 ),
               style: {textAlign:"end"},
               accessor: (data) => [formatAmount(+data.balance), formatAmount((+data.balance_cad).toFixed(2),true) ],
-              Footer: <span>{`$${formatAmount((CADSum).toFixed(2))}`}</span>,
+              Footer: () => (
+                <Container><Row><Col>{`$${formatAmount((CADSum).toFixed(2))}`}</Col> </Row> </Container>)
               //width: 200,
             },
         ]
