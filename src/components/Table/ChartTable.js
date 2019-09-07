@@ -42,7 +42,7 @@ class ChartTable extends Component {
               width: 110,
               Cell: row => (
                 <Container><Row><Col>
-                    <div style={{whiteSpace:"normal", wordBreak:"break-word"}}>
+                    <div style={{whiteSpace:"normal", wordBreak:"normal"}}>
                         {row.value}
                      </div>
                 </Col></Row></Container>
