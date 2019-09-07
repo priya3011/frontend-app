@@ -41,19 +41,26 @@ class ChartTable extends Component {
               style: {textAlign:"left"},
               width: 110,
               Cell: row => (
-                <span className="text-align-left"> {row.value} </span>
+                <Container><Row><Col>
+                    <div style={{whiteSpace:"normal", wordBreak:"break-word"}}>
+                        {row.value}
+                     </div>
+                </Col></Row></Container>
+                
+               // <span className="text-align-left"> {"asdasdasdasd " + row.value} </span>
             ),
               accessor: 'investment_name',
-              Footer: <span>{'Total in CAD'}</span>},
+              Footer:  () => (
+              <Container><Row><Col>{'Total in CAD'}</Col> </Row> </Container>),
              
-              
+            },
             { id: 'balance',
               Cell: row => (
                     <Container fluid={true}>
                         <Row style={{justifyContent:"flex-end"}}>
                             <Col><span>{row.value[0]}</span></Col>
                         </Row>
-                        <Row style={{paddingTop:"10px", justifyContent:"flex-end", fontSize:"smaller"}}> <Col>
+                        <Row style={{ justifyContent:"flex-end", fontSize:"smaller"}}> <Col>
                             <span style={{color:"gray"}} >{`$CAD ${row.value[1]}`}</span>
                         </Col></Row>
                     </Container>        
