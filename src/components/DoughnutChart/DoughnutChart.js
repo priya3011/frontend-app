@@ -87,9 +87,9 @@ export default class DoughnutChart extends Component {
                             series: [ {showInLegend:true , size: "100%", innerSize: '50%'} ],
                             legend: {
                                 enabled: true,
-                                layout: 'horizontal',
+                                //layout: 'horizontal',
                                 align: 'center',
-                                alignColumn:false,
+                                //alignColumn:false,
                                 verticalAlign: 'bottom',
                                 //labelFormatter: (obs) => {return obs} 
                             },
@@ -97,7 +97,7 @@ export default class DoughnutChart extends Component {
                                 text: "<b>Total</b><br/><b>Investments</b>",
                                 verticalAlign: 'middle',
                                 style: { "font-size": "0.8rem"},
-                                y: -40
+                                y: -60
                             },
                         }
                         
