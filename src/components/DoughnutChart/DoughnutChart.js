@@ -97,7 +97,7 @@ export default class DoughnutChart extends Component {
                                 text: "<b>Total</b><br/><b>Investments</b>",
                                 verticalAlign: 'middle',
                                 style: { "font-size": "0.8rem"},
-                                y: -60
+                                y: -50
                             },
                         }
                         

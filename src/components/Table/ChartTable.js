@@ -39,7 +39,7 @@ class ChartTable extends Component {
                 // <span> {row.value} </span>
                 // ),
               style: {textAlign:"left"},
-              width: 100,
+              width: 110,
               Cell: row => (
                 <span className="text-align-left"> {row.value} </span>
             ),
