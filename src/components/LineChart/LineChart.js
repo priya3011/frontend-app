@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import './LineChart.scss';
 import { lineChart } from '../../service/extractData'
 import { COLORS } from '../../config/config'
+import {Row, Col, Container} from 'react-bootstrap'
 
 export default class LineChart extends Component {
 
@@ -198,8 +199,30 @@ export default class LineChart extends Component {
         return (
             <div className="line-chart-container">
                 <div className="line-chart-wrapper">
-                    <div className="line-chart-controls">
-                        <div className="d-none d-md-block" style={{display: 'inline-flex'}}>
+                    <Container style={{paddingLeft:"50px"}}>
+                        <Row style={{alignItems:"center", paddingBottom:"4.0vh", justifyContent:"space-between", fontSize:"1.6vh"}}>
+                            <Col xs={12} md={8} lg={6} className=" py-3 py-md-0"> <Row>
+                                <Col xs={6} md={6} > <div onClick={this.handleClickLineChart} className={ showLineChart? "chart-link-active" : "chart-link"}>Line Chart View</div></Col>
+                                <Col  xs={6} md={6}><div onClick={this.handleClickMountainChart} className={ !showLineChart? "chart-link-active" : "chart-link"} >Mountain Chart View</div></Col>
+                            </Row></Col>
+                            <Col xs={12} md={4}>
+                                <Row style={{justifyContent:"flex-end"}}>
+                                    <Col xs={6} md={12}>
+                                    <select style={{float:"right"}} name="interval" className="chart-dropdown" value={ this.state.interval } onChange={ this.handleChange }>
+                                        <option value='30'>Last 30 Days</option>
+                                        <option value='60'>Last 60 Days</option>
+                                        <option value='90'>Last 90 Days</option>
+                                        <option value='180'>Last 180 Days</option>
+                                        <option value='365'>Last 1 year</option>
+                                    </select>
+                                    </Col>
+                                </Row>
+                                
+                            </Col> 
+                        </Row>
+                    </Container>
+                    {/* <div className="line-chart-controls">
+                        <div className="" style={{display: 'inline-flex'}}>
                           <div onClick={this.handleClickLineChart} className={ showLineChart? "chart-link-active" : "chart-link"}>Line Chart View</div>
                           <div onClick={this.handleClickMountainChart} className={ !showLineChart? "chart-link-active" : "chart-link"} >Mountain Chart View</div>
                         </div>
@@ -212,7 +235,7 @@ export default class LineChart extends Component {
                                 <option value='365'>Last 1 year</option>
                             </select>
                         </div>
-                    </div>
+                    </div> */}
                     <div>
                         { showOne}
                     </div>

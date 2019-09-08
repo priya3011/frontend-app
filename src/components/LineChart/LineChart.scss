@@ -41,11 +41,11 @@
 }
 
 .chart-link-active{
-  text-align: center;
+  text-align: left;
   letter-spacing: 0;
   color: #40BBF2;
   opacity: 1;
-  padding-right: 90px;
+  //padding-right: 90px;
   &:hover {
     cursor: pointer;
    }
@@ -55,11 +55,11 @@
 
 
 .chart-link{
-  text-align: center;
+  text-align: left;
   letter-spacing: 0;
   color: #646464;
   opacity: 1;
-  padding-right: 90px;
+ // padding-right: 90px;
   &:hover {
     cursor: pointer;
    }
