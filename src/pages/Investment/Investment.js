@@ -59,7 +59,9 @@ export default class Investment extends Component {
 
     componentDidUpdate(prevProps, prevState){
 
+        // this.setState({ accountExist: true})
         if(prevProps.match.params.investment_id != this.props.match.params.investment_id)
+            
             this.updateAccountInfo();
     }
 
@@ -81,7 +83,7 @@ export default class Investment extends Component {
         getAccountDetails({username, investment_id})
         .then((res)=>{
             
-            this.setState({account_details: res.data.account},
+            this.setState({ accountExist:true, account_details: res.data.account},
 
                 ()=>{
                     this.updateTransactionHistory(res.data.account.account_id);
@@ -92,10 +94,12 @@ export default class Investment extends Component {
         })
         .catch((err)=>{
             //triggers a state change which will refresh all components
+            console.log(err)
             const { message , code} = err.response.data
             if(message == "Account does not exist")
             {
-                this.setState({ accountExist: false})
+                this.setState({ accountExist: false })
+
             }else{
 
                 this.showAlert(code,'error');
@@ -165,6 +169,7 @@ export default class Investment extends Component {
         let pageContent = ''
 
         if(!accountExist){
+          
             return <div style={{height:"inherit"}}>
                 <div className="navigation d-lg-none d-sm">
                         <ResponsiveSidebar  history={this.props.history} />
@@ -218,6 +223,7 @@ export default class Investment extends Component {
                     <Container>
                     
                     <div className="page-content">
+
                     <Row style={{justifyContent:"space-between", height: "fit-content"}}>
                     <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
                     <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
