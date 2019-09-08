@@ -199,7 +199,7 @@ export default class LineChart extends Component {
             <div className="line-chart-container">
                 <div className="line-chart-wrapper">
                     <div className="line-chart-controls">
-                        <div style={{display: 'inline-flex'}}>
+                        <div className="d-none d-md-block" style={{display: 'inline-flex'}}>
                           <div onClick={this.handleClickLineChart} className={ showLineChart? "chart-link-active" : "chart-link"}>Line Chart View</div>
                           <div onClick={this.handleClickMountainChart} className={ !showLineChart? "chart-link-active" : "chart-link"} >Mountain Chart View</div>
                         </div>

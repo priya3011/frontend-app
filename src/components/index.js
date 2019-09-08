@@ -1,4 +1,7 @@
 export { default as LeftSidebar } from './Sidebar/Sidebar';
+export { default as ResponsiveSidebar } from './ResponsiveSidebar/ResponsiveSidebar';
+
+
 export { default as TransferModal } from './TransferModal/TransferModal';
 export { default as DoughnutChart } from './DoughnutChart/DoughnutChart';
 export { default as LineChart } from './LineChart/LineChart';

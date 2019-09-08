@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import {   
+import {  
+    ResponsiveSidebar, 
     LeftSidebar,
     Footer,
     CustomSnackbar,
@@ -124,16 +125,23 @@ export default class Stats extends Component {
         const { tx_history, user_count, user_history, overall_balance,  time_period_chart, rates_in_cad} = this.state;
 
         return (
-            <div className="main-container">
+            <div>
+
+            <div className="navigation d-lg-none d-sm">
+                    <ResponsiveSidebar  history={this.props.history} />
+            </div>
+
+            <div className="dashboard-container">
                
-                <div className="navigation">
+                <div className="navigation  d-none d-lg-block">
                     <LeftSidebar history={this.props.history} />
                 </div>
-                <Container  className="content-wrapper" id="content-div">
+                <Container fluid={true}  className="content-wrapper" id="content-div">
+                    <Container >
                     <div className="page-content">
-                        <Row style={{marginTop:"5.416vw"}}>
-                            <Col lg={6} md={12} sm={12} style={{paddingLeft:0}}><ChartTable data={overall_balance}></ChartTable></Col>
-                            <Col lg={6} md={12} sm={12} ><DoughnutChart data={overall_balance}></DoughnutChart></Col>
+                        <Row style={{alignContent: "center", alignItems: "center"}}>
+                            <Col lg={6} md={12} sm={12} ><ChartTable data={overall_balance}></ChartTable></Col>
+                            <Col lg={6} md={12} sm={12} className=""><DoughnutChart data={overall_balance}></DoughnutChart></Col>
                         </Row>
                         <Row>
                             <ExchangeTable data={rates_in_cad}></ExchangeTable>
@@ -144,17 +152,20 @@ export default class Stats extends Component {
                         <Row>
                             <SimpleChart chartTitle={"Total Users"} data={user_history} dataType="users" chartType="area" index={0} refreshData={this.updateRegisteredUserHistory} interval={time_period_chart}></SimpleChart>
                         </Row>
-                        <Row style={{justifyContent:"space-between", height: "fit-content", marginTop: "20px"}}>
+                        <Row style={{justifyContent:"space-between", height: "fit-content", marginTop:"10px", marginBottom:"30px"}}>
                             <Col lg={4} md={4} sm={4} className="auto-height" style={{paddingLeft:0}} ><InfoCard label={"Total Users"} value={user_count+" Users"}></InfoCard></Col>
                             <Col lg={8} md={8} sm={8} className="auto-height" ></Col>
                         </Row>
                     </div>
+                    </Container>
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
 
                 </Container>
                 
                 
             </div>
+            </div>
+
         )
     }
 }

@@ -9,6 +9,7 @@
         flex-direction: column;
         justify-content: left;
         //width: -webkit-fill-available;
+        padding-top: 64px;
 
         .overview-container{
             display: flex;
@@ -41,6 +42,7 @@
     // margin-top: 7.142vw;
     min-height: 8vh;
     background-color: #373737;
+    width: 100%;
 }
 
 .side-margin{
@@ -52,4 +54,9 @@
 
 .no-margin{
     margin:0px !important;
+}
+
+.hidescroll{
+  overflow: scroll;
+  scrollbar-width: none; /* Firefox */
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { UncontrolledCollapse } from 'reactstrap';
+import { Button, Collapse } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,8 +20,8 @@ class LeftSidebar extends Component {
     constructor(props){
       super(props);
       this.logout = this.logout.bind(this);
-    }
 
+    }
     componentWillMount(){
         
         this.props.fetchAllInvestments();
@@ -76,7 +78,6 @@ class LeftSidebar extends Component {
             const { currency, investments } = mapping;
 
             
-
             return <div key={currency}><a href="" className="nav-link-top"><li  className="nav-item" id={currency} >
                             <i className="fa fa-chevron-right"></i>
                             <span href="">{mapping.currency}</span>
@@ -125,20 +126,21 @@ class LeftSidebar extends Component {
   render(){
 
     // console.log("mapping  ", this.getCurrencyInvestmentMapping());
-
-
     const InvestmentsMenu  = this.renderInvestmentsMenu();
     const ref_code = localStorage.getItem("ref_code");
+
     return (
+       
         <div className="sidebar-container">
-        <ul className="sidebar navbar-nav" >
+        <ul className="sidebar navbar-nav scroll" >
                 <div className="navigation-type">
+
                 <li className="nav-item">
                     <i className="fa fa-home"></i>
                     <Link to="/dashboard" className="nav-link-top">Dashboard</Link>
 
                 </li>
-
+                
                 <li className="nav-item">
                     <i className="fa fa-empire"></i>
                     {/* <i class="fas fa-steering-wheel"></i> */}
@@ -171,7 +173,6 @@ class LeftSidebar extends Component {
                 </li>
                 </div>
             </ul>
-
     </div>
     );
   }
