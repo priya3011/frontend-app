@@ -95,7 +95,7 @@ export default class Dashboard extends Component{
                     <LeftSidebar  history={this.props.history} />
                 </div>
 
-                <Container fluid={true} className="content-wrapper pt-md-0 pt-sm-64px" id="content-div">
+                <Container fluid={true} className="content-wrapper " id="content-div">
                     <Container class="row form-group">
                     <Row >
                         <Col></Col>
@@ -103,8 +103,8 @@ export default class Dashboard extends Component{
                     </Row>
 
                     <Row style={{ alignItems: "center"}} >
-                        <Col lg={6} md={6} sm={12} ><ChartTableMin/></Col>
-                        <Col className="" lg={6} md={6} sm={12} ><DoughnutChartMin/></Col>
+                        <Col lg={6} md={12} sm={12} ><ChartTableMin/></Col>
+                        <Col className="" lg={6} md={12} sm={12} ><DoughnutChartMin/></Col>
                     </Row>
                     <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
