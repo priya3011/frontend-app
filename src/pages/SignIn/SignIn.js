@@ -71,7 +71,7 @@ class SignIn extends Component {
     //check if user is authenticated
     this.setState({
       authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!=''
-      // ,message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+      , message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
     });
 
 
