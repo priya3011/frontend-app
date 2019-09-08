@@ -2,7 +2,9 @@
  * Build a Higher-Order Component to wrap the pages/components which need session timeout.
  */
 import React, { Component } from 'react';
+import { Redirect  } from 'react-router-dom';
 import { SESSION_SIGNOUT_TIME, EVENTS, ALERT_SIGNOUT_MSG } from "../config/config"
+
 
 export default function(Wrappedcomponent){
   return class extends Component{      
@@ -28,7 +30,10 @@ export default function(Wrappedcomponent){
       }
 
       render(){
-          return <Wrappedcomponent { ...this.props}/>
+          if( localStorage['username'] && localStorage['username'] != '')
+            return <Wrappedcomponent { ...this.props}/>
+          else
+            return <Redirect to="/signin"></Redirect>
       }
   }
 }

@@ -166,7 +166,7 @@ class LeftSidebar extends Component {
                 </li>
                 <li className="nav-item" onClick={this.logout}>
                     <i className="fa fa-sign-out"></i>
-                    <a className="nav-link-top">Logout</a>
+                    <a href="#" className="nav-link-top">Logout</a>
                 </li>
                 <li className="nav-item">
                     <span>Referral Code: {ref_code}</span>
