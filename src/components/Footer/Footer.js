@@ -39,7 +39,7 @@ class Footer extends Component {
                         <Col className="d-none d-md-block"><Link to="/exchange" className="nav-link-top">Exchange</Link></Col>
                         <Col ><Link to="/contact" className="nav-link-top">Contact</Link></Col>
                         <Col className="d-none d-md-block"><Link to="/sigin" onClick={this.logout} className="nav-link-top">Logout</Link></Col>
-                        <Col className="d-none d-md-block">Referral Code</Col>
+                        
                     </Row>
                 </div>
             
