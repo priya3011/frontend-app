@@ -26,6 +26,7 @@ export default class Investment extends Component {
         super(props);
         this.state ={
             //for notification
+            accountExist: true,
             isAlertVisible : false,
             alertType:'',
             alertMessage:'',
@@ -91,7 +92,15 @@ export default class Investment extends Component {
         })
         .catch((err)=>{
             //triggers a state change which will refresh all components
-            this.showAlert(err.response.data.code,'error');
+            const { message , code} = err.response.data
+            if(message == "Account does not exist")
+            {
+                this.setState({ accountExist: false})
+            }else{
+
+                this.showAlert(code,'error');
+            }
+
         });
 
 
@@ -148,11 +157,49 @@ export default class Investment extends Component {
     render() {
 
         
-        
+        const username = localStorage.getItem("username")
         const { investment_id } = this.props.match.params
         const { investment_name, currency, index } = this.props.location.state;
-        const { isAlertVisible, alertType, alertMessage, account_details, account_tx_history, account_balance_history, linechart_time_days } = this.state;
+        const { accountExist, isAlertVisible, alertType, alertMessage, account_details, account_tx_history, account_balance_history, linechart_time_days } = this.state;
 
+        let pageContent = ''
+
+        if(!accountExist){
+            return <div style={{height:"inherit"}}>
+                <div className="navigation d-lg-none d-sm">
+                        <ResponsiveSidebar  history={this.props.history} />
+                </div>
+                <div className="main-container ">
+                    <div className="navigation d-none d-lg-block">
+                        <LeftSidebar history={this.props.history} />
+                    </div>
+                    <Container  className="content-wrapper" id="content-div" style={{paddingTop:"70px"}}>
+                        
+                        <Row style={{marginBottom: "auto"}} className="justify-content-center">
+                        <Col  lg={12} md={12} xs={12}>
+                            <div>
+                                You do not have a {investment_name} account. To create one, contact <a href={
+                                    "mailto:accounts@qoinify.com?"
+                                    +"subject=Qoinify Account Creation Request: "
+                                    +username+" &"
+                                   +"body=Hi,%0D%0A%0D%0AI would like to create a "+investment_name+" account with a starting balance of: ENTER BALANCE HERE%0D%0A%0D%0ARegards,%0D%0A"}>
+                                    
+                                     accounts@qoinify.com
+                                </a>
+                            </div>
+                        </Col>                    
+                        </Row>
+                
+                        <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
+    
+                    </Container>
+                    
+                    
+                </div>
+                </div>
+        }
+
+        
         console.log("investment_id ",investment_id)
 
         console.log("account_balance_history",account_balance_history.balance_history)
@@ -169,25 +216,27 @@ export default class Investment extends Component {
                 </div>
                 <Container fluid={true}  className="content-wrapper" id="content-div">
                     <Container>
+                    
                     <div className="page-content">
-                        <Row style={{justifyContent:"space-between", height: "fit-content"}}>
-                            <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
-                            <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
-                            <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
-                        </Row>
+                    <Row style={{justifyContent:"space-between", height: "fit-content"}}>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
+                    </Row>
 
-                        <Row>
-                            <SimpleChart chartType="line" dataType="balance" data={account_balance_history} index={index}  investmentName={investment_name} chartTitle={investment_name} refreshData={this.updateAccountBalanceHistory} interval={linechart_time_days}></SimpleChart>
-                        </Row>
+                    <Row>
+                        <SimpleChart chartType="line" dataType="balance" data={account_balance_history} index={index}  investmentName={investment_name} chartTitle={investment_name} refreshData={this.updateAccountBalanceHistory} interval={linechart_time_days}></SimpleChart>
+                    </Row>
 
-                        <Row>
-                            <TransactionTable data={account_tx_history} mask={false}></TransactionTable>
-                        </Row>
+                    <Row>
+                        <TransactionTable data={account_tx_history} mask={false}></TransactionTable>
+                    </Row>
 
-                        <Row>
-                            <TransferModal showAlert={this.showAlert} investment_id={investment_id} onSuccess={this.updateAccountInfo}></TransferModal>
-                        </Row>
+                    <Row>
+                        <TransferModal showAlert={this.showAlert} investment_id={investment_id} onSuccess={this.updateAccountInfo}></TransferModal>
+                    </Row>
                     </div>
+                    
                     </Container>                   
             
                     <Row><Col lg={12} md={12} sm={12} className="footer-container"><Footer history={this.props.history} /></Col></Row>
