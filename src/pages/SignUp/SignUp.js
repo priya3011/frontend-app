@@ -4,6 +4,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 
 import { Container, Row, Col } from 'react-bootstrap';
+import queryString from 'query-string'
 
 
 
@@ -30,6 +31,14 @@ class SignUp extends Component {
   //
   //   this.onDismiss = this.onDismiss.bind(this);
   // }
+
+  componentDidMount(){
+
+    //set referral code if part of URL
+    const values = queryString.parse(this.props.location.search)
+    if (values.ref_code)
+      this.setState({ code: values.ref_code })
+  }
 
   handleInputChange = (e) =>{
     this.setState({

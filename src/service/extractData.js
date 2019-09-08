@@ -159,13 +159,16 @@ export const transactionTable = (data, search)=>{
             tableData = serverData.filter((one)=>{
 
                 let amount = one.amount.toString().replace(/[^0-9.]+/g,'')
+                let amount_cad = one.amount_cad.toString().replace(/[^0-9.]+/g,'')
+                let search_amount = search.replace(/[^0-9.]+/g,'')
                 // let amount_balance = amount_cad
                 return (
                     (new Date(one.time).toLocaleDateString().indexOf(search)) !== -1 ||
                     (one.description.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
                     (one.investment_name.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
-                    ((one.amount.toString().toLowerCase().indexOf(search.toLowerCase())) !== -1 || (formatAmount(one.amount).toLowerCase().indexOf(search.toLowerCase())) !== -1 ) ||
-                    ((one.amount_cad.toString().toLowerCase().indexOf(search.toLowerCase())) !== -1 || (formatAmount(one.amount_cad).toLowerCase().indexOf(search.toLowerCase())) !== -1)
+                    (amount.indexOf(search_amount) !== -1 )||
+                    (amount_cad.toLowerCase().indexOf(search_amount) !== -1 )
+                
 
                     // one.amount === +search ||
                     // one.account_balance === +search

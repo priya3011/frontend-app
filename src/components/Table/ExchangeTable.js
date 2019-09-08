@@ -30,11 +30,27 @@ export default class ExchangeTable extends Component {
                 Header:'Bid',
                 id:'bid',
                 accessor: (data)=> formatAmount(+data.rate_in_cad.bid, true),
+                sortMethod: (a, b) => {
+
+                    console.log("cad: ",a,b)
+                    let numericA = parseFloat(a.replace(/[^0-9.]+/g,''));
+                    let numericB = parseFloat(b.replace(/[^0-9.]+/g,''));
+
+                    return numericA > numericB ? 1 : -1;
+                }
             },
             {
                 Header:'Ask',
                 id:'ask',
                 accessor: (data)=> formatAmount(+data.rate_in_cad.ask, true),
+                sortMethod: (a, b) => {
+
+                    console.log("cad: ",a,b)
+                    let numericA = parseFloat(a.replace(/[^0-9.]+/g,''));
+                    let numericB = parseFloat(b.replace(/[^0-9.]+/g,''));
+
+                    return numericA > numericB ? 1 : -1;
+                }
             }
             // { 
             //    Header:'Rate in CAD',
