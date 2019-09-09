@@ -9,6 +9,7 @@ import './SignIn.scss';
 import { login, reset } from '../../actions/userActions';
 
 import { Container, Row, Col } from 'react-bootstrap';
+import queryString from 'query-string'
 
 
 class SignIn extends Component {
@@ -37,11 +38,14 @@ class SignIn extends Component {
 
   componentDidMount(){
 
+
+    const values = queryString.parse(this.props.location.search)
+    console.log(values.confirm)
+    if (values.confirm){
+       this.setState({  message: { show: true , msg: 'Email verified' , type:'success'} })
+    }
     //confirmation message from sign up
-
-
-
-    if (this.props.location.state && this.props.location.state.confirmation_msg){
+    else if (this.props.location.state && this.props.location.state.confirmation_msg){
 
       // console.log("got the confirmation message");
 
@@ -54,6 +58,7 @@ class SignIn extends Component {
       this.props.history.replace();
 
     }
+    
 
     //check if user is authenticated
     this.setState({
@@ -66,13 +71,25 @@ class SignIn extends Component {
 
   }
 
-  componentWillReceiveProps(){
+  componentWillReceiveProps(nextProps){
 
     //check if user is authenticated
     this.setState({
       authenticated: localStorage.getItem('username')!==null && localStorage.getItem('username')!=''
-      , message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
+      // , message: { show: this.props.user.error!='', msg:this.props.user.error, type:'error'}
     });
+
+    if(nextProps != this.props){
+
+      console.log("nextProps ", nextProps);
+      console.log("this.props ", this.props);
+      if(nextProps.user.error!=''){
+        console.log("changing")
+        this.setState({message: { show: true, msg: nextProps.user.error, type:'error'}})
+      }
+        
+        
+    }
 
 
   }
@@ -84,11 +101,16 @@ class SignIn extends Component {
   }
 
   handleSubmit = (e)=>{
+
+    //reset the error message
+    
+
     if(!e.target.checkValidity()){  // Add a Bootstrap class to show prompts if checkValidity is false.
       this.setState({ className: 'needs-validation was-validated'});
     }else{
       const { username, password } = this.state;
       this.props.login(username, password);
+     
       // axios.post(FRONTEND_API+'login', { username, password })
       // .then((res1)=>{
       //   if(res1.data.code === "Login successful")

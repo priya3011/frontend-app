@@ -28,6 +28,8 @@ class ExchangeForm extends Component {
 
 
     constructor(props){
+
+        console.log("props", props)
         super(props);
         this.state = {
             source_investment:'',
@@ -104,26 +106,35 @@ class ExchangeForm extends Component {
 
         const { source_currency, target_currency } = this.state;
 
-
-
         console.log("this.props.exchange_rates", this.props.exchange_rates);
         console.log(source_currency, target_currency);
 
-        let exchange_rate = null;
+        let exchange_rate = { bid:null, ask:null, mid:null};
 
-        if(source_currency == target_currency)
+        if(source_currency == target_currency )
             exchange_rate= {bid:1, ask:1, mid:1}
-        else{
+        else{   
 
             exchange_rate = this.props.exchange_rates[source_currency+"_"+target_currency];
+            console.log("exchange rate: ", exchange_rate)
 
             //find the reverse direction rate
             if(!exchange_rate){
+
                 exchange_rate = this.props.exchange_rates[target_currency+"_"+source_currency];
                 console.log("t: ",target_currency+"_"+source_currency)
-                exchange_rate = { bid:1/exchange_rate.ask, ask:1/exchange_rate.bid, mid:1/exchange_rate.mid};
+                console.log("t: exchange rate ",this.props.exchange_rates[target_currency+"_"+source_currency])
+
+                if(exchange_rate)
+                {
+                    let new_exchange_rate = { bid:1/exchange_rate.ask, ask:1/exchange_rate.bid, mid:1/exchange_rate.mid};
+                    console.log("new_exchange_rate: ", new_exchange_rate)
+                    exchange_rate = new_exchange_rate;
+                }
             }
         }
+
+        // console.log("exchange rate ",exchange_rate)
          
             
         this.setState({ exchange_rate}, ()=>{
@@ -237,6 +248,13 @@ class ExchangeForm extends Component {
         const { source_investment, target_investment, source_currency, target_currency, amount, target_amount } = this.state;
         const userInvestmentList = this.generateInvestmentList(this.props.user_investments, target_investment, "source");
         const allInvestmentList = this.generateInvestmentList(this.props.investments, source_investment, "target");
+
+        if(this.props.user_investments == 0){
+            return (
+                <div >
+                </div>
+            )
+        }
 
         return (
             <div className="form-container">

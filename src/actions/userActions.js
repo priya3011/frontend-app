@@ -21,6 +21,12 @@ export function reset(){
   }
 }
 
+export function logout(){
+  return function (dispatch){
+    dispatch({ type:LOGOUT })
+  }
+}
+
 export function login(username, password){
   return function (dispatch){
     axios

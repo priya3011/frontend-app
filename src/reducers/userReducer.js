@@ -34,7 +34,7 @@ export default function userReducer (state = initialState, action) {
             localStorage.removeItem('username');
             localStorage.removeItem('ref_code');
             localStorage.removeItem('user_level');
-            return state;
+            return initialState;
         default:
             return state;
     }

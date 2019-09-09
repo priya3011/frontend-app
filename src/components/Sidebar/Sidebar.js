@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Sidebar.scss';
 import { fetchAllInvestments } from '../../actions/investmentActions'
-import { reset } from '../../actions/userActions'
+import { reset, logout } from '../../actions/userActions'
 //import Sidebar, {SidebarStyles} from 'react-sidebar';
 
 class LeftSidebar extends Component {
@@ -19,7 +19,7 @@ class LeftSidebar extends Component {
 
     constructor(props){
       super(props);
-      this.logout = this.logout.bind(this);
+    //   this.logout = this.logout.bind(this);
 
     }
     componentWillMount(){
@@ -164,7 +164,7 @@ class LeftSidebar extends Component {
                     <i className="fa fa-envelope-square"></i>
                     <Link to="/contact" className="nav-link-top">Contact</Link>
                 </li>
-                <li className="nav-item" onClick={this.logout}>
+                <li className="nav-item" onClick={this.props.logout}>
                     <i className="fa fa-sign-out"></i>
                     <a href="#" className="nav-link-top">Logout</a>
                 </li>
@@ -186,4 +186,4 @@ const mapStateToProps = state => ({
     // user: state.user.user_details
 });
 
-export default connect(mapStateToProps, { fetchAllInvestments, reset })(LeftSidebar);
+export default connect(mapStateToProps, { fetchAllInvestments, reset, logout })(LeftSidebar);
