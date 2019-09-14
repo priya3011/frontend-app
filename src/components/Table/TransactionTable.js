@@ -40,10 +40,18 @@ export default class TransactionTable extends Component {
         //     pageSize=entries;
 
         const columns = [
-            { id: 'date', Header: 'Date', 
+            { 
+                id: 'date', 
+                Header: 'Date', 
+                Cell: row => (
+                    <div style={{whiteSpace:"normal", wordBreak:"normal"}}>
+                        {row.value.toLocaleDateString()}
+                    </div>
+                    ),
                 accessor:(data) => {
-                    return new Date(data.time).toLocaleDateString();
-                }
+                    return new Date(data.time)
+                },
+
             },
             { Header: 'Investment', accessor: 'investment_name' },
             { Header: 'Description', accessor: mask? 'transaction_type': 'description' },
