@@ -67,6 +67,8 @@ export default class LineChart extends Component {
 
         // console.log("chartData ",chartData[0].data[0])
 
+        console.log("DATA: " + JSON.stringify(chartData))
+
         const lineOptions={
             colors: COLORS,
             chart: {
@@ -178,7 +180,9 @@ export default class LineChart extends Component {
             },
             ],
             plotOptions: {
-
+                area:{
+                    stacking: 'normal',
+                },
                 series:{pointStart: startDate},
 
             }
