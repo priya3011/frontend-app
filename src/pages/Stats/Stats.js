@@ -120,7 +120,7 @@ export default class Stats extends Component {
     }
 
     render() {
-
+  
         // const { isAlertVisible, alertType, alertMessage, account_details, account_tx_history, account_balance_history, linechart_time_days } = this.state;
         const { tx_history, user_count, user_history, overall_balance,  time_period_chart, rates_in_cad} = this.state;
 
