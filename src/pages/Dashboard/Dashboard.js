@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Navbar, NavbarBrand, Button, Collapse, NavDropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button} from 'react-bootstrap';
+import screenfull from 'screenfull';
 import PropTypes from 'prop-types';
 import './Dashboard.scss';
 
@@ -89,6 +90,11 @@ export default class Dashboard extends Component{
             </div>
             
             <div className="dashboard-container">
+
+                <div className="expandButton d-none d-lg-block">
+                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand"></Button>
+                </div>
+
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
                     
                 <div className="navigation d-none d-lg-block">
