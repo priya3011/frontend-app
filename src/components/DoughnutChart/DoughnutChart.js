@@ -43,7 +43,8 @@ export default class DoughnutChart extends Component {
                 margin: null,
                 width: null,
                 height: "auto",
-                style: { 'font-family': 'Lato', 'font-size': '0.6771vw'}
+                style: { 'font-family': 'Lato', 'font-size': '0.6771vw'},
+                backgroundColor: "transparent"
             },
             credits: { enabled: false},
             title: {
