@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button} from 'react-bootstrap';
-import screenfull from 'screenfull';
 import PropTypes from 'prop-types';
 import './Dashboard.scss';
+import Fullscreen from "react-full-screen";
+
 
 
 import FetchDataMin from '../../HOC/FetchDataMin'
@@ -44,6 +45,7 @@ export default class Dashboard extends Component{
             isAlertVisible : false,
             alertType:'',
             alertMessage:'',
+            isFull: false,
 
         };
 
@@ -59,7 +61,9 @@ export default class Dashboard extends Component{
         this.setState({ isAlertVisible: false });
     }
 
-
+    goFull = () => {
+        this.setState({ isFull: true });
+      }
 
 
     // handleChange = (e)=>{
@@ -88,11 +92,27 @@ export default class Dashboard extends Component{
             <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
+
+            
+            <Fullscreen enabled={this.state.isFull} onChange={isFull => this.setState({isFull})}>
+            { this.state.isFull &&
+                <Container fluid={true} className="fullScreen">
+                <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>                   
+                    <Row style={{ alignItems: "center"}} >
+                        <Col lg={6} md={12} sm={12} ><ChartTableMin/></Col>
+                        <Col className="" lg={6} md={12} sm={12} ><DoughnutChartMin/></Col>
+                    </Row>
+                </Container>
+                
+                
+            }
+            </Fullscreen>
+            
             
             <div className="dashboard-container">
 
                 <div className="expandButton d-none d-lg-block">
-                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand"></Button>
+                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand" onClick={this.goFull}></Button>
                 </div>
 
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
@@ -112,7 +132,7 @@ export default class Dashboard extends Component{
                         <Col lg={6} md={12} sm={12} ><ChartTableMin/></Col>
                         <Col className="" lg={6} md={12} sm={12} ><DoughnutChartMin/></Col>
                     </Row>
-                    <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
+                    <Row style={{paddingTop: "5.416vw"}} ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
                    
                    { level == 0 &&
