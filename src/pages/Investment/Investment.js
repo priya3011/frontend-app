@@ -204,7 +204,8 @@ export default class Investment extends Component {
                 </div>
         }
 
-        
+        const exchange_rate_label = currency == 'USD'? 'CAD / '+currency : currency+" / CAD";
+        const exchange_rate = currency == 'USD'? account_details.exchange_rate.bid : parseFloat(1/account_details.exchange_rate.ask);
         console.log("investment_id ",investment_id)
 
         console.log("account_balance_history",account_balance_history.balance_history)
@@ -226,7 +227,7 @@ export default class Investment extends Component {
 
                     <Row style={{justifyContent:"space-between", height: "fit-content"}}>
                     <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
-                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={exchange_rate_label} value={formatAmount(exchange_rate,true)}></InfoCard></Col>
                     <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
                     </Row>
 
