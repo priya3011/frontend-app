@@ -91,7 +91,7 @@ export default class Dashboard extends Component{
             <div className="dashboard-container">
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
                     
-                <div className="navigation d-none d-lg-block">
+                <div className="navigation d-none d-lg-block sidebarDesktop" >
                     <LeftSidebar  history={this.props.history} />
                 </div>
 
