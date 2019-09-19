@@ -38,12 +38,23 @@ export default class TransactionTable extends Component {
         const { entries, search } = this.state;
         const { data , title, mask }= this.props;
         let tableData = transactionTable(data, search);
+        console.log("TABLE DATA: " + JSON.stringify(tableData))
 
         //Filters data before rendering object
         //Probably want to have a stronger search function later on
         if (this.state.search) {
 			tableData = tableData.filter(row => {
-                return row.investment_name.toLowerCase().includes(this.state.search.toLowerCase())
+                console.log("ROW: " + JSON.stringify(Object.keys(row)))
+                let tableHeaders = Object.keys(row)
+                let i = 0
+                for (i; i< tableHeaders.length; i++){
+                    let key = tableHeaders[i]
+                    console.log(row[key])
+                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
+                        return true
+                    }
+                }
+                return false
         })}
         
         const columns = [
