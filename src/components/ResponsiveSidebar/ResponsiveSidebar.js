@@ -73,7 +73,7 @@ class ResponsiveSidebar extends Component {
             </Navbar>
             
             { this.state.open &&
-            <div id="overlay" onClick={()=>{this.toggle()}}>
+            <div id="overlay">
                 <div id="overlay-content" style={{paddingTop: this.state.height}}>
                      <LeftSidebar  history={this.props.history} />
                 </div>

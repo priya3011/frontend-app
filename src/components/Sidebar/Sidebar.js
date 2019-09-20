@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { UncontrolledCollapse } from 'reactstrap';
-import { Button, Collapse } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -78,15 +77,37 @@ class LeftSidebar extends Component {
             const { currency, investments } = mapping;
 
             
-            return <div key={currency}><a href="" className="nav-link-top"><li  className="nav-item" id={currency} >
-                            <i className="fa fa-chevron-right"></i>
-                            <span href="">{mapping.currency}</span>
-                    </li></a>
+            return <div key={currency}>
+
+                    {/* Hide on screens smaller than lg */}
+                    <div className="d-none d-lg-block">
+                        <a href="" className="nav-link-top">
+                            <li  className="nav-item" id={currency} >
+                                <i className="fa fa-chevron-right"></i>
+                                <span href="">{mapping.currency}</span>
+                            </li>
+                        </a>
+                    </div>
+                    
+                    {/* Hide on screens bigger or equal lg */}
+                    <div className="d-md-none"> 
+                        <a className="nav-link-top">
+                            <li  className="nav-item">
+                                <i id={currency} className="fa fa-chevron-right"></i>
+                                <span id={currency} >{mapping.currency}</span>
+                            </li>
+                        </a>
+                    </div> 
+                    
                      <UncontrolledCollapse toggler={"#"+currency}>
                         {  investments.map((i, idx) => {
 
                             console.log("idx", idx);
-                            return  (<li className="nav-item" key={i.investment_id} >
+                            return  (
+                            <li className="nav-item" key={i.investment_id} >
+
+                            {/* Only Clickable Links on Smaller Screens */}
+                            <div style={{width:"fit-content"}} className="d-md-none" >
                             <Link to={{
                                     pathname: "/investment/"+i.investment_id,
                                     state:{
@@ -96,7 +117,27 @@ class LeftSidebar extends Component {
                                         index:idx
                                     }
                                     }} 
-                                className="nav-link">{i.investment_name}</Link>
+                                className="nav-link"
+                                onClick={() => {window.location.reload();}} 
+                                >{i.investment_name}</Link>
+                            </div>
+
+                            {/* Entire block is clickable */}
+                            <div className="d-none d-lg-block" >
+                            <Link to={{
+                                    pathname: "/investment/"+i.investment_id,
+                                    state:{
+                                        
+                                        investment_name: i.investment_name,
+                                        currency:currency,
+                                        index:idx
+                                    }
+                                    }} 
+                                className="nav-link"
+                                onClick={() => {window.location.reload();}} 
+                                >{i.investment_name}</Link>
+                            </div>
+                           
                             </li>)
 
                             })
