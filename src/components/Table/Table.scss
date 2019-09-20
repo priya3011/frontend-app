@@ -1,41 +1,147 @@
 .Charttable-container{
      min-width: 25vw;
-     margin: 40px;
-     padding: 15px;
-     // border: 1px solid black;
+     width: 100%;
+     margin: 0px;
+     padding-top: 1.765vw;
+     padding-right: 1.209vw;
+     padding-bottom: 1.278vw;
+     padding-left: 1.209vw;
      box-shadow: 1px 2px 6px 3px #DBDBDB;
      border-radius: 5px;
+     background-color: #ffffff;
+     //font-size: 0.9375vw;
+     font-size: small;
 
-    .rt-tr-group{
-        line-height: 2;
+    .rt-tr-group {
+        //line-height: 1.264vw;
+    }
+
+    
+
+    .-striped {
+        border: solid 1px #ffffff;
+    }
+
+    .rt-tr-group div div:nth-child(even) {
+        border-left: solid 1px #f2f2f2;
+        border-right:solid 1px #f2f2f2;
+    }
+
+    .-header {
+        height: 0;
     }
 }
+
 .transactiontable-container{
+    //border: 1px solid blue;    
     display: flex;
     flex-direction: column;
-    padding: 2vw;
-    // border: 1px solid black;
-    min-width:80vw;
+    min-width:100%;
+    margin-top: 5.416vw;
+
+    // display: flex;
+    // flex-direction: column;
+    // box-shadow: 1px 5px 12px 6px #DBDBDB;
+    // padding-top: 1.25vw;
+    // padding-left: 0.683vw;
+    // padding-right: 0.752vw;
+    // padding-bottom: 1.25vw;
 
     .transaction-container{
         // border: 1px solid blue;
+        // margin-top: 0.752vw;
+        // margin-right: 1.302vw;
+        // margin-bottom: 1,239vw;
+        // margin-left: 1.302vw;
 
         .table-title {
             text-align: left;
+            margin-bottom: 0.547vw;
+            //font-size: 1.25vw;
+            font-size: medium;
         }
 
         .table-filters {
-            display: flex;
-            // border: 1px solid pink;
+            //border: 1px solid pink;
+            display: flex;            
             flex-direction: row;
             justify-content: space-between;
         }
     }
     .reacttable-container{
-        // border: 1px solid black;
+        //border: 1px solid black;
         min-width: 50vw;
-        margin: auto;
+        // width: 61.351vw;
+        // margin-top: 6.823vw;
+        // margin-left: 10.4154vw;
         box-shadow: 1px 2px 6px 3px #DBDBDB;
-        border-radius: 5px;
+        border-radius: 15px;
+       // font-size: 0.9375vw;
+        font-size: small;
+        padding-left: 1.302vw;
+        padding-right: 1.302vw;
+        padding-top: 1.146vw;
+        padding-bottom: 2.127vw;
+
+        .-striped {
+            border: solid 1px #ffffff;
+        }
      }
 }
+
+.trasaction-input-control {
+    //width: 13.874vw !important;
+    box-shadow: 3px 3px 3px #DBDBDB;
+    margin-bottom: 7.923%;
+    //font-size: 0.9375vw !important;
+    font-size: small;
+    color: #969696;
+}
+
+.transaction-select-control {
+    //font-size: 0.9375vw !important;
+    font-size: small;
+    text-align: center;
+    letter-spacing: 0.54px;
+    color: #646464;
+    opacity: 1;
+    width: auto;
+}
+
+/*
+** For Pagination Component
+*/
+.Table__itemCount {
+    /* margin-top: 10px; */
+    //font-size: 0.9375vw;
+    font-size: small;
+  }
+  
+  .Table__pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 10px;
+  }
+  
+  .Table__pageButton {
+   // font-size: 0.9375vw;
+    font-size: small;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .Table__pageButton:disabled {
+    cursor: not-allowed;
+    color: gray;
+  }
+  
+  .Table__pageButton--active {
+    color: #40BBF2;
+    font-weight: bold;
+  }
+
+  .marginTop-1vw{
+      margin-top: 1vw;
+  }
