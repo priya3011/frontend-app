@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UncontrolledCollapse } from 'reactstrap';
+import { UncontrolledCollapse, Collapse } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -19,8 +19,10 @@ class LeftSidebar extends Component {
     constructor(props){
       super(props);
     //   this.logout = this.logout.bind(this);
-
+    //this.toggle = this.toggle.bind(this);
     }
+
+
     componentWillMount(){
         
         this.props.fetchAllInvestments();
@@ -93,12 +95,15 @@ class LeftSidebar extends Component {
                     <div className="d-md-none"> 
                         <a className="nav-link-top">
                             <li  className="nav-item">
-                                <i id={currency} className="fa fa-chevron-right"></i>
-                                <span id={currency} >{mapping.currency}</span>
+                                <div id={currency} className="investment" style={{width:"fit-content"}}>
+                                    <i  className="fa fa-chevron-right"></i>
+                                    <span>{mapping.currency}</span>
+                                </div>
+                                
                             </li>
                         </a>
                     </div> 
-                    
+                                        
                      <UncontrolledCollapse toggler={"#"+currency}>
                         {  investments.map((i, idx) => {
 
@@ -143,7 +148,6 @@ class LeftSidebar extends Component {
                             })
                         }
                      </UncontrolledCollapse>
-
                      </div>
 
 
