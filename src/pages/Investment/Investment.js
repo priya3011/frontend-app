@@ -36,7 +36,7 @@ export default class Investment extends Component {
             investment_name:'',
             currency:'',
             account_id:'',
-            account_details : [],
+            account_details : {  exchange_rate: {mid:0, ask:0, bid:0}},
             account_tx_history:[],
             account_balance_history:{ balance_history:[]},
 
@@ -48,7 +48,10 @@ export default class Investment extends Component {
         this.updateAccountInfo = this.updateAccountInfo.bind(this);
         this.updateTransactionHistory = this.updateTransactionHistory.bind(this);
         this.updateAccountBalanceHistory = this.updateAccountBalanceHistory.bind(this);
+        
     }
+
+    componentWillMount
 
     componentDidMount(){
 
@@ -205,7 +208,7 @@ export default class Investment extends Component {
         }
 
         const exchange_rate_label = currency == 'USD'? 'CAD / '+currency : currency+" / CAD";
-        const exchange_rate = currency == 'USD'? account_details.exchange_rate.bid : parseFloat(1/account_details.exchange_rate.ask);
+        const exchange_rate = currency == 'USD'?  parseFloat(1/account_details.exchange_rate.ask): account_details.exchange_rate.bid ;
         console.log("investment_id ",investment_id)
 
         console.log("account_balance_history",account_balance_history.balance_history)
