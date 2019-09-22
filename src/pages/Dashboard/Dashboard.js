@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import './Dashboard.scss';
 import Fullscreen from "react-full-screen";
 
-
-
 import FetchDataMin from '../../HOC/FetchDataMin'
 import {    getOverviewTableData,
             getBalanceHistory,
