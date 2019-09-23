@@ -24,7 +24,7 @@ function App() {
           <Route path="/dashboard" component={sessionTimeout(Dashboard)}/>
           <Route path="/affiliate" component={sessionTimeout(Affiliates)}/>
           <Route path="/investment/:investment_id" component={sessionTimeout(Investment)}/>
-          <Route path="/stats" component={sessionTimeout(Stats)}/>
+          <Route path="/stats" component={Stats}/>
           <Route path="/exchange" component={sessionTimeout(Exchange)}/>
           <Route path="/contact" component={sessionTimeout(Contact)}/>
 

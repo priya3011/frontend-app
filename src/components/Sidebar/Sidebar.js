@@ -128,9 +128,10 @@ class LeftSidebar extends Component {
     // console.log("mapping  ", this.getCurrencyInvestmentMapping());
     const InvestmentsMenu  = this.renderInvestmentsMenu();
     const ref_code = localStorage.getItem("ref_code");
+    const level = localStorage.getItem("user_level")
+    console.log("YOUR LEVEL IS " + level)
 
     return (
-       
         <div className="sidebar-container">
         <ul className="sidebar navbar-nav scroll" >
                 <div className="navigation-type">
@@ -164,6 +165,9 @@ class LeftSidebar extends Component {
                     <i className="fa fa-envelope-square"></i>
                     <Link to="/contact" className="nav-link-top">Contact</Link>
                 </li>
+
+                {level != null &&
+                <div>
                 <li className="nav-item" onClick={this.props.logout}>
                     <i className="fa fa-sign-out"></i>
                     <a href="/" className="nav-link-top">Logout</a>
@@ -171,6 +175,9 @@ class LeftSidebar extends Component {
                 <li className="nav-item">
                     <span>Referral Code: {ref_code}</span>
                 </li>
+                </div>
+                }
+
                 </div>
             </ul>
     </div>

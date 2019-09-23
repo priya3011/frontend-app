@@ -38,7 +38,7 @@ export default class TransactionTable extends Component {
         const { entries, search } = this.state;
         const { data , title, mask }= this.props;
         let tableData = transactionTable(data, search);
-        console.log("TABLE DATA: " + JSON.stringify(tableData))
+        //console.log("TABLE DATA: " + JSON.stringify(tableData))
 
         //Filters data before rendering object
         //Probably want to have a stronger search function later on
