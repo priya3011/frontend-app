@@ -40,23 +40,6 @@ export default class TransactionTable extends Component {
         let tableData = transactionTable(data, search);
         //console.log("TABLE DATA: " + JSON.stringify(tableData))
 
-        //Filters data before rendering object
-        //Probably want to have a stronger search function later on
-        if (this.state.search) {
-			tableData = tableData.filter(row => {
-                console.log("ROW: " + JSON.stringify(Object.keys(row)))
-                let tableHeaders = Object.keys(row)
-                let i = 0
-                for (i; i< tableHeaders.length; i++){
-                    let key = tableHeaders[i]
-                    console.log(row[key])
-                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
-                        return true
-                    }
-                }
-                return false
-        })}
-        
         const columns = [
             { 
                 id: 'date', 
@@ -100,6 +83,35 @@ export default class TransactionTable extends Component {
 
                 }
         }]
+
+        //Filters data before rendering object
+        //Probably want to have a stronger search function later on
+        if (this.state.search) {
+			tableData = tableData.filter(row => {
+            console.log("ROW: " + JSON.stringify(Object.keys(row)))
+               
+               //let tableHeaders = Object.keys(row)
+               let tableHeaders = ["time","description","amount",
+               "amount_cad","investment_name"]
+               
+               let i = 0
+                for (i; i< tableHeaders.length; i++){
+                    let key = tableHeaders[i]
+                    console.log(row[key])
+                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
+                        return true
+                    }
+
+                    if (key == "time"){
+                        if (new Date(row[key]).toLocaleDateString().includes(this.state.search.toLowerCase())) {
+                            return true
+                        }
+                     }
+                     
+                }
+                return false
+        })}
+
        return(
             <div className="transactiontable-container">
                 <div className="reacttable-container">
