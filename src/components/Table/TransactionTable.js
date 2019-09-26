@@ -4,7 +4,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Pagination from './Pagination';
 
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { transactionTable } from '../../service/extractData'
 import { formatAmount } from '../../util/util'
 
@@ -88,25 +88,38 @@ export default class TransactionTable extends Component {
         //Probably want to have a stronger search function later on
         if (this.state.search) {
 			tableData = tableData.filter(row => {
-            console.log("ROW: " + JSON.stringify(Object.keys(row)))
-               
-               //let tableHeaders = Object.keys(row)
                let tableHeaders = ["time","description","amount",
                "amount_cad","investment_name"]
                
                let i = 0
                 for (i; i< tableHeaders.length; i++){
                     let key = tableHeaders[i]
-                    console.log(row[key])
-                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
-                        return true
-                    }
-
+                    
                     if (key == "time"){
                         if (new Date(row[key]).toLocaleDateString().includes(this.state.search.toLowerCase())) {
                             return true
                         }
                      }
+
+                    if (key == "amount_cad"){
+                        let amount = '$' + formatAmount((+row[key]).toFixed(2),true)
+                        amount = amount.replace(/\s/g, ''); //remove spaces
+                        if (String(amount).includes(this.state.search.toLowerCase())){
+                            return true
+                        }
+                    }
+
+                    if (key == "amount"){
+                        let amount = formatAmount(+data.amount)
+                        amount = amount.replace(/\s/g, ''); //remove spaces
+                        if (String(amount).includes(this.state.search.toLowerCase())){
+                            return true
+                        }
+                    }
+
+                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
+                        return true
+                    }
                      
                 }
                 return false
