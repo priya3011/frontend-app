@@ -38,25 +38,29 @@ export function filterRow(row, headers, query){
           }
        }
 
-      if (key == "amount_cad"){
-          let amount = '$' + formatAmount((+row[key]).toFixed(2),true)
-          amount = amount.replace(/\s/g, ''); //remove spaces
-          if (String(amount).includes(query.toLowerCase())){
-              return true
-          }
-      }
+      // if (key == "amount_cad"){
+      //     let amount = '$' + formatAmount((+row[key]).toFixed(2),true)
+      //     amount = amount.replace(/\s/g, ''); //remove spaces
+      //     if (String(amount).includes(query.toLowerCase())){
+      //         return true
+      //     }
+      // }
 
       if (key == "amount"){
-          let amount = formatAmount(++row[key])
+          let amount = formatAmount(+row[key])
+          console.log("AMOUNT:" + amount)
+          console.log("MATCH:" + query)
           amount = amount.replace(/\s/g, ''); //remove spaces
-          if (String(amount).includes(query.toLowerCase())){
+          if (String(amount).includes(query.toLowerCase()) ||
+          String(row[key]).includes(query.toLowerCase()))
+          {
               return true
           }
       }
 
-      if (String(row[key]).toLowerCase().includes(query.toLowerCase())){
-          return true
-      }
+      // if (String(row[key]).toLowerCase().includes(query.toLowerCase())){
+      //     return true
+      // }
        
   }
   return false
