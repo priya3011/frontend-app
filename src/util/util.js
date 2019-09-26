@@ -24,3 +24,40 @@ export function formatAmount(amount, isCAD=false){
   formattedAmount = formattedAmount.trim().replace(/(^,)|(,$)/g, "")
   return formattedAmount.trim();
 }
+
+export function filterRow(row, headers, query){
+  let i = 0
+  let tableHeaders = headers
+
+  for (i; i< tableHeaders.length; i++){
+      let key = tableHeaders[i]
+      
+      if (key == "time"){
+          if (new Date(row[key]).toLocaleDateString().includes(query.toLowerCase())) {
+              return true
+          }
+       }
+
+      if (key == "amount_cad"){
+          let amount = '$' + formatAmount((+row[key]).toFixed(2),true)
+          amount = amount.replace(/\s/g, ''); //remove spaces
+          if (String(amount).includes(query.toLowerCase())){
+              return true
+          }
+      }
+
+      if (key == "amount"){
+          let amount = formatAmount(++row[key])
+          amount = amount.replace(/\s/g, ''); //remove spaces
+          if (String(amount).includes(query.toLowerCase())){
+              return true
+          }
+      }
+
+      if (String(row[key]).toLowerCase().includes(query.toLowerCase())){
+          return true
+      }
+       
+  }
+  return false
+}

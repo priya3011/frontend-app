@@ -6,7 +6,7 @@ import Pagination from './Pagination';
 
 import PropTypes, { string } from 'prop-types';
 import { transactionTable } from '../../service/extractData'
-import { formatAmount } from '../../util/util'
+import { formatAmount, filterRow } from '../../util/util'
 
 import {Row, Col, } from 'react-bootstrap'
 
@@ -91,38 +91,7 @@ export default class TransactionTable extends Component {
                let tableHeaders = ["time","description","amount",
                "amount_cad","investment_name"]
                
-               let i = 0
-                for (i; i< tableHeaders.length; i++){
-                    let key = tableHeaders[i]
-                    
-                    if (key == "time"){
-                        if (new Date(row[key]).toLocaleDateString().includes(this.state.search.toLowerCase())) {
-                            return true
-                        }
-                     }
-
-                    if (key == "amount_cad"){
-                        let amount = '$' + formatAmount((+row[key]).toFixed(2),true)
-                        amount = amount.replace(/\s/g, ''); //remove spaces
-                        if (String(amount).includes(this.state.search.toLowerCase())){
-                            return true
-                        }
-                    }
-
-                    if (key == "amount"){
-                        let amount = formatAmount(+data.amount)
-                        amount = amount.replace(/\s/g, ''); //remove spaces
-                        if (String(amount).includes(this.state.search.toLowerCase())){
-                            return true
-                        }
-                    }
-
-                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
-                        return true
-                    }
-                     
-                }
-                return false
+              return filterRow(row, tableHeaders, this.state.search)
         })}
 
        return(
