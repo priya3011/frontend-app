@@ -4,9 +4,9 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Pagination from './Pagination';
 
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { transactionTable } from '../../service/extractData'
-import { formatAmount } from '../../util/util'
+import { formatAmount, filterRow } from '../../util/util'
 
 import {Row, Col, } from 'react-bootstrap'
 
@@ -38,25 +38,8 @@ export default class TransactionTable extends Component {
         const { entries, search } = this.state;
         const { data , title, mask }= this.props;
         let tableData = transactionTable(data, search);
-        console.log("TABLE DATA: " + JSON.stringify(tableData))
+        //console.log("TABLE DATA: " + JSON.stringify(tableData))
 
-        //Filters data before rendering object
-        //Probably want to have a stronger search function later on
-        if (this.state.search) {
-			tableData = tableData.filter(row => {
-                console.log("ROW: " + JSON.stringify(Object.keys(row)))
-                let tableHeaders = Object.keys(row)
-                let i = 0
-                for (i; i< tableHeaders.length; i++){
-                    let key = tableHeaders[i]
-                    console.log(row[key])
-                    if (String(row[key]).toLowerCase().includes(this.state.search.toLowerCase())){
-                        return true
-                    }
-                }
-                return false
-        })}
-        
         const columns = [
             { 
                 id: 'date', 
@@ -100,6 +83,17 @@ export default class TransactionTable extends Component {
 
                 }
         }]
+
+        //Filters data before rendering object
+        //Probably want to have a stronger search function later on
+        if (this.state.search) {
+			tableData = tableData.filter(row => {
+               let tableHeaders = ["time","description","amount",
+               "amount_cad","investment_name"]
+               
+              return filterRow(row, tableHeaders, this.state.search)
+        })}
+
        return(
             <div className="transactiontable-container">
                 <div className="reacttable-container">
