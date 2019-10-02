@@ -95,8 +95,8 @@ export const lineChartSingleSeries = (investment_name, data, interval)=>{
                     
                     let dateMilliseconds = Date.parse(convertDateInLineChart(balanceHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
-                    obj.data.push( {x:Date.parse(convertDateInLineChart(balanceHistory[j].date)), y:balanceHistory[j].account_balance/* _cad */} )
-                    //obj.data.push( {x:balanceHistory[j].date, y:balanceHistory[j].account_balance/* _cad */} )
+                    //obj.data.push( {x:Date.parse(convertDateInLineChart(balanceHistory[j].date)), y:balanceHistory[j].account_balance/* _cad */} )
+                    obj.data.push( {x:new Date(balanceHistory[j].date).getTime() , y:balanceHistory[j].account_balance/* _cad */} )
 
                     // }
                 }

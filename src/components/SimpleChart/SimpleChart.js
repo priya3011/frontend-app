@@ -46,10 +46,6 @@ export default class SimpleChart extends Component {
 
     getChartOptions(chartData, chartType, dataType, interval, color_index){
 
-        console.log("color_index ", color_index);
-        
-        // let minimumY = getMinimumY(chartData);
-        // console.log("minimumY ", minimumY);
         let tooltip = { enabled:true };
         let startDate = new Date().setHours(0,0,0,0) -(interval)*24*60*60*1000;
         let endDate = new Date().setHours(0,0,0,0);
@@ -118,10 +114,6 @@ export default class SimpleChart extends Component {
 
         const { chartTitle, chartType, dataType, index, data} = this.props;
         const { interval } = this.state;
-
-
-        // console.log(COLORS[index%COLORS.length])
-
 
         const chartData = this.extractChartData(data, interval, dataType);
         const chartOptions = this.getChartOptions(chartData, chartType, dataType, interval,index%COLORS.length );
