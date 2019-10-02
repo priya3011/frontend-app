@@ -127,6 +127,7 @@ export default class Investment extends Component {
         .catch((err)=>{
             //triggers a state change which will refresh all components
             this.showAlert(err.response.data.code,'error');
+            console.log(err)
         });
 
     }
