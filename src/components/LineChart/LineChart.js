@@ -151,7 +151,6 @@ export default class LineChart extends Component {
                 valuePrefix: '$'
             },
             xAxis: {
-                uniqueNames: false,
                 tickmarkPlacement:"on",
                 showFirstLabel:true,
                 showLastLabel:true,
@@ -185,7 +184,7 @@ export default class LineChart extends Component {
                 },
                 series:{
                     pointStart: startDate,
-                   // connectNulls: true,
+                    connectNulls: true,
                 },
 
             }
