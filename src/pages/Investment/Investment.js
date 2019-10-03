@@ -214,9 +214,9 @@ export default class Investment extends Component {
         }
 
         
-        console.log("investment_id ",investment_id)
+       // console.log("investment_id ",investment_id)
 
-        console.log("ACCOUNT_BALANCE_HISTORY " + account_balance_history.balance_history)
+        //console.log("ACCOUNT_BALANCE_HISTORY " + account_balance_history.balance_history)
         let k = 0
         for (k ; k< account_balance_history.balance_history.length; k++){
             let record = account_balance_history.balance_history[k]
@@ -224,7 +224,7 @@ export default class Investment extends Component {
             console.log(` ${JSON.stringify(record)}`)
 
         }
-        console.log("account_balance_history:",account_balance_history.balance_history)
+       // console.log("account_balance_history:",account_balance_history.balance_history)
         return (
             <div>
 

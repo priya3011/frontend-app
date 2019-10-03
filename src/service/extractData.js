@@ -61,7 +61,9 @@ export const lineChart = (data, interval)=>{
                     
                     let dateMilliseconds = Date.parse(convertDateInLineChart(accountHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
-                    obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
+                    //obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
+                    obj.data.push( {x:new Date(accountHistory[j].date).getTime() , y:accountHistory[j].account_balance_cad } )
+
                     // }
                 }
                 obj.data.sort(compare('x'));
