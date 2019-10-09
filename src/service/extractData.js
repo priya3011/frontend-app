@@ -1,6 +1,7 @@
 // import { chart } from "highcharts";
 // import { declareTypeAlias } from "@babel/types";
 import { formatAmount } from '../util/util'
+var moment = require('moment');
 
 
 /**
@@ -29,6 +30,14 @@ const convertDateInLineChart = (dateStr)=>{
     return year+"/"+month+"/"+date;
 }
 
+const formatDate = (dateObj) =>{
+    let year = dateObj.getFullYear()
+    let month = dateObj.getMonth()
+    let date = dateObj.getDate()
+
+    return year+"/"+month+"/"+date;
+}
+
 /** Use for sorting */
 const compare = (property)=>{
     return (obj1,obj2)=>{
@@ -41,36 +50,53 @@ const compare = (property)=>{
 export const lineChart = (data, interval)=>{
 
     console.log("linechart ",data)
-    let chartData = [];
+    let chartDataLine = [];
+    let chartDataMountain = []
     const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
     if (!data) return [];
     // console.log("startMilliseconds: ", (Date.now()));
     
         if(JSON.stringify(data) !== '{}'){
             let balanceHistory = data.balance_history;
+
             for(let i=0; i<balanceHistory.length; i++){
                 let obj = {
                                
                     name: balanceHistory[i].investment_name,
                     data: []
                  };
+
                 let accountHistory = balanceHistory[i].account_history
-                console.log("lastMillisecond: ",Date.parse(convertDateInLineChart(balanceHistory[i].account_history[0].date)));
-                for(let j=0; j<accountHistory.length; j++){
+               // console.log("lastMillisecond: ",Date.parse(convertDateInLineChart(balanceHistory[i].account_history[0].date)));
+
+               let tempMap = {}
+               for(let j=0; j<accountHistory.length; j++){
                     
                     let dateMilliseconds = Date.parse(convertDateInLineChart(accountHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
                     //obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
-                    obj.data.push( {x: new Date(accountHistory[j].date).getTime() , y:accountHistory[j].account_balance_cad } )
-
+                   
+                   let date = new Date(accountHistory[j].date)
+                    obj.data.push( {x: date.getTime() , y:accountHistory[j].account_balance_cad } )
+                    tempMap[formatDate(date)] = {x: new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(), y:accountHistory[j].account_balance_cad } 
                     // }
                 }
+
+                console.log(balanceHistory[i].investment_name)
+                console.log(tempMap)
                 obj.data.sort(compare('x'));
-                chartData.push(obj);
+                chartDataLine.push(obj);
+                chartDataMountain.push({
+                    name: balanceHistory[i].investment_name,
+                    data: Object.values(tempMap)
+                })
             }
+
+
         }
         //console.log("Line-chart-data: ", chartData)
-    return chartData;
+        console.log(chartDataMountain)
+    return {"chartDataLine": chartDataLine, "chartDataMountain": chartDataMountain};
 }
 
 export const lineChartSingleSeries = (investment_name, data, interval)=>{
@@ -82,7 +108,8 @@ export const lineChartSingleSeries = (investment_name, data, interval)=>{
     // console.log("startMilliseconds: ", (Date.now()));
     
         if(JSON.stringify(data) !== '{}'){
-            let balanceHistory = Object.values(data["balance_history"]);
+            let balanceHistory = data.balance_history
+            console.log(data)
             
                 let obj = {
                     

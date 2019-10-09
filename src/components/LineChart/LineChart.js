@@ -83,7 +83,7 @@ export default class LineChart extends Component {
             },
             credits: { enabled: false},
             title: { text: null },
-            series: chartData,
+            series: chartData.chartDataLine,
             tooltip: {
                 enabled: true,
                 valueDecimals: 2,
@@ -144,7 +144,7 @@ export default class LineChart extends Component {
             },
             credits: { enabled: false},
             title: { text: null },
-            series: chartData,
+            series: chartData.chartDataMountain,
             tooltip: {
                 enabled: true,
                 valueDecimals: 2,
