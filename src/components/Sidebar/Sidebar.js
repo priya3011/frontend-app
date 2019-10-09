@@ -13,7 +13,9 @@ class LeftSidebar extends Component {
     static propTypes={
         ref_code: PropTypes.string.isRequired,
         fetchAllInvestments: PropTypes.func.isRequired,
-        investments: PropTypes.array.isRequired
+        investments: PropTypes.array.isRequired,
+        logout: PropTypes.func.isRequired,
+        reset: PropTypes.func.isRequired
     };
 
     constructor(props){

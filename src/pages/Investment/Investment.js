@@ -38,7 +38,7 @@ export default class Investment extends Component {
             investment_name:'',
             currency:'',
             account_id:'',
-            account_details : [],
+            account_details : {  exchange_rate: {mid:0, ask:0, bid:0}},
             account_tx_history:[],
             account_balance_history:{ balance_history:[]},
 
@@ -52,7 +52,10 @@ export default class Investment extends Component {
         this.updateAccountInfo = this.updateAccountInfo.bind(this);
         this.updateTransactionHistory = this.updateTransactionHistory.bind(this);
         this.updateAccountBalanceHistory = this.updateAccountBalanceHistory.bind(this);
+        
     }
+
+    componentWillMount
 
     componentDidMount(){
 
@@ -212,7 +215,8 @@ export default class Investment extends Component {
                 </div>
         }
 
-        
+        const exchange_rate_label = currency == 'USD'? 'CAD / '+currency : currency+" / CAD";
+        const exchange_rate = currency == 'USD'?  parseFloat(1/account_details.exchange_rate.ask): account_details.exchange_rate.bid ;
         console.log("investment_id ",investment_id)
 
         console.log("ACCOUNT_BALANCE_HISTORY " + account_balance_history.balance_history)
@@ -267,7 +271,7 @@ export default class Investment extends Component {
 
                     <Row style={{justifyContent:"space-between", height: "fit-content"}}>
                     <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
-                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={exchange_rate_label} value={formatAmount(exchange_rate,true)}></InfoCard></Col>
                     <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
                     </Row>
 

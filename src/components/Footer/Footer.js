@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { reset } from '../../actions/userActions'
+import { reset, logout } from '../../actions/userActions'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -12,20 +12,21 @@ class Footer extends Component {
 
     static propTypes={
         ref_code: PropTypes.string.isRequired,
-        reset: PropTypes.func.isRequired
+        reset: PropTypes.func.isRequired,
+        logout: PropTypes.func.isRequired
     };
 
     constructor(props){
         super(props);
-        this.logout = this.logout.bind(this);
+        // this.logout = this.logout.bind(this);
     }
 
     
-    logout(){
+    // logout(){
 
-        this.props.reset();
-        this.props.history.push('/signin');
-    }
+    //     this.props.reset();
+    //     this.props.history.push('/signin');
+    // }
 
 
 
@@ -38,7 +39,7 @@ class Footer extends Component {
                         <Col ><Link to="/stats" className="nav-link-top">Stats</Link></Col>
                         <Col className="d-none d-md-block"><Link to="/exchange" className="nav-link-top">Exchange</Link></Col>
                         <Col ><Link to="/contact" className="nav-link-top">Contact</Link></Col>
-                        <Col className="d-none d-md-block"><Link to="/sigin" onClick={this.logout} className="nav-link-top">Logout</Link></Col>
+                        <Col className="d-none d-md-block"><Link to="/sigin" onClick={this.props.logout} className="nav-link-top">Logout</Link></Col>
                         
                     </Row>
                 </div>
@@ -53,7 +54,7 @@ const mapStateToProps = state => ({
     ref_code: state.user.ref_code
 });
 
-export default connect(mapStateToProps, { reset })(Footer);
+export default connect(mapStateToProps, { reset , logout })(Footer);
 
 
 
