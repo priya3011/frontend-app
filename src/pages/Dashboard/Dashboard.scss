@@ -60,3 +60,20 @@
   overflow: scroll;
   scrollbar-width: none; /* Firefox */
 }
+
+.expandButton{
+    position: absolute;
+    top:0;
+    right:0;
+    border:none;
+}
+
+.fullScreen{
+    background-color: #ffffff;
+    font-family: 'Lato';
+    height: 100%;
+}
+
+.navigation{
+    min-width: 210px;
+}
