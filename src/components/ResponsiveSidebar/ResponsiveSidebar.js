@@ -57,19 +57,25 @@ class ResponsiveSidebar extends Component {
         <div>
             <Navbar id="nav-bar" bg="dark" variant="dark" sticky="top" style={{top: 0, position: "fixed", width: "100%"}}>
                 <Button variant="dark" onClick={()=>{this.toggle()}}>
-                    <i className="fa fa-bars"></i>
+                    {!this.state.open &&
+                         <i className="fa fa-bars"></i>
+                    }
+                    {this.state.open &&
+                        <i className="fa fa-chevron-up"></i>
+
+                    }
+                   
                 </Button>
-                <Navbar.Text>
+                <Navbar.Text style={{paddingLeft:"10px"}}>
                      Signed in as: <a href="/">{username}</a>
               </Navbar.Text>
                   
             </Navbar>
             
             { this.state.open &&
-            <div id="overlay" onClick={()=>{this.toggle()}}>
+            <div id="overlay">
                 <div id="overlay-content" style={{paddingTop: this.state.height}}>
                      <LeftSidebar  history={this.props.history} />
-
                 </div>
             </div>
             }

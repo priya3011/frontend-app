@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button} from 'react-bootstrap';
+import Fullscreen from "react-full-screen";
 import {   
     ResponsiveSidebar,
     LeftSidebar,
@@ -31,7 +32,9 @@ export default class Exchange extends Component {
             isAlertVisible : false,
             alertType:'',
             alertMessage:'',
-            time_period_chart:30
+            time_period_chart:30,
+            isFull: false,
+
         };
 
         this.fetchFxQuotedRates = this.fetchFxQuotedRates.bind(this);
@@ -115,6 +118,10 @@ export default class Exchange extends Component {
         });
     }
 
+    goFull = () => {
+        this.setState({ isFull: true });
+      }
+
 
     render() {
 
@@ -123,11 +130,32 @@ export default class Exchange extends Component {
         return (
             <div>
 
+            <Fullscreen enabled={this.state.isFull} onChange={isFull => this.setState({isFull})}>
+                    { this.state.isFull &&
+                        <Container fluid={true} className="fullScreen">
+                         <Row>
+                            <Col lg={12} md={12} sm={12}>
+                                <ExchangeTable data={rates_in_cad}></ExchangeTable>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col lg={12} md={12} sm={12}>
+                                <SimpleChart chartTitle={"Currency"} data={rates_history} dataType="rates" chartType="line"  refreshData={this.updateRateHistory} interval={time_period_chart}></SimpleChart>
+                            </Col>
+                        </Row>
+                        </Container>
+                    }
+                    </Fullscreen>
+
             <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
 
             <div className="dashboard-container">
+                <div className="expandButton d-none d-lg-block">
+                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand" onClick={this.goFull}></Button>
+                </div>
+
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
                 <div className="navigation d-none d-lg-block">
                     <LeftSidebar history={this.props.history} />
