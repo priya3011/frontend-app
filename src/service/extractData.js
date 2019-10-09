@@ -50,8 +50,7 @@ export const lineChart = (data, interval)=>{
             let balanceHistory = data.balance_history;
             for(let i=0; i<balanceHistory.length; i++){
                 let obj = {
-                    
-                   
+                               
                     name: balanceHistory[i].investment_name,
                     data: []
                  };
@@ -62,7 +61,7 @@ export const lineChart = (data, interval)=>{
                     let dateMilliseconds = Date.parse(convertDateInLineChart(accountHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
                     //obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
-                    obj.data.push( {x:new Date(accountHistory[j].date).getTime() , y:accountHistory[j].account_balance_cad } )
+                    obj.data.push( {x: new Date(accountHistory[j].date).getTime() , y:accountHistory[j].account_balance_cad } )
 
                     // }
                 }
@@ -83,7 +82,7 @@ export const lineChartSingleSeries = (investment_name, data, interval)=>{
     // console.log("startMilliseconds: ", (Date.now()));
     
         if(JSON.stringify(data) !== '{}'){
-            let balanceHistory = data.balance_history;
+            let balanceHistory = Object.values(data["balance_history"]);
             
                 let obj = {
                     
