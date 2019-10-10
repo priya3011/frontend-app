@@ -82,14 +82,32 @@ export default class TransactionTable extends Component {
                     return numericA > numericB ? 1 : -1;
 
                 }
-        }]
+            },
+            {
+
+                id: 'balance', Header: 'Balance',
+                accessor: (data) => {
+                    return formatAmount(+data.account_balance);
+                } ,
+                sortMethod: (a, b) => {
+
+                    console.log("cad: ",a,b)
+                    let numericA = parseFloat(a.replace(/[^0-9.]+/g,''));
+                    let numericB = parseFloat(b.replace(/[^0-9.]+/g,''));
+
+                    return numericA > numericB ? 1 : -1;
+                }
+
+            }
+    
+    ]
 
         //Filters data before rendering object
         //Probably want to have a stronger search function later on
         if (this.state.search) {
 			tableData = tableData.filter(row => {
                let tableHeaders = ["time","description","amount",
-               "amount_cad","investment_name"]
+               "amount_cad","investment_name","account_balance"]
                
               return filterRow(row, tableHeaders, this.state.search)
         })}
