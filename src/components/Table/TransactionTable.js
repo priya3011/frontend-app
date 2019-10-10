@@ -69,7 +69,7 @@ export default class TransactionTable extends Component {
                     return numericA > numericB ? 1 : -1;
                 }
             },
-            { id: 'amountcad', Header: 'Amount in CAD',
+            { id: 'amount_cad', Header: 'Amount in CAD',
                 accessor: (data) => {
                     return '$' + formatAmount((+data.amount_cad).toFixed(2),true);
                 },
@@ -85,7 +85,7 @@ export default class TransactionTable extends Component {
             },
             {
 
-                id: 'balance', Header: 'Balance',
+                id: 'account_balance', Header: 'Balance',
                 accessor: (data) => {
                     return formatAmount(+data.account_balance);
                 } ,
