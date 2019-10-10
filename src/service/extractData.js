@@ -1,7 +1,6 @@
 // import { chart } from "highcharts";
 // import { declareTypeAlias } from "@babel/types";
 import { formatAmount } from '../util/util'
-var moment = require('moment');
 
 
 /**
@@ -49,7 +48,7 @@ const compare = (property)=>{
 
 export const lineChart = (data, interval)=>{
 
-    console.log("linechart ",data)
+ //   console.log("linechart ",data)
     let chartDataLine = [];
     let chartDataMountain = []
     const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
@@ -82,8 +81,8 @@ export const lineChart = (data, interval)=>{
                     // }
                 }
 
-                console.log(balanceHistory[i].investment_name)
-                console.log(tempMap)
+               // console.log(balanceHistory[i].investment_name)
+              //  console.log(tempMap)
                 obj.data.sort(compare('x'));
                 chartDataLine.push(obj);
                 chartDataMountain.push({
@@ -95,13 +94,13 @@ export const lineChart = (data, interval)=>{
 
         }
         //console.log("Line-chart-data: ", chartData)
-        console.log(chartDataMountain)
+        //console.log(chartDataMountain)
     return {"chartDataLine": chartDataLine, "chartDataMountain": chartDataMountain};
 }
 
 export const lineChartSingleSeries = (investment_name, data, interval)=>{
 
-    console.log("linechart ",data)
+   // console.log("linechart ",data)
     let chartData = [];
     const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
     if (!data) return [];
@@ -182,6 +181,8 @@ export const formatRatesHistoryData = (data) => {
 }
 
 export const transactionTable = (data, search)=>{
+    console.log('trrr')
+    console.log(data)
     if(JSON.stringify(data) !== '{}'){
         const serverData = data.transaction_history;
         let tableData = [];
