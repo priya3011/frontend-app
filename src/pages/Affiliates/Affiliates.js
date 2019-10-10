@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col , InputGroup, FormControl, Button} from 'react-bootstrap';
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 
 import { inviteUser } from '../../service/axios-service'
+import { siteIP } from '../../../src/config'
 
 import {   
     LeftSidebar,
@@ -95,6 +96,20 @@ class Affiliates extends Component {
                     <Col  lg={12} md={12} xs={12}>
                         <Row style={{marginTop: "10vw"}} className="justify-content-center">
                             <Col  lg={4} md={4} xs={10}><InfoCard label="Referral Code" value={ref_code}></InfoCard></Col>
+                        </Row>
+
+                        <Row  className="justify-content-center" style={{marginTop:"5vw"}}>
+                        <Col xs={10} md={6} lg={6}>
+                            <InputGroup size="sm" className="mb-3">
+                                <InputGroup.Prepend>
+                                <InputGroup.Text>Referral Link</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <FormControl disabled={true} as="input" aria-label="With textarea" value={siteIP+"/signup?ref_code="+ref_code} />
+                                <InputGroup.Append>
+                                    <Button variant="outline-secondary"><i className="fa fa-copy"></i></Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
                         </Row>
                         <form className="invite-form" onSubmit={this.sendAffiliateInvite}>
                             <Row className="justify-content-center"><Col xs={10} md={6} lg={6}>
