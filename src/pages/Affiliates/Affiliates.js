@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Row, Col , InputGroup, FormControl, Button} from 'react-bootstrap';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-
+import { InputWithCopy } from '../../components'
 import { inviteUser } from '../../service/axios-service'
 import { siteIP } from '../../../src/config'
 
@@ -42,6 +40,7 @@ class Affiliates extends Component {
     dismissAlert(){
         this.setState({ isAlertVisible: false });
     }
+
 
     handleInputChange = (e) =>{
         console.log([e.target.name], e.target.value);
@@ -100,7 +99,10 @@ class Affiliates extends Component {
 
                         <Row  className="justify-content-center" style={{marginTop:"5vw"}}>
                         <Col xs={10} md={6} lg={6}>
-                            <InputGroup size="sm" className="mb-3">
+
+                            <InputWithCopy label="Referral Link" isDisabled={true} text={siteIP+"/signup?ref_code="+ref_code} onCopy={()=>this.showAlert("Copied to Clipboard!", "success")}></InputWithCopy>
+
+                            {/* <InputGroup size="sm" className="mb-3">
                                 <InputGroup.Prepend>
                                 <InputGroup.Text>Referral Link</InputGroup.Text>
                                 </InputGroup.Prepend>
@@ -108,7 +110,7 @@ class Affiliates extends Component {
                                 <InputGroup.Append>
                                     <Button variant="outline-secondary"><i className="fa fa-copy"></i></Button>
                                 </InputGroup.Append>
-                            </InputGroup>
+                            </InputGroup> */}
                         </Col>
                         </Row>
                         <form className="invite-form" onSubmit={this.sendAffiliateInvite}>
