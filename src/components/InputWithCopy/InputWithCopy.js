@@ -31,7 +31,7 @@ export default class InputWithCopy extends Component {
                 <InputGroup.Prepend>
                 <InputGroup.Text> {label} </InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl disabled={isDisabled} as="input" aria-label="With textarea" value={text}  ref={this.textAreaRef}/>
+                <FormControl readOnly={true} as="input" aria-label="With textarea" value={text}  ref={this.textAreaRef}/>
                 <InputGroup.Append>
                     <Button variant="outline-secondary" onClick={this.copyToClipboard}><i className="fa fa-copy"></i></Button>
                 </InputGroup.Append>
