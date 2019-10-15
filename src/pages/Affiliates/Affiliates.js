@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Container, Row, Col , InputGroup, FormControl, Button} from 'react-bootstrap';
 import { InputWithCopy } from '../../components'
 import { inviteUser } from '../../service/axios-service'
-import { siteIP } from '../../../src/config'
+import { serverIP } from '../../../src/config'
 
 import {   
     LeftSidebar,
@@ -100,17 +100,7 @@ class Affiliates extends Component {
                         <Row  className="justify-content-center" style={{marginTop:"5vw"}}>
                         <Col xs={10} md={6} lg={6}>
 
-                            <InputWithCopy label="Referral Link" isDisabled={true} text={siteIP+"/signup?ref_code="+ref_code} onCopy={()=>this.showAlert("Copied to Clipboard!", "success")}></InputWithCopy>
-
-                            {/* <InputGroup size="sm" className="mb-3">
-                                <InputGroup.Prepend>
-                                <InputGroup.Text>Referral Link</InputGroup.Text>
-                                </InputGroup.Prepend>
-                                <FormControl disabled={true} as="input" aria-label="With textarea" value={siteIP+"/signup?ref_code="+ref_code} />
-                                <InputGroup.Append>
-                                    <Button variant="outline-secondary"><i className="fa fa-copy"></i></Button>
-                                </InputGroup.Append>
-                            </InputGroup> */}
+                            <InputWithCopy label="Referral Link" isDisabled={false} text={serverIP+"/signup?ref_code="+ref_code} onCopy={()=>this.showAlert("Copied to Clipboard!", "success")}></InputWithCopy>
                         </Col>
                         </Row>
                         <form className="invite-form" onSubmit={this.sendAffiliateInvite}>

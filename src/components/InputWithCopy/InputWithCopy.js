@@ -15,12 +15,11 @@ export default class InputWithCopy extends Component {
     copyToClipboard(e){
 
         this.textAreaRef.current.select();
+        console.log("select" ,this.textAreaRef.current)
         document.execCommand('copy');
-        
-        // This is just personal preference.
-        // I prefer to not show the the whole text area selected.
-        e.target.focus();
-        // this.props.onCopy();
+
+        //Show the confirmation
+        this.props.onCopy();
     }
 
 
