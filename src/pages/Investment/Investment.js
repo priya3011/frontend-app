@@ -55,8 +55,6 @@ export default class Investment extends Component {
         
     }
 
-    componentWillMount
-
     componentDidMount(){
 
         //TODO: set a timer for update
@@ -172,6 +170,7 @@ export default class Investment extends Component {
 
     render() {
 
+        console.log(this.props.location)
         
         const username = localStorage.getItem("username")
         const { investment_id } = this.props.match.params
