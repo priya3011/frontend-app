@@ -125,7 +125,7 @@ class LeftSidebar extends Component {
                                     }
                                     }} 
                                 className="nav-link"
-                                onClick={() => {window.location.reload();}} 
+                                // onClick={() => {window.location.reload();}} 
                                 >{i.investment_name}</Link>
                             </div>
 
@@ -141,7 +141,7 @@ class LeftSidebar extends Component {
                                     }
                                     }} 
                                 className="nav-link"
-                                onClick={() => {window.location.reload();}} 
+                                // onClick={() => {window.location.reload();}} 
                                 >{i.investment_name}</Link>
                             </div>
                            

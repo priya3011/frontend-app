@@ -55,8 +55,6 @@ export default class Investment extends Component {
         
     }
 
-    componentWillMount
-
     componentDidMount(){
 
         //TODO: set a timer for update
@@ -130,6 +128,7 @@ export default class Investment extends Component {
         .catch((err)=>{
             //triggers a state change which will refresh all components
             this.showAlert(err.response.data.code,'error');
+            console.log(err)
         });
 
     }
@@ -171,6 +170,7 @@ export default class Investment extends Component {
 
     render() {
 
+        console.log(this.props.location)
         
         const username = localStorage.getItem("username")
         const { investment_id } = this.props.match.params
@@ -219,7 +219,8 @@ export default class Investment extends Component {
         const exchange_rate = currency == 'USD'?  parseFloat(1/account_details.exchange_rate.ask): account_details.exchange_rate.bid ;
         console.log("investment_id ",investment_id)
 
-        console.log("ACCOUNT_BALANCE_HISTORY " + account_balance_history.balance_history)
+
+        //console.log("ACCOUNT_BALANCE_HISTORY " + account_balance_history.balance_history)
         let k = 0
         for (k ; k< account_balance_history.balance_history.length; k++){
             let record = account_balance_history.balance_history[k]
@@ -227,7 +228,7 @@ export default class Investment extends Component {
             console.log(` ${JSON.stringify(record)}`)
 
         }
-        console.log("account_balance_history:",account_balance_history.balance_history)
+       // console.log("account_balance_history:",account_balance_history.balance_history)
         return (
             <div>
 
