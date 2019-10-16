@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import {  
     ResponsiveSidebar, 
     LeftSidebar,
@@ -15,6 +15,7 @@ import { getTransactionHistory, getTotalUser, getDailyRegisteredUsers, getOvervi
 import { INVESTMENT_USER } from '../../config/config';
 import { getRatesInCAD } from '../../service/axios-service'
 import './Stats.scss'
+import Fullscreen from "react-full-screen";
 
 
 export default class Stats extends Component {
@@ -27,7 +28,9 @@ export default class Stats extends Component {
             tx_history:{},
             overall_balance:{},
             user_count:0,
-            time_period_chart:365
+            time_period_chart:365,
+            isFull: false,
+
         }
 
         this.updateInfo = this.updateInfo.bind(this);
@@ -119,8 +122,12 @@ export default class Stats extends Component {
         });
     }
 
-    render() {
+    goFull = () => {
+        this.setState({ isFull: true });
+      }
 
+    render() {
+  
         // const { isAlertVisible, alertType, alertMessage, account_details, account_tx_history, account_balance_history, linechart_time_days } = this.state;
         const { tx_history, user_count, user_history, overall_balance,  time_period_chart, rates_in_cad} = this.state;
 
@@ -131,7 +138,28 @@ export default class Stats extends Component {
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
 
+            <Fullscreen enabled={this.state.isFull} onChange={isFull => this.setState({isFull})}>
+            { this.state.isFull &&
+                <Container fluid={true} className="fullScreen">                
+                <Row style={{ alignItems: "center"}} >
+                    <Col lg={12} md={12} sm={12}>
+                        <SimpleChart chartTitle={"Total Users"} data={user_history} dataType="users" chartType="area" index={0} refreshData={this.updateRegisteredUserHistory} interval={time_period_chart}></SimpleChart>
+                    </Col>        
+                </Row>
+                <Row style={{alignContent: "center", alignItems: "center"}}>
+                            <Col lg={6} md={12} sm={12} ><ChartTable data={overall_balance}></ChartTable></Col>
+                            <Col lg={6} md={12} sm={12} className=""><DoughnutChart data={overall_balance}></DoughnutChart></Col>
+                </Row>
+                </Container>
+                
+                
+            }
+            </Fullscreen>
+
             <div className="dashboard-container">
+                <div className="expandButton d-none d-lg-block">
+                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand" onClick={this.goFull}></Button>
+                </div>
                
                 <div className="navigation  d-none d-lg-block">
                     <LeftSidebar history={this.props.history} />

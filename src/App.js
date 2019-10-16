@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 //import ReactDOM from "react-dom";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { SignIn, SignUp, ForgotPassword, Dashboard, Affiliates, Investment, Stats, Exchange, PasswordReset, Contact } from './pages';
 import sessionTimeout from './HOC/sessionTimeout'
 import './App.scss';
+import { domain } from './config'
 
 
           // <Route path="/affiliate" component={sessionTimeout(Dashboard)}/>
@@ -13,6 +14,11 @@ import './App.scss';
           // <Route path="/investment/:id" component={sessionTimeout(Dashboard)}/>
 
 function App() {
+
+  useEffect(() => {
+    document.title = domain
+  },[]);
+
   return (
 
     <div className="App">

@@ -29,6 +29,14 @@ const convertDateInLineChart = (dateStr)=>{
     return year+"/"+month+"/"+date;
 }
 
+const formatDate = (dateObj) =>{
+    let year = dateObj.getFullYear()
+    let month = dateObj.getMonth()
+    let date = dateObj.getDate()
+
+    return year+"/"+month+"/"+date;
+}
+
 /** Use for sorting */
 const compare = (property)=>{
     return (obj1,obj2)=>{
@@ -40,48 +48,67 @@ const compare = (property)=>{
 
 export const lineChart = (data, interval)=>{
 
-    console.log("linechart ",data)
-    let chartData = [];
+ //   console.log("linechart ",data)
+    let chartDataLine = [];
+    let chartDataMountain = []
     const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
     if (!data) return [];
     // console.log("startMilliseconds: ", (Date.now()));
     
         if(JSON.stringify(data) !== '{}'){
             let balanceHistory = data.balance_history;
+
             for(let i=0; i<balanceHistory.length; i++){
                 let obj = {
-                    
-                   
+                               
                     name: balanceHistory[i].investment_name,
                     data: []
                  };
+
                 let accountHistory = balanceHistory[i].account_history
-                console.log("lastMillisecond: ",Date.parse(convertDateInLineChart(balanceHistory[i].account_history[0].date)));
-                for(let j=0; j<accountHistory.length; j++){
+               // console.log("lastMillisecond: ",Date.parse(convertDateInLineChart(balanceHistory[i].account_history[0].date)));
+
+               let tempMap = {}
+               for(let j=0; j<accountHistory.length; j++){
                     
                     let dateMilliseconds = Date.parse(convertDateInLineChart(accountHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
-                    obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
+                    //obj.data.push( {x:Date.parse(convertDateInLineChart(accountHistory[j].date)), y:accountHistory[j].account_balance_cad } )
+                   
+                   let date = new Date(accountHistory[j].date)
+                    obj.data.push( {x: date.getTime() , y:accountHistory[j].account_balance_cad } )
+                    tempMap[formatDate(date)] = {x: new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(), y:accountHistory[j].account_balance_cad } 
                     // }
                 }
+
+               // console.log(balanceHistory[i].investment_name)
+              //  console.log(tempMap)
                 obj.data.sort(compare('x'));
-                chartData.push(obj);
+                chartDataLine.push(obj);
+                chartDataMountain.push({
+                    name: balanceHistory[i].investment_name,
+                    data: Object.values(tempMap)
+                })
             }
+
+
         }
         //console.log("Line-chart-data: ", chartData)
-    return chartData;
+        //console.log(chartDataMountain)
+    return {"chartDataLine": chartDataLine, "chartDataMountain": chartDataMountain};
 }
 
 export const lineChartSingleSeries = (investment_name, data, interval)=>{
 
-    console.log("linechart ",data)
+   // console.log("linechart ",data)
     let chartData = [];
     const startMilliseconds = new Date().setHours(0,0,0,0) - interval*24*60*60*1000;
     if (!data) return [];
     // console.log("startMilliseconds: ", (Date.now()));
     
         if(JSON.stringify(data) !== '{}'){
-            let balanceHistory = data.balance_history;
+            let balanceHistory = data.balance_history
+            console.log(data)
             
                 let obj = {
                     
@@ -95,7 +122,9 @@ export const lineChartSingleSeries = (investment_name, data, interval)=>{
                     
                     let dateMilliseconds = Date.parse(convertDateInLineChart(balanceHistory[j].date));
                     // if(dateMilliseconds >= startMilliseconds){
-                    obj.data.push( {x:Date.parse(convertDateInLineChart(balanceHistory[j].date)), y:balanceHistory[j].account_balance/* _cad */} )
+                    //obj.data.push( {x:Date.parse(convertDateInLineChart(balanceHistory[j].date)), y:balanceHistory[j].account_balance/* _cad */} )
+                    obj.data.push( {x:new Date(balanceHistory[j].date).getTime() , y:balanceHistory[j].account_balance/* _cad */} )
+
                     // }
                 }
                 obj.data.sort(compare('x'));
@@ -152,30 +181,32 @@ export const formatRatesHistoryData = (data) => {
 }
 
 export const transactionTable = (data, search)=>{
+    console.log('trrr')
+    console.log(data)
     if(JSON.stringify(data) !== '{}'){
         const serverData = data.transaction_history;
-        let tableData = [];
-        if(search !== ''){
-            tableData = serverData.filter((one)=>{
+        // let tableData = [];
+        // if(search !== ''){
+        //     tableData = serverData.filter((one)=>{
 
-                let amount = one.amount.toString().replace(/[^0-9.]+/g,'')
-                let amount_cad = one.amount_cad.toString().replace(/[^0-9.]+/g,'')
-                let search_amount = search.replace(/[^0-9.]+/g,'')
-                // let amount_balance = amount_cad
-                return (
-                    (new Date(one.time).toLocaleDateString().indexOf(search)) !== -1 ||
-                    (one.description.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
-                    (one.investment_name.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
-                    (amount.indexOf(search_amount) !== -1 )||
-                    (amount_cad.toLowerCase().indexOf(search_amount) !== -1 )
+        //         let amount = one.amount.toString().replace(/[^0-9.]+/g,'')
+        //         let amount_cad = one.amount_cad.toString().replace(/[^0-9.]+/g,'')
+        //         let search_amount = search.replace(/[^0-9.]+/g,'')
+        //         // let amount_balance = amount_cad
+        //         return (
+        //             (new Date(one.time).toLocaleDateString().indexOf(search)) !== -1 ||
+        //             (one.description.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
+        //             (one.investment_name.toLowerCase().indexOf(search.toLowerCase())) !== -1 ||
+        //             (amount.indexOf(search_amount) !== -1 )||
+        //             (amount_cad.toLowerCase().indexOf(search_amount) !== -1 )
                 
 
-                    // one.amount === +search ||
-                    // one.account_balance === +search
-                )
-            });
-            return tableData;
-        }
+        //             // one.amount === +search ||
+        //             // one.account_balance === +search
+        //         )
+        //     });
+        //     return tableData;
+        // }
         return serverData
     }
     return [];

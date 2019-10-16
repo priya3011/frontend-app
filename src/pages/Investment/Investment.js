@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import {   
     ResponsiveSidebar,
     LeftSidebar,
@@ -13,6 +13,8 @@ import { getAccountDetails, getTransactionHistory, getAccountBalanceHistory} fro
 import { formatAmount } from '../../util/util'
 import { INVESTMENT_USER } from '../../config/config'
 import './Investment.scss'
+import Fullscreen from "react-full-screen";
+
 
 //TODO: 
 //1. Connect it to the user investments store -- currency, investment name, 
@@ -40,7 +42,9 @@ export default class Investment extends Component {
             account_tx_history:[],
             account_balance_history:{ balance_history:[]},
 
-            linechart_time_days: 180
+            linechart_time_days: 180,
+            isFull: false,
+
         };
 
         this.dismissAlert = this.dismissAlert.bind(this);
@@ -50,8 +54,6 @@ export default class Investment extends Component {
         this.updateAccountBalanceHistory = this.updateAccountBalanceHistory.bind(this);
         
     }
-
-    componentWillMount
 
     componentDidMount(){
 
@@ -126,6 +128,7 @@ export default class Investment extends Component {
         .catch((err)=>{
             //triggers a state change which will refresh all components
             this.showAlert(err.response.data.code,'error');
+            console.log(err)
         });
 
     }
@@ -161,8 +164,13 @@ export default class Investment extends Component {
         this.setState({ isAlertVisible: false });
     }
 
+    goFull = () => {
+        this.setState({ isFull: true });
+      }
+
     render() {
 
+        console.log(this.props.location)
         
         const username = localStorage.getItem("username")
         const { investment_id } = this.props.match.params
@@ -211,14 +219,48 @@ export default class Investment extends Component {
         const exchange_rate = currency == 'USD'?  parseFloat(1/account_details.exchange_rate.ask): account_details.exchange_rate.bid ;
         console.log("investment_id ",investment_id)
 
-        console.log("account_balance_history",account_balance_history.balance_history)
+
+        //console.log("ACCOUNT_BALANCE_HISTORY " + account_balance_history.balance_history)
+        let k = 0
+        for (k ; k< account_balance_history.balance_history.length; k++){
+            let record = account_balance_history.balance_history[k]
+            //console.log(`${record["transaction_type"]} ${record["amount"]} ${record["account_balance"]}`)
+            console.log(` ${JSON.stringify(record)}`)
+
+        }
+       // console.log("account_balance_history:",account_balance_history.balance_history)
         return (
             <div>
 
             <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
+
+            <Fullscreen enabled={this.state.isFull} onChange={isFull => this.setState({isFull})}>
+            { this.state.isFull &&
+                <Container fluid={true} className="fullScreen">
+                <Row style={{justifyContent:"space-between", height: "fit-content"}}>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}} ><InfoCard label={investment_name+" Balance"} value={formatAmount(account_details.account_balance)}></InfoCard></Col>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label={currency+" / CAD"} value={formatAmount(account_details.exchange_rate,true)}></InfoCard></Col>
+                    <Col lg={4} md={4} xs={12} className="auto-height" style={{paddingTop: "10px"}}><InfoCard label="CAD VALUE" value={"$"+formatAmount(account_details.account_balance_cad, true)}></InfoCard></Col>
+                    </Row>
+
+                    <Row>
+                        <SimpleChart chartType="line" dataType="balance" data={account_balance_history} index={index}  investmentName={investment_name} chartTitle={investment_name} refreshData={this.updateAccountBalanceHistory} interval={linechart_time_days}></SimpleChart>
+                    </Row>
+
+                </Container>
+                
+                
+            }
+            </Fullscreen>
+
             <div className="dashboard-container">
+
+                <div className="expandButton d-none d-lg-block">
+                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand" onClick={this.goFull}></Button>
+                </div>
+
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
                 <div className="navigation d-none d-lg-block">
                     <LeftSidebar history={this.props.history} />

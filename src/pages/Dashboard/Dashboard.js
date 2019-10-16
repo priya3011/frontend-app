@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Navbar, NavbarBrand, Button, Collapse, NavDropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './Dashboard.scss';
-
+import Fullscreen from "react-full-screen";
 
 import FetchDataMin from '../../HOC/FetchDataMin'
 import {    getOverviewTableData,
@@ -43,6 +43,7 @@ export default class Dashboard extends Component{
             isAlertVisible : false,
             alertType:'',
             alertMessage:'',
+            isFull: false,
 
         };
 
@@ -58,7 +59,9 @@ export default class Dashboard extends Component{
         this.setState({ isAlertVisible: false });
     }
 
-
+    goFull = () => {
+        this.setState({ isFull: true });
+      }
 
 
     // handleChange = (e)=>{
@@ -80,6 +83,9 @@ export default class Dashboard extends Component{
         const ChartTableMin = FetchDataMin(ChartTable, getOverviewTableData, {"key":"username", "value":username});
         const DoughnutChartMin = FetchDataMin(DoughnutChart, getOverviewTableData, {"key":"username", "value":username});
         const LineChartMin = FetchDataMin(LineChart, getBalanceHistory, {username , time_period_days:linechart_time_days, chart:true });
+        console.log("TABLE 0")
+        console.log(getTransactionHistory)
+
         const TransactionTableMin = FetchDataMin(TransactionTable, getTransactionHistory, level == 0 ? {} : {username});
 
         return (
@@ -87,11 +93,32 @@ export default class Dashboard extends Component{
             <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar  history={this.props.history} />
             </div>
+
+            
+            <Fullscreen enabled={this.state.isFull} onChange={isFull => this.setState({isFull})}>
+            { this.state.isFull &&
+                <Container fluid={true} className="fullScreen">
+                <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>                   
+                    <Row style={{ alignItems: "center"}} >
+                        <Col lg={6} md={12} sm={12} ><ChartTableMin/></Col>
+                        <Col className="" lg={6} md={12} sm={12} ><DoughnutChartMin/></Col>
+                    </Row>
+                </Container>
+                
+                
+            }
+            </Fullscreen>
+            
             
             <div className="dashboard-container">
+
+                <div className="expandButton d-none d-lg-block">
+                    <Button style={{border:"none"}} variant="outline-dark" className="fa fa-expand" onClick={this.goFull}></Button>
+                </div>
+
                 <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
                     
-                <div className="navigation d-none d-lg-block">
+                <div className="navigation d-none d-lg-block sidebarDesktop" >
                     <LeftSidebar  history={this.props.history} />
                 </div>
 
@@ -106,7 +133,7 @@ export default class Dashboard extends Component{
                         <Col lg={6} md={12} sm={12} ><ChartTableMin/></Col>
                         <Col className="" lg={6} md={12} sm={12} ><DoughnutChartMin/></Col>
                     </Row>
-                    <Row ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
+                    <Row style={{paddingTop: "5.416vw"}} ><Col lg={12} md={12} sm={12}><LineChartMin interval={linechart_time_days} /></Col></Row>
                     <Row ><Col lg={12} md={12} sm={12}><TransactionTableMin></TransactionTableMin></Col></Row>
                    
                    { level == 0 &&

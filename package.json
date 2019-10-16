@@ -20,6 +20,7 @@
     "react-burger-menu": "^1.1.6",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.8.6",
+    "react-full-screen": "^0.2.4",
     "react-intl": "^2.9.0",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.1",
