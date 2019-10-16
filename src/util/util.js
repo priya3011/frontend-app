@@ -20,7 +20,7 @@ export function formatAmount(amount, isCAD=false){
   // console.log(beforeDecimal)
   // console.log(afterDecimal)
 
-  let formattedAmount = [beforeDecimal, afterDecimal].join(".")
+  let formattedAmount = [beforeDecimal, afterDecimal].join(". ")
   formattedAmount = formattedAmount.trim().replace(/(^,)|(,$)/g, "")
   return formattedAmount.trim();
 }

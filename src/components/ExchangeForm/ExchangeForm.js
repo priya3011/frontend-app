@@ -140,8 +140,10 @@ class ExchangeForm extends Component {
         this.setState({ exchange_rate}, ()=>{
             const { amount, exchange_rate} = this.state;
 
-                if(amount != '')
-                    this.setState({target_amount: (amount * exchange_rate.bid) });
+                if(amount != ''){
+                    this.setState({target_amount: parseFloat((amount * exchange_rate.bid).toFixed(8)) });
+                }
+                    
         });
 
     }
@@ -163,14 +165,14 @@ class ExchangeForm extends Component {
             
             console.log("target_amount: ", e.target.value * exchange_rate.bid);
             
-            this.setState({target_amount: (e.target.value * exchange_rate.bid) })
+            this.setState({target_amount: parseFloat((e.target.value * exchange_rate.bid).toFixed(8)) })
         }
 
         else if(e.target.name == "target_amount"){
 
             //calculate the source amount 
             // this.setState({amount: (e.target.value * 1/exchange_rate.mid) })
-            this.setState({amount: (e.target.value * 1/exchange_rate.ask) })
+            this.setState({amount: parseFloat((e.target.value * 1/exchange_rate.ask).toFixed(8)) })
         }
 
         else{
