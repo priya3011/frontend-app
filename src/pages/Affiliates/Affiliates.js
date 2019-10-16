@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-
+import { Container, Row, Col , InputGroup, FormControl, Button} from 'react-bootstrap';
+import { InputWithCopy } from '../../components'
 import { inviteUser } from '../../service/axios-service'
+import { serverIP } from '../../../src/config'
 
 import {   
     LeftSidebar,
@@ -41,6 +40,7 @@ class Affiliates extends Component {
     dismissAlert(){
         this.setState({ isAlertVisible: false });
     }
+
 
     handleInputChange = (e) =>{
         console.log([e.target.name], e.target.value);
@@ -95,6 +95,13 @@ class Affiliates extends Component {
                     <Col  lg={12} md={12} xs={12}>
                         <Row style={{marginTop: "10vw"}} className="justify-content-center">
                             <Col  lg={4} md={4} xs={10}><InfoCard label="Referral Code" value={ref_code}></InfoCard></Col>
+                        </Row>
+
+                        <Row  className="justify-content-center" style={{marginTop:"5vw"}}>
+                        <Col xs={10} md={6} lg={6}>
+
+                            <InputWithCopy label="Referral Link" isDisabled={false} text={serverIP+"/signup?ref_code="+ref_code} onCopy={()=>this.showAlert("Copied to Clipboard!", "success")}></InputWithCopy>
+                        </Col>
                         </Row>
                         <form className="invite-form" onSubmit={this.sendAffiliateInvite}>
                             <Row className="justify-content-center"><Col xs={10} md={6} lg={6}>

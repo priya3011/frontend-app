@@ -106,11 +106,9 @@ export default class TransactionTable extends Component {
         //Filters data before rendering object
         //Probably want to have a stronger search function later on
         if (this.state.search) {
+
 			tableData = tableData.filter(row => {
-               let tableHeaders = ["time","description","amount",
-               "amount_cad","investment_name","account_balance"]
-               
-              return filterRow(row, tableHeaders, this.state.search)
+              return filterRow(row, this.state.search)
         })}
 
        return(
