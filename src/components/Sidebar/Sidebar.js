@@ -207,13 +207,13 @@ class LeftSidebar extends Component {
                         {InvestmentsMenu}
                     </div>
                     <div className="other-containt">
-                        <li className="nav-item">
-                            <i className="fa fa-envelope-square"></i>
-                            <Link to="/contact" className="nav-link-top">Contact</Link>
-                        </li>
 
                         {level != null &&
                             <div>
+                                <li className="nav-item">
+                                    <i className="fa fa-envelope-square"></i>
+                                    <Link to="/contact" className="nav-link-top">Contact</Link>
+                                </li>
                                 <li className="nav-item" onClick={this.props.logout}>
                                     <i className="fa fa-sign-out"></i>
                                     <a href="/" className="nav-link-top">Logout</a>

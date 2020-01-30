@@ -9,6 +9,8 @@ import {
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import './Contact.scss'
 import Axios from 'axios';
+import { FRONTEND_API } from "../../config/config";
+
 
 
 export default class Contact extends Component {
@@ -36,7 +38,7 @@ export default class Contact extends Component {
         console.log(event.target);
         Axios({
             method: "POST",
-            url: "http://localhost:3000/email",
+            url: FRONTEND_API + "/email",
             data: this.state
         }).then((response) => {
             if (response.data.status === "success") {
