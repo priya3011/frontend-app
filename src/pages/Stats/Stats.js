@@ -152,8 +152,6 @@ export default class Stats extends Component {
                                 <Col lg={6} md={12} sm={12} className=""><DoughnutChart data={overall_balance}></DoughnutChart></Col>
                             </Row>
                         </Container>
-
-
                     }
                 </Fullscreen>
 

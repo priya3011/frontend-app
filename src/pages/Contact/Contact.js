@@ -33,20 +33,20 @@ export default class Contact extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        console.log(event.target);
         Axios({
             method: "POST",
-            url: "----",
+            url: "http://localhost:3000/email",
             data: this.state
         }).then((response) => {
             if (response.data.status === "success") {
                 alert("email sent!!!");
                 this.resetForm();
             } else if (response.data.status === "fail") {
-                alert("message not sent");
+                alert("email not sent");
             }
         })
     }
-
 
     resetForm() {
         this.setState({
@@ -74,7 +74,7 @@ export default class Contact extends Component {
                                     <Container>
                                         <div>
                                             Got a question? We would love to hear from you! Email us at
-                                            <a href="mailto: admin@qoinify.com">admin@qoinify.com</a>
+                                            <a href="mailto: uppercanadacoins@gmail.com"> uppercanadacoins@gmail.com</a>
                                             and we will respond as soon as possible.
                                             </div>
                                         <div className="contact">
@@ -92,7 +92,7 @@ export default class Contact extends Component {
                                                         <label htmlFor="message">Message</label>
                                                         <textarea className="form-control" rows="5" value={this.state.message} onChange={this.onHandleChange.bind(this)} />
                                                     </div>
-                                                    <Button type="submit" className="btn btn-primary">Submit</Button>
+                                                    <button type="submit" className="btn btn-primary">Submit</button>
                                                 </form>
                                             </Container>
                                         </div>
