@@ -181,13 +181,10 @@ class LeftSidebar extends Component {
             <div className="sidebar-container">
                 <ul className="sidebar navbar-nav scroll" >
                     <div className="navigation-type">
-
                         <li className="nav-item">
                             <i className="fa fa-home"></i>
                             <Link to="/dashboard" className="nav-link-top">Dashboard</Link>
-
                         </li>
-
                         <li className="nav-item">
                             <i className="fa fa-empire"></i>
                             {/* <i class="fas fa-steering-wheel"></i> */}
@@ -207,13 +204,12 @@ class LeftSidebar extends Component {
                         {InvestmentsMenu}
                     </div>
                     <div className="other-containt">
-
+                        <li className="nav-item">
+                            <i className="fa fa-envelope-square"></i>
+                            <Link to="/contact" className="nav-link-top">Contact</Link>
+                        </li>
                         {level != null &&
                             <div>
-                                <li className="nav-item">
-                                    <i className="fa fa-envelope-square"></i>
-                                    <Link to="/contact" className="nav-link-top">Contact</Link>
-                                </li>
                                 <li className="nav-item" onClick={this.props.logout}>
                                     <i className="fa fa-sign-out"></i>
                                     <a href="/" className="nav-link-top">Logout</a>
@@ -223,7 +219,6 @@ class LeftSidebar extends Component {
                                 </li>
                             </div>
                         }
-
                     </div>
                 </ul>
             </div>

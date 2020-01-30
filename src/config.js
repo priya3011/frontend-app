@@ -1,6 +1,6 @@
 module.exports = {
 
-  serverIP: "http://165.227.42.25",
+  serverIP: "http://142.93.148.141",
   domain: "Qoinify"
 
 }
