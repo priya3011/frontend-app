@@ -38,7 +38,7 @@ export default class Contact extends Component {
         console.log(event.target);
         Axios({
             method: "POST",
-            url: FRONTEND_API + "/email",
+            url: FRONTEND_API + "/contact",
             data: this.state
         }).then((response) => {
             if (response.data.status === "success") {
@@ -75,26 +75,21 @@ export default class Contact extends Component {
                                 <div>
                                     <Container>
                                         <div>
-                                            Got a question? We would love to hear from you! Email us at
-                                            <a href="mailto: uppercanadacoins@gmail.com"> uppercanadacoins@gmail.com</a>
-                                            and we will respond as soon as possible.
-                                            </div>
+                                            <h2>Contact Us</h2>
+                                        </div>
                                         <div className="contact">
                                             <Container>
                                                 <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
                                                     <div className="form-group">
-                                                        <label htmlFor="name">Name</label>
-                                                        <input type="text" className="form-control" value={this.state.name} onChange={this.onHandleChange.bind(this)} />
+                                                        <input type="text" className="form-control contact-form-control" placeholder="Name" value={this.state.name} onChange={this.onHandleChange.bind(this)} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="exampleInputEmail1">Email address</label>
-                                                        <input type="email" className="form-control" aria-describedby="emailHelp" value={this.state.email} onChange={this.onHandleChange.bind(this)} />
+                                                        <input type="email" className="form-control contact-form-control" placeholder="Email" value={this.state.email} onChange={this.onHandleChange.bind(this)} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="message">Message</label>
-                                                        <textarea className="form-control" rows="5" value={this.state.message} onChange={this.onHandleChange.bind(this)} />
+                                                        <textarea className="form-control contact-form-control" rows="5" placeholder="Message" value={this.state.message} onChange={this.onHandleChange.bind(this)} />
                                                     </div>
-                                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                                    <button type="submit" className="btn btn-info" className="submitBtn">Submit</button>
                                                 </form>
                                             </Container>
                                         </div>
