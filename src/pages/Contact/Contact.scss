@@ -55,7 +55,7 @@
     .content-wrapper {
         display: flex;
         flex-direction: column;
-        justify-content: left;
+        justify-content: center;
         //width: -webkit-fill-available;
         padding-top: 64px;
 
@@ -126,6 +126,15 @@
 
 .contact {
     text-align: left;
-    padding: 10px;
-    box-shadow: 5px 10px 18px #888888;
+    padding: 15px;
+    box-shadow: 1px 5px 12px 6px #DBDBDB;
+    height: auto;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.contactUs {
+    margin-bottom: 20px;
+    border-radius: 15px;
+    height: 80px;
 }

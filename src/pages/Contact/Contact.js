@@ -9,52 +9,56 @@ import {
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import './Contact.scss'
 import Axios from 'axios';
-import { FRONTEND_API } from "../../config/config";
-
+import { FRONTEND_API, BACKEND_API } from "../../config/config";
+import { getContactDetails } from "../../service/axios-service";
 
 
 export default class Contact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            subject: '',
             email: '',
-            message: ''
+            body: ''
         }
+        this.onHandleChange = this.onHandleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     onHandleChange(event) {
+        const target = event.target;
+        const value = target.value;
+
         this.setState({
-            name: event.target.value.name,
-            email: event.target.value.email,
-            message: event.target.value.message
+            subject: value.subject,
+            email: value.email,
+            body: value.body
         })
         console.log(event.target.value);
-        console.log("on handle change")
+        // console.log("on handle change");
+        console.log(this.state);
     }
 
     handleSubmit(event) {
-        event.preventDefault();
-        console.log(event.target);
-        Axios({
-            method: "POST",
-            url: FRONTEND_API + "/contact",
-            data: this.state
-        }).then((response) => {
+        // console.log(event.target);
+        // console.log(this.state);
+        let data = this.state;
+        getContactDetails(data).then((response) => {
             if (response.data.status === "success") {
                 alert("email sent!!!");
-                this.resetForm();
+                // this.resetForm();
             } else if (response.data.status === "fail") {
                 alert("email not sent");
             }
         })
+        event.preventDefault();
     }
 
     resetForm() {
         this.setState({
-            name: '',
+            subject: '',
             email: '',
-            message: ''
+            body: ''
         })
     }
     render() {
@@ -74,20 +78,25 @@ export default class Contact extends Component {
                             <Col lg={12} md={12} xs={12}>
                                 <div>
                                     <Container>
-                                        <div>
-                                            <h2>Contact Us</h2>
-                                        </div>
+                                        <Col lg={12}>
+                                            <div className="contactUs">
+                                                <h2>Contact Us</h2>
+                                            </div>
+                                        </Col>
                                         <div className="contact">
                                             <Container>
-                                                <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
+                                                <form id="contact-form" onSubmit={this.handleSubmit} method="POST">
                                                     <div className="form-group">
-                                                        <input type="text" className="form-control contact-form-control" placeholder="Name" value={this.state.name} onChange={this.onHandleChange.bind(this)} />
+                                                        <input type="text" className="form-control contact-form-control"
+                                                            placeholder="Subject" value={this.state.subject} onChange={this.onHandleChange} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <input type="email" className="form-control contact-form-control" placeholder="Email" value={this.state.email} onChange={this.onHandleChange.bind(this)} />
+                                                        <input type="email" className="form-control contact-form-control"
+                                                            placeholder="Email" value={this.state.email} onChange={this.onHandleChange} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <textarea className="form-control contact-form-control" rows="5" placeholder="Message" value={this.state.message} onChange={this.onHandleChange.bind(this)} />
+                                                        <textarea className="form-control contact-form-control" rows="8"
+                                                            placeholder="Message" value={this.state.body} onChange={this.onHandleChange} />
                                                     </div>
                                                     <button type="submit" className="btn btn-info" className="submitBtn">Submit</button>
                                                 </form>
