@@ -8,62 +8,87 @@ import {
 } from './../../components';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import './Contact.scss'
-import Axios from 'axios';
-import { FRONTEND_API, BACKEND_API } from "../../config/config";
-import { getContactDetails } from "../../service/axios-service";
+// import Axios from 'axios';
+// import { FRONTEND_API } from "../../config/config";
+import { postContact } from '../../service/axios-service'
+
 
 
 export default class Contact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            subject: '',
+            name: '',
             email: '',
-            body: ''
+            message: '',
+            subject: '',
+            isAlertVisible: false,
+            alertType: '',
+            alertMessage: '',
         }
-        this.onHandleChange = this.onHandleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.showAlert = this.showAlert.bind(this);
+        this.dismissAlert = this.dismissAlert.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.onHandleInputChange = this.onHandleInputChange.bind(this)
+        this.resetForm = this.resetForm.bind(this)
     }
 
-    onHandleChange(event) {
-        const target = event.target;
-        const value = target.value;
-
+    onHandleInputChange(e) {
         this.setState({
-            subject: value.subject,
-            email: value.email,
-            body: value.body
+            [e.target.name]: e.target.value
         })
-        console.log(event.target.value);
-        // console.log("on handle change");
-        console.log(this.state);
+    }
+
+    showAlert(message, type) {
+        this.setState({ alertMessage: message, alertType: type, isAlertVisible: true });
+    }
+
+    dismissAlert() {
+        this.setState({ isAlertVisible: false });
     }
 
     handleSubmit(event) {
-        // console.log(event.target);
-        // console.log(this.state);
-        let data = this.state;
-        getContactDetails(data).then((response) => {
-            if (response.data.status === "success") {
-                alert("email sent!!!");
-                // this.resetForm();
-            } else if (response.data.status === "fail") {
-                alert("email not sent");
-            }
-        })
         event.preventDefault();
+        console.log(this.state.message)
+        postContact(
+            {
+                "email": this.state.email,
+                "name": this.state.name,
+                "subject": this.state.subject,
+                "message": this.state.message
+            })
+            .then((res) => {
+                this.showAlert(res.data.code, 'success');
+                this.resetForm()
+            }
+            )
+            .catch((err) => {
+                this.showAlert(err.response.data.code + ": " + err.response.data.message, 'error');
+
+            })
     }
 
     resetForm() {
         this.setState({
-            subject: '',
+            name: '',
             email: '',
-            body: ''
+            message: '',
+            subject: ''
         })
     }
-    render() {
-        return (
 
+    showAlert(message, type) {
+        this.setState({ alertMessage: message, alertType: type, isAlertVisible: true });
+    }
+
+    dismissAlert() {
+        this.setState({ isAlertVisible: false });
+    }
+
+    render() {
+        let { isAlertVisible, alertType, alertMessage } = this.state
+
+        return (
             <div style={{ height: "inherit" }}>
                 <div className="navigation d-lg-none d-sm">
                     <ResponsiveSidebar history={this.props.history} />
@@ -73,30 +98,29 @@ export default class Contact extends Component {
                         <LeftSidebar history={this.props.history} />
                     </div>
                     <Container className="content-wrapper" id="content-div" style={{ paddingTop: "70px" }}>
+                        <CustomSnackbar open={isAlertVisible} variant={alertType} message={alertMessage} onClose={this.dismissAlert}></CustomSnackbar>
 
                         <Row style={{ marginBottom: "auto" }} className="justify-content-center">
                             <Col lg={12} md={12} xs={12}>
                                 <div>
                                     <Container>
-                                        <Col lg={12}>
-                                            <div className="contactUs">
-                                                <h2>Contact Us</h2>
-                                            </div>
-                                        </Col>
+                                        <div>
+                                            <h2>Contact Us</h2>
+                                        </div>
                                         <div className="contact">
                                             <Container>
-                                                <form id="contact-form" onSubmit={this.handleSubmit} method="POST">
+                                                <form id="contact-form" onSubmit={this.handleSubmit}>
                                                     <div className="form-group">
-                                                        <input type="text" className="form-control contact-form-control"
-                                                            placeholder="Subject" value={this.state.subject} onChange={this.onHandleChange} />
+                                                        <input name="name" type="text" className="form-control contact-form-control" placeholder="Name" value={this.state.name} onChange={this.onHandleInputChange} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <input type="email" className="form-control contact-form-control"
-                                                            placeholder="Email" value={this.state.email} onChange={this.onHandleChange} />
+                                                        <input name="email" type="email" className="form-control contact-form-control" placeholder="Email" value={this.state.email} onChange={this.onHandleInputChange} />
                                                     </div>
                                                     <div className="form-group">
-                                                        <textarea className="form-control contact-form-control" rows="8"
-                                                            placeholder="Message" value={this.state.body} onChange={this.onHandleChange} />
+                                                        <input name="subject" type="text" className="form-control contact-form-control" placeholder="Subject" value={this.state.subject} onChange={this.onHandleInputChange} />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <textarea name="message" className="form-control contact-form-control" rows="5" placeholder="Message" value={this.state.message} onChange={this.onHandleInputChange} />
                                                     </div>
                                                     <button type="submit" className="btn btn-info" className="submitBtn">Submit</button>
                                                 </form>
@@ -118,3 +142,10 @@ export default class Contact extends Component {
         )
     }
 }
+
+
+
+
+
+
+
