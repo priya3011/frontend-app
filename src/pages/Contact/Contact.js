@@ -7,12 +7,10 @@ import {
     ResponsiveSidebar
 } from './../../components';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import './Contact.scss'
+import './Contact.scss';
 // import Axios from 'axios';
 // import { FRONTEND_API } from "../../config/config";
-import { postContact } from '../../service/axios-service'
-
-
+import { postContact } from '../../service/axios-service';
 
 export default class Contact extends Component {
     constructor(props) {
