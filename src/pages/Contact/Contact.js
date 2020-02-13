@@ -63,6 +63,7 @@ export default class Contact extends Component {
             }
             )
             .catch((err) => {
+                console.log(err);
                 this.showAlert(err.response.data.code + ": " + err.response.data.message, 'error');
 
             })
