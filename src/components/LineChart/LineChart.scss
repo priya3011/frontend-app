@@ -1,28 +1,65 @@
 .line-chart-container {
+    //border: 1px solid black;
     display: flex;
     flex-direction: column;
-    padding: 2vw;
-    justify-content: center;
-    // border: 1px solid black;
+    justify-content: left;
 
     .line-chart-controls {
+        //border: 1px solid blue;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        // border: 1px solid blue;
-
+        margin-bottom: 1.967vw;
+        padding-left: 1.927vw;
+        //font-size: 0.9375 !important;
     }
-
 
     .line-chart-wrapper {
+        //border: 1px solid orange;
         display: flex;
         flex-direction: column;
-        margin: auto;
-        width: 50vw;
-        height: 40vh;
+        // width: 61.458vw;
+        // margin-left: 10.415vw;
         box-shadow: 1px 5px 12px 6px #DBDBDB;
-        padding: 20px;
-        // border: 1px solid orange;
-
+        padding-top: 1.25vw;
+        padding-left: 0.683vw;
+        padding-right: 0.752vw;
+        padding-bottom: 1.25vw;
     }
+}
+
+.chart-dropdown{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  opacity: 1;
+  text-align: center;
+  letter-spacing: 0;
+  color: #646464;
+  padding: 5px;
+}
+
+.chart-link-active{
+  text-align: left;
+  letter-spacing: 0;
+  color: #40BBF2;
+  opacity: 1;
+  //padding-right: 90px;
+  &:hover {
+    cursor: pointer;
+   }
+
+}
+
+
+
+.chart-link{
+  text-align: left;
+  letter-spacing: 0;
+  color: #646464;
+  opacity: 1;
+ // padding-right: 90px;
+  &:hover {
+    cursor: pointer;
+   }
 }

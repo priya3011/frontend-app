@@ -1,18 +1,30 @@
 .signin-container {
-  margin-left: 30%;
-  margin-right: 30%;
-  margin-top: 10%;
-  font-family: Lato;
-  font-size: 18px;
+  margin-left: 21.667%;
+  margin-right: 21.667%;
+  margin-top: 15%;
+  padding-left: 13.542%;
+  padding-right: 13.542%;
+  padding-top: 6.615%;
+  padding-bottom: 8.542%;
+  background-color: #ffffff;
+  font-family: 'Lato';
+  font-size: 1.5rem, !important;
+  border-radius: 10px !important;
 }
 
-.form-control {
+.signin-form-control {
   box-shadow: 0px 12px 6px #DBDBDB;
-  margin-bottom: 35px;
+  margin-bottom: 7.923%;
+}
+
+.signin-btn {
+  width: 100%;
+  border-radius: 40px !important;
+  background-color: #4d96cc !important;
 }
 
 .signup-options-container{
-  margin-top: 20px;
+  margin-top: 6.162%;
 }
 
 .signup-link{
@@ -20,4 +32,26 @@
 }
 .forgot-password-link{
   float: right;
+}
+
+.alert-text {
+  padding-left: 0.75rem !important;
+  text-align: left;
+}
+
+.formbox {  
+  background-color:white;
+  border-radius: .5em;
+//  padding: 10px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  justify-content: center;
+  width: 100%;
+  background-color: white;
 }
